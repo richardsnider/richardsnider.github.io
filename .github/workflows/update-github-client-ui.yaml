@@ -16,22 +16,19 @@ jobs:
         shell: bash -ex {0} # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#custom-shell
     runs-on: ubuntu-latest
     steps:
-      - name: checkout source repo
-        uses: actions/checkout@v2 # https://github.com/actions/checkout/blob/main/action.yml
+      - uses: actions/checkout@v2 # https://github.com/actions/checkout/blob/main/action.yml
         with:
           repository: richardsnider/github-client
           ref: ${{ event.inputs.source_commit_sha }}
           path: source_code_repo
-      - name: build
-        run: |
+      - run: |
           export GITHUB_USERNAME=richardsnider
           export LINKEDIN_USERNAME=richardsnider
           npm run build
-      - name: update github pages repo
-        uses: actions/checkout@v2 # https://github.com/actions/checkout/blob/main/action.yml
+      - uses: actions/checkout@v2 # https://github.com/actions/checkout/blob/main/action.yml
         with:
           path: github_pages_repo
-        run: |
+      - run: |
           cp $GITHUB_WORKSPACE/source_code_repo/dist/* $GITHUB_WORKSPACE/github_pages_repo
           git checkout -b github-client-${{ event.inputs.source_commit_sha }}
           git commit -am "Update from github-client"
