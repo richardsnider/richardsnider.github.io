@@ -6,7 +6,7 @@ on:
       source_commit_sha:
         description: ''
         required: false
-        default: 'manual workflow dispatch trigger'\
+        default: 'latest'
 env:
   GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 jobs:
@@ -35,5 +35,5 @@ jobs:
           cp $GITHUB_WORKSPACE/source_code_repo/dist/* $GITHUB_WORKSPACE/github_pages_repo
           git checkout -b github-client-${{ event.inputs.source_commit_sha }}
           git commit -am "Update from github-client"
-          git push main origin
+          git push origin main
           gh pr create github-client-${{ event.inputs.source_commit_sha }}
