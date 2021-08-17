@@ -2,4 +2,4 @@
 
 View this at https://richardsnider.github.io
 
-I'm not a front-end expert and chose to develop and experiment with my own user interface library rather than just create another react app.
+This repo is built from my [github-client repo](https://github.com/richardsnider/github-client) using this github [action workflow](https://raw.githubusercontent.com/richardsnider/richardsnider.github.io/main/.github/workflows/update-github-client-ui.yaml)
