@@ -1,1 +1,0 @@
-module.exports = function kvp(key, value) { this.key = key; this.value = value; };
