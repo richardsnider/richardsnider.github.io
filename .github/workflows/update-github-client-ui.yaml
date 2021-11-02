@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v2 # https://github.com/actions/checkout/blob/main/action.yml
         with:
           repository: richardsnider/github-client
-          ref: ${{ event.inputs.source_commit_sha }}
+          ref: ${{ github.event.inputs.source_commit_sha }}
           path: source_code_repo
       - run: |
           cd source_code_repo
@@ -32,7 +32,7 @@ jobs:
           path: github_pages_repo
       - run: |
           cp $GITHUB_WORKSPACE/source_code_repo/dist/* $GITHUB_WORKSPACE/github_pages_repo
-          git checkout -b github-client-${{ event.inputs.source_commit_sha }}
+          git checkout -b github-client-${{ github.event.inputs.source_commit_sha }}
           git commit -am "Update from github-client"
           git push origin main
-          gh pr create github-client-${{ event.inputs.source_commit_sha }}
+          gh pr create github-client-${{ github.event.inputs.source_commit_sha }}
