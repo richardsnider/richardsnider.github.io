@@ -38,4 +38,4 @@ jobs:
           git config user.name "Github Actions"
           git commit -am "Update from github-client"
           git push origin github-client-${{ github.event.inputs.source_commit_sha }}
-          gh pr create github-client-${{ github.event.inputs.source_commit_sha }}
+          gh pr create --fill
