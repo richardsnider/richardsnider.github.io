@@ -16,26 +16,29 @@ jobs:
         shell: bash -ex {0} # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#custom-shell
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2 # https://github.com/actions/checkout/blob/main/action.yml
+      - name: Checkout Github Client Repository
+        uses: actions/checkout@v2 # https://github.com/actions/checkout/blob/main/action.yml
         with:
           repository: richardsnider/github-client
           ref: ${{ github.event.inputs.source_commit_sha }}
           path: source_code_repo
-      - run: |
+      - name: Build Artifact
+        run: |
           cd source_code_repo
           npm install
           export GITHUB_USERNAME=richardsnider
           export LINKEDIN_USERNAME=richardsnider
           npm run build
-      - uses: actions/checkout@v2 # https://github.com/actions/checkout/blob/main/action.yml
+      - name: Checkout richardsnider.github.io Repository
+        uses: actions/checkout@v2 # https://github.com/actions/checkout/blob/main/action.yml
         with:
           path: github_pages_repo
-      - run: |
+      - name: Add Artifact and Create an Update Branch
+        run: |
           cp $GITHUB_WORKSPACE/source_code_repo/dist/* $GITHUB_WORKSPACE/github_pages_repo
           cd $GITHUB_WORKSPACE/github_pages_repo
-          git checkout -b github-client-${{ github.event.inputs.source_commit_sha }}
+          git checkout -b github-client-update-${{ github.event.inputs.source_commit_sha }}
           git config user.email "actions@github.com"
           git config user.name "Github Actions"
           git commit -am "Update from github-client"
-          git push origin github-client-${{ github.event.inputs.source_commit_sha }}
-          gh pr create --fill
+          git push origin github-client-update-${{ github.event.inputs.source_commit_sha }}
