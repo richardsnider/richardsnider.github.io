@@ -7,6 +7,7 @@ function search {
 
 alias symlink="ln -s"
 alias list-apt-packages="sudo apt list --installed"
+alias tty-ui="chvt 7"
 
 function git_ps1 {
   local git_status="$(git status 2> /dev/null)"
