@@ -34,8 +34,8 @@ jobs:
           cp $GITHUB_WORKSPACE/source_code_repo/dist/* $GITHUB_WORKSPACE/github_pages_repo
           cd $GITHUB_WORKSPACE/github_pages_repo
           git checkout -b github-client-${{ github.event.inputs.source_commit_sha }}
-          git --config user.email "actions@github.com"
-          git --config user.name "Github Actions"
+          git config user.email "actions@github.com"
+          git config user.name "Github Actions"
           git commit -am "Update from github-client"
           git push origin github-client-${{ github.event.inputs.source_commit_sha }}
           gh pr create github-client-${{ github.event.inputs.source_commit_sha }}
