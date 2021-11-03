@@ -8,6 +8,7 @@ function search {
 alias symlink="ln -s"
 alias list-apt-packages="sudo apt list --installed"
 alias tty-ui="chvt 7"
+alias aws-metadata="curl http://169.254.169.254/latest/meta-data/"
 
 function git_ps1 {
   local git_status="$(git status 2> /dev/null)"
