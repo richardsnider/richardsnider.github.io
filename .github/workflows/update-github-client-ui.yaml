@@ -39,6 +39,6 @@ jobs:
           cd $GITHUB_WORKSPACE/github_pages_repo
           git checkout -b github-client-update-${{ github.event.inputs.source_commit_sha }}
           git config user.email "actions@github.com"
-          git config user.name "Github Actions"
+          git config user.name "Actions User"
           git commit -am "Update from github-client"
           git push origin github-client-update-${{ github.event.inputs.source_commit_sha }}
