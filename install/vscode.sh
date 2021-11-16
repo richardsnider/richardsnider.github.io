@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -ex
 
 # https://code.visualstudio.com/docs/setup/linux
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
