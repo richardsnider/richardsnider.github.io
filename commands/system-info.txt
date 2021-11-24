@@ -1,0 +1,45 @@
+#/tmp directory is cleaned on every bootup
+#Disk space
+df -h 
+#Show mounted file systems (and align output)
+mount | column -t
+#Processor info
+lscpu
+#Get all kernel information
+uname -a
+#Show memory and swap usage
+free
+#Show name and version of distribution
+cat /etc/issue
+#Show all partitions registered on the system
+cat /proc/partitions
+#Show PCI info
+lspci -tv
+#Show USB info
+lsusb -tv
+
+#Find all instances of a file
+locate some-file
+#Show possible locations of app
+whereis some-app
+#Show which app will run by default
+which some-app
+
+#Show current date/time
+date
+#Show current month calendar
+cal
+#Start stop watch (Ctrl+D to stop)
+time read
+
+#Show who is logged onto the machine
+w
+#Show who you are logged in as
+whoami
+
+#Display currently active processes
+ps aux
+#Kill process by pid
+kill 1234
+#Kill all processes by name
+killall some-process-name

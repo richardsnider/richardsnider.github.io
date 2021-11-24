@@ -1,0 +1,43 @@
+#show network information
+ifconfig
+#Get external ip address
+curl ifconfig.me
+#List all listening ports
+netstat -tlnp
+#show wireless information
+iwconfig
+#scan for wireless networks
+sudo iwlist scan
+#Ping a host
+ping 111.222.333.444
+#Set audible alarm for when IP comes online
+ping -i 60 -a 111.222.333.444
+#Get DNS for domain
+dig domain
+#Get whois information
+whois some-domain.com
+
+#download file
+wget some-file-url
+
+#generate ssh key
+ssh-keygen
+#Connect to host as user on port 8080
+ssh -p 8080 user@host
+
+#turn on firewall
+ufw enable
+#turn off firewall
+ufw disable
+#allow all connections by default
+ufw default allow
+#deny all connections by default
+ufw default deny
+#firewall status and rules
+ufw status
+#allow traffic on port
+ufw allow 8080
+#block port
+ufw deny 8080
+#block ip address
+ufw deny from 111.222.333.4444
