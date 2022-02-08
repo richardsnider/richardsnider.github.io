@@ -4,7 +4,7 @@ body, body * {
   font-weight: 500;
   font-family: 'Courier New';
   line-height: 20px;
-  color: #BBB;
+  color: #FFF;
   overflow: auto;
   outline: none;
 }
@@ -75,8 +75,8 @@ table {
   border-radius: 5px;
 }
 
-.grey-111 {
-  background-color: #111;
+.black {
+  background-color: #000;
 }
 
 .grey-222 {
@@ -95,8 +95,8 @@ table {
   background-color: #666;
 }
 
-.blue-35a {
-  background-color: #35a
+.blue {
+  background-color: #00F
 }
 
 .grey-border {
