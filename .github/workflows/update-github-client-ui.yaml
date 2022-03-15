@@ -21,13 +21,11 @@ jobs:
         with:
           repository: richardsnider/github-client
           ref: ${{ github.event.inputs.source_commit_sha }}
-          path: source_code_repo
+          path: github_client_repo
       - name: Build Artifact
         run: |
-          cd source_code_repo
+          cd github_client_repo
           npm install
-          export GITHUB_USERNAME=richardsnider
-          export LINKEDIN_USERNAME=richardsnider
           npm run build
       - name: Checkout richardsnider.github.io Repository
         uses: actions/checkout@v2 # https://github.com/actions/checkout/blob/main/action.yml
@@ -35,8 +33,10 @@ jobs:
           path: github_pages_repo
       - name: Add Artifact and Create an Update Branch
         run: |
-          cp $GITHUB_WORKSPACE/source_code_repo/dist/* $GITHUB_WORKSPACE/github_pages_repo
+          cp $GITHUB_WORKSPACE/github_client_repo/dist/* $GITHUB_WORKSPACE/github_pages_repo
           cd $GITHUB_WORKSPACE/github_pages_repo
+          sed --in-place 's/__GITHUB_USERNAME__/richardsnider/g' ./dist/index.html
+          sed --in-place 's/__LINKEDIN_USERNAME__/richardsnider/g' ./dist/index.html
           git checkout -b github-client-update-${{ github.event.inputs.source_commit_sha }}
           git config user.email "actions@github.com"
           git config user.name "Actions User"
