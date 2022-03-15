@@ -24,8 +24,6 @@ jobs:
       - name: Debugger
         uses: mxschmitt/action-tmate@v3
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled }}
-        with:
-          install-dependencies: false
       - name: Checkout Github Client Repository
         uses: actions/checkout@v2 # https://github.com/actions/checkout/blob/main/action.yml
         with:
