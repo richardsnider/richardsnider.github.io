@@ -21,9 +21,6 @@ jobs:
         shell: bash -ex {0} # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#custom-shell
     runs-on: ubuntu-latest
     steps:
-      - name: Debugger
-        uses: mxschmitt/action-tmate@v3
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled }}
       - name: Checkout Github Client Repository
         uses: actions/checkout@v2 # https://github.com/actions/checkout/blob/main/action.yml
         with:
@@ -43,11 +40,13 @@ jobs:
         run: |
           cp $GITHUB_WORKSPACE/github_client_repo/dist/* $GITHUB_WORKSPACE/github_pages_repo
           cd $GITHUB_WORKSPACE/github_pages_repo
-          sleep 60
-          sed --in-place 's/__GITHUB_USERNAME__/richardsnider/g' $GITHUB_WORKSPACE/github_pages_repo/dist/index.html
-          sed --in-place 's/__LINKEDIN_USERNAME__/richardsnider/g' $GITHUB_WORKSPACE/github_pages_repo/dist/index.html
+          sed --in-place 's/__GITHUB_USERNAME__/richardsnider/g' ./index.html
+          sed --in-place 's/__LINKEDIN_USERNAME__/richardsnider/g' ./index.html
           git checkout -b github-client-update-${{ github.event.inputs.source_commit_sha }}
           git config user.email "actions@github.com"
           git config user.name "Actions User"
           git commit -am "Update from github-client"
           git push origin github-client-update-${{ github.event.inputs.source_commit_sha }}
+      - name: Debugger
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ failure() && github.event.inputs.debug_enabled }}
