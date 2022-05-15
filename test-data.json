@@ -1,0 +1,325 @@
+{
+  "tasks": [
+    "Print all active user emails sorted alphabetically",
+    "Print the user ID of the user with the highest balance",
+    "Print the lowest user balance for each state",
+    "Print the sum of user balances for each state",
+    "Print the total number of users for each orgId",
+    "Print the most common url path and domain name",
+    "Print a sorted list of unique/distinct area codes and how many usesrs have that area code",
+    "Print each user's userId and any missing/invalid properties",
+    "Print the base64 hash of each user object and identify any duplicate user objects"
+  ],
+  "groupA": [
+    {
+      "userId": "D772EDD0-21E6-D9A6-A9D7-E676CC775E7C",
+      "phone": 3238148578,
+      "email": "nullam.lobortis.quam@yahoo",
+      "state": "NY",
+      "url": "https://walmart.com/sub?client=g",
+      "isActive": false,
+      "orgId": 0
+    },
+    {
+      "userId": "59D56271-7BC6-B8AE-91BE-C833795D4CCA",
+      "phone": "1-458-353-5934",
+      "email": "pede.ac@protonmail.com",
+      "state": "NY",
+      "balance": 421.19,
+      "url": "https://zoom.us/fr?search=1&q=de",
+      "isActive": false,
+      "orgId": 2
+    },
+    {
+      "userId": "797EB9DC-D6E6-084D-7B62-0967694C4523",
+      "phone": 6653142585,
+      "email": "sed.et.libero@protonmail.com",
+      "state": null,
+      "balance": 357.27,
+      "url": "http://naver.com/fr?gi=100",
+      "isActive": false,
+      "orgId": 8
+    },
+    {
+      "userId": "552EA938-5C29-0A23-D669-83F26E545FDE",
+      "phone": 7384575854,
+      "email": "nisi.magna@protonmail.com",
+      "state": "NY",
+      "balance": 818.45,
+      "url": "https://guardian.co.uk/sub?search=1",
+      "isActive": false,
+      "orgId": 5
+    },
+    {
+      "userId": "9AD8E49F-694F-DE4F-7E02-C4E4C3A23EB1",
+      "email": "tincidunt@google.com",
+      "state": "NY",
+      "balance": 364.41,
+      "url": "http://zoom.us/user/110?q=test",
+      "isActive": false,
+      "orgId": 2
+    },
+    {
+      "userId": "CB1ECD1A-ADE6-5608-A727-93DB7210CB54",
+      "phone": "(464) 521-5274",
+      "email": "et.eros.proin@outlook.com",
+      "state": "NY",
+      "balance": 464.88,
+      "url": "https://yahoo.com/en-us?ab=441&aad=2",
+      "isActive": true,
+      "orgId": 2
+    },
+    {
+      "userId": "DF2E9988-655E-A875-ADD9-1CEE5BB455DC",
+      "email": "neque.morbi@yahoo.com",
+      "state": "FL",
+      "balance": 267.40,
+      "url": "http://reddit.com/settings?g=1",
+      "isActive": false,
+      "orgId": 6
+    },
+    {
+      "userId": "396E2B21-16B9-A1FC-4502-A443A139ACE0",
+      "phone": "(731) 405-2376",
+      "email": "quam.curabitur@protonmail.com",
+      "state": "CA",
+      "balance": 180.01,
+      "url": "http://youtube.com/one?p=8",
+      "isActive": null,
+      "orgId": 9
+    },
+    {
+      "userId": "21C633C6-DB9E-02A8-6C4A-321D18C3E3DA",
+      "phone": "(754) 815-8390",
+      "email": "facilisis.eget@google.com",
+      "state": "FL",
+      "balance": 784.00,
+      "url": "http://instagram.com/group/9?g=1",
+      "isActive": false,
+      "orgId": "8"
+    },
+    {
+      "userId": "BD987494-E504-3A47-A802-29BF326B57AB",
+      "phone": 7386727156,
+      "email": "none",
+      "state": "NY",
+      "balance": 122.53,
+      "url": "http://reddit.com/fr?ad=115",
+      "orgId": 4
+    },
+    {
+      "userId": "81978563-64BF-E695-D4B4-19F61BAF3B59",
+      "phone": 8348486509,
+      "email": "sed@google.com",
+      "state": "NY",
+      "balance": 337.45,
+      "url": "none",
+      "isActive": true,
+      "orgId": 10
+    },
+    {
+      "userId": "E6DC74E9-3BCD-154F-20EF-573365FC826E",
+      "phone": "1-458-668-7447",
+      "email": "donec.egestas@yahoo.com",
+      "state": "FL",
+      "balance": 519.96,
+      "url": "http://youtube.com/en-ca?q=11",
+      "isActive": true,
+      "orgId": 4
+    },
+    {
+      "userId": "3AC852B2-22C9-648F-A197-1EA701793D3D",
+      "phone": "(372) 402-8144",
+      "email": "nunc.ac@yahoo.com",
+      "state": "New York",
+      "balance": 520.79,
+      "url": "http://nytimes.com/one?page=1&offset=1",
+      "isActive": false,
+      "orgId": 5
+    },
+    {
+      "phone": "1-847-246-8559",
+      "email": "id.risus@protonmail.com",
+      "state": "CA",
+      "balance": 666.59,
+      "url": "https://zoom.us/en-ca?ab=441&aad=2",
+      "isActive": false,
+      "orgId": 8
+    }
+  ],
+  "groupB": [
+    {
+      "userId": "3C3412EE-4299-165D-4ADA-6903C89C91BB"
+    },
+    {
+      "userId": "BA7645AD-5636-9FB8-96EB-3F30C37E59B6",
+      "phone": "(149) 762-3373",
+      "email": "vivamus@google.com",
+      "state": "CA",
+      "balance": 787.17,
+      "url": "http://walmart.com/fr?search=1&q=de",
+      "isActive": false,
+      "orgId": 5
+    },
+    {
+      "userId": "38232E67-E683-37E2-1AFC-5E8474B67210",
+      "phone": 4582413946,
+      "email": "sodales.nisi@google.com",
+      "state": "CA",
+      "balance": 496.28,
+      "url": "please update",
+      "isActive": false,
+      "orgId": 3
+    },
+    {
+      "userId": "BFA17E26-D1EA-B46C-B1BF-78D14B7B49A9",
+      "phone": 3235733174,
+      "email": "rhoncus@protonmail.com",
+      "state": "FL",
+      "balance": 988.63,
+      "url": "http://reddit.com/settings?q=0",
+      "isActive": true,
+      "orgId": 2
+    },
+    {
+      "userId": "79C81C17-9358-3E9B-D823-858CDC6C6AAA",
+      "phone": "not given",
+      "email": "odio.tristique.pharetra@yahoo.com",
+      "state": "New York",
+      "balance": 587.20,
+      "url": "http://walmart.com/site?g=1",
+      "isActive": false,
+      "orgId": null
+    },
+    {
+      "userId": "93553F12-3EA3-7916-EDA2-A5D9B1B6612E",
+      "phone": "1-723-846-2788",
+      "email": "nonummy.ut.molestie@yahoo.com",
+      "state": "FL",
+      "balance": 177.60,
+      "url": "https://zoom.us/en-ca?page=1&offset=1",
+      "isActive": false,
+      "orgId": 1
+    },
+    {
+      "userId": "9986D428-AC95-E1C5-7E33-9D69B5A9CB8B",
+      "phone": "(375) 430-8764",
+      "email": "feugiat.placerat@google.com",
+      "state": "NY",
+      "balance": 556.67,
+      "url": "http://twitter.com/one?q=11",
+      "isActive": true,
+      "orgId": 3
+    },
+    {
+      "userId": "955A712C-E815-54D9-8975-A99D230D64C2",
+      "phone": "(711) 575-3751",
+      "email": "arcu@outlook.com",
+      "state": "CA",
+      "balance": 660.06,
+      "url": "https://ebay.com/one?q=11",
+      "isActive": true,
+      "orgId": 6
+    },
+    {
+      "userId": "D11C44DD-F316-275D-7BC5-72E7299AB58B",
+      "phone": 5847688745,
+      "email": "maecenas.libero.est@google.com",
+      "state": "FL",
+      "balance": 311.55,
+      "url": "http://nytimes.com/sub?q=4",
+      "isActive": false,
+      "orgId": 8
+    },
+    {
+      "userId": "5C1DE91B-6490-C873-7DBA-83178732B3F1",
+      "phone": 4586646742,
+      "email": "nunc.sed.orci@outlook.com",
+      "state": "NY",
+      "balance": 919.62,
+      "url": "http://youtube.com/en-ca?gi=100",
+      "isActive": true,
+      "orgId": 0
+    },
+    {
+      "userId": "15695894-3C89-DD99-3369-817958431265",
+      "phone": "(778) 345-7405",
+      "email": "orci.lobortis@protonmail.com",
+      "state": "NY",
+      "balance": 485.96,
+      "url": "http://cnn.com/one?search=1&q=de",
+      "isActive": true,
+      "orgId": 5
+    },
+    {
+      "userId": "955A712C-E815-54D9-8975-A99D230D64C2",
+      "phone": "(711) 575-3751",
+      "email": "arcu@outlook.com",
+      "state": "CA",
+      "balance": 660.06,
+      "url": "https://ebay.com/one?q=11",
+      "isActive": true,
+      "orgId": 6
+    },
+    {
+      "userId": "231ED418-2276-67D3-BA8B-0D61C267380A",
+      "phone": 7382123934,
+      "email": "semper.pretium.neque@protonmail.com",
+      "state": "FL",
+      "balance": 532.21,
+      "url": "https://instagram.com/site?q=4",
+      "isActive": true,
+      "orgId": 8
+    },
+    {
+      "userId": "35CCE30C-47D4-1A7A-EE57-B271A5B62617",
+      "phone": "(827) 663-3975",
+      "state": "CA",
+      "balance": 972.59,
+      "url": "http://guardian.co.uk/site?q=test",
+      "isActive": false,
+      "orgId": 5
+    }
+  ],
+  "groupC": [
+    {
+      "userId": "none",
+      "phone": "(817) 411-0540",
+      "email": "non.bibendum@yahoo.com",
+      "state": "FL",
+      "balance": -464.36,
+      "url": "https://facebook.com/en-us?ad=115",
+      "isActive": "true",
+      "orgId": 8
+    },
+    {
+      "userId": "17EDAEC1-8C0C-B73D-DD53-BEE27AD3045D",
+      "phone": "(458) 216-8768",
+      "email": "nonummy.ipsum.non@google.com",
+      "state": "NY",
+      "balance": 311.52,
+      "url": "http://nytimes.com/settings?q=0",
+      "isActive": false,
+      "orgId": 6
+    },
+    {
+      "userId": "215CDE71-FD7D-5991-6E54-ED9DD8851D21",
+      "phone": "(458) 525-3386",
+      "email": "magna.tellus@outlook.com",
+      "balance": 897.62,
+      "url": "http://google.com/fr?q=test",
+      "isActive": true,
+      "orgId": 9
+    },
+    {
+      "userId": "59D56271-7BC6-B8AE-91BE-C833795D4CCA",
+      "phone": "1-458-353-5934",
+      "email": "pede.ac@protonmail.com",
+      "state": "NY",
+      "balance": 421.19,
+      "url": "https://zoom.us/fr?search=1&q=de",
+      "isActive": false,
+      "orgId": 2
+    },
+  ]
+}
