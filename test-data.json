@@ -108,16 +108,6 @@
       "orgId": 4
     },
     {
-      "userId": "81978563-64BF-E695-D4B4-19F61BAF3B59",
-      "phone": 8348486509,
-      "email": "sed@google.com",
-      "state": "NY",
-      "balance": 337.45,
-      "url": "none",
-      "isActive": true,
-      "orgId": 10
-    },
-    {
       "userId": "E6DC74E9-3BCD-154F-20EF-573365FC826E",
       "phone": "1-458-668-7447",
       "email": "donec.egestas@yahoo.com",
@@ -128,14 +118,7 @@
       "orgId": 4
     },
     {
-      "userId": "3AC852B2-22C9-648F-A197-1EA701793D3D",
-      "phone": "(372) 402-8144",
-      "email": "nunc.ac@yahoo.com",
-      "state": "New York",
-      "balance": 520.79,
-      "url": "http://nytimes.com/one?page=1&offset=1",
-      "isActive": false,
-      "orgId": 5
+      "phone": "(372) 402-8144"
     },
     {
       "phone": "1-847-246-8559",
@@ -190,16 +173,6 @@
       "url": "http://walmart.com/site?g=1",
       "isActive": false,
       "orgId": null
-    },
-    {
-      "userId": "93553F12-3EA3-7916-EDA2-A5D9B1B6612E",
-      "phone": "1-723-846-2788",
-      "email": "nonummy.ut.molestie@yahoo.com",
-      "state": "FL",
-      "balance": 177.60,
-      "url": "https://zoom.us/en-ca?page=1&offset=1",
-      "isActive": false,
-      "orgId": 1
     },
     {
       "userId": "9986D428-AC95-E1C5-7E33-9D69B5A9CB8B",
@@ -293,16 +266,6 @@
       "orgId": 8
     },
     {
-      "userId": "17EDAEC1-8C0C-B73D-DD53-BEE27AD3045D",
-      "phone": "(458) 216-8768",
-      "email": "nonummy.ipsum.non@google.com",
-      "state": "NY",
-      "balance": 311.52,
-      "url": "http://nytimes.com/settings?q=0",
-      "isActive": false,
-      "orgId": 6
-    },
-    {
       "userId": "215CDE71-FD7D-5991-6E54-ED9DD8851D21",
       "phone": "(458) 525-3386",
       "email": "magna.tellus@outlook.com",
@@ -320,6 +283,6 @@
       "url": "https://zoom.us/fr?search=1&q=de",
       "isActive": false,
       "orgId": 2
-    },
+    }
   ]
 }
