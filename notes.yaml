@@ -4,8 +4,12 @@ computer-science:
     authoritative:
     ephemeral: Lasting for a very short time.
     immutable: Not subject or susceptible to change.
+    hash:
+    encryption:
 code:
   golang:
+    notes:
+      - https://www.linkedin.com/pulse/its-time-understand-golang-contexts-lucas-schenkel-schieferdecker/
   javascript:
   vscode:
   github:
@@ -17,6 +21,10 @@ cloud:
   gcp:
 kubernetes:
   alias: k8s
+  container-networking-interface:
+    acronym: CNI
+    types:
+      cilium: eBPF
   components:
     controller-manager:
     kube-api:
@@ -27,6 +35,7 @@ kubernetes:
     etcd:
   kubeadm:
   k3s:
+    - https://k3s.io/
   helm:
   resources:
     clusterrole:
@@ -36,9 +45,6 @@ kubernetes:
     service:
     role:
 linux:
-  hardware:
-    - https://discord.com/blog/how-discord-supercharges-network-disks-for-extreme-low-latency
-  kernel:
   commands:
     systemctl:
     ssh:
@@ -53,7 +59,12 @@ linux:
         - 
     - name: /var
       files:
-    - 
+  hardware:
+    - https://discord.com/blog/how-discord-supercharges-network-disks-for-extreme-low-latency
+  kernel:
+    - ebpf cilium
+  storage:
+    - https://github.com/phiresky/sqlite-zstd
 networking:
   protocol:
     icmp:
@@ -73,6 +84,8 @@ networking:
           port: 53
         http:
           port: 80
+          grpc:
+            - https://github.com/grpc-ecosystem/grpc-gateway
         https:
           port: 443
         tls/ssl:
