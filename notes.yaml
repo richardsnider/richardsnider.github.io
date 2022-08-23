@@ -1,5 +1,11 @@
 browser:
-  - https://qszhuan.github.io/technology/2015/08/12/add_csp_to_github_blog
+  cookies:
+  html:
+    - https://www.w3.org/TR/CSP/
+  local-storage:
+  pwa:
+  session-storage:
+  v8:
 computer-science:
   vocabulary:
     authoritative:
