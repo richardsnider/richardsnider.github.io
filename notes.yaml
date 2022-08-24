@@ -6,13 +6,17 @@ browser:
   pwa:
   session-storage:
   v8:
-computer-science:
-  vocabulary:
-    authoritative:
-    ephemeral: Lasting for a very short time.
-    immutable: Not subject or susceptible to change.
-    hash:
-    encryption:
+cloud:
+  aws:
+    ec2:
+      asg:
+        - https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-target-tracking.html#available-metrics
+    iam:
+    s3:
+    vpc:
+  gcp:
+    sql:
+    vpc:
 code:
   golang:
     notes:
@@ -27,17 +31,13 @@ code:
 containers:
   docker:
   containerd:
-cloud:
-  aws:
-    ec2:
-      asg:
-        - https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-target-tracking.html#available-metrics
-    iam:
-    s3:
-    vpc:
-  gcp:
-    sql:
-    vpc:
+computer-science:
+  vocabulary:
+    authoritative:
+    ephemeral: Lasting for a very short time.
+    immutable: Not subject or susceptible to change.
+    hash:
+    encryption:
 kubernetes:
   alias: k8s
   container-networking-interface:
@@ -130,3 +130,4 @@ other:
 - deepfake zoom call detection, turn sideways https://news.ycombinator.com/item?id=32385555
 - cellular network bioelectric signals physiological software layer https://www.youtube.com/watch?v=Z-9rLlFgcm0
 - https://en.wikipedia.org/wiki/Solar_Foods
+- map generator https://github.com/tepperly/Azimuthal
