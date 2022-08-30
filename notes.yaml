@@ -1,15 +1,21 @@
 browser:
+  cache: # https://developer.mozilla.org/en-US/docs/Web/API/Cache
   chrome:
     v8: # https://github.com/v8/v8
     devtools: # https://developer.chrome.com/docs/devtools/overview/
+  cookie: # https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/cookies
+  css:
   html: # hypertext markup language https://developer.mozilla.org/en-US/docs/Web/HTML
+    dom: # document object model
     csp: # Content Security Policy https://www.w3.org/TR/CSP/
   pwa: # progressive web app https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps
-  storage:
-    cookies:
+  storage: # https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API
     local: # https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
-    session:
+    session: # https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage
   wasm: # web assembly https://developer.mozilla.org/en-US/docs/WebAssembly
+  worker: # https://developer.mozilla.org/en-US/docs/Web/API/Worker
+    service: # service worker https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API
+    web: # web worker https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API
   xss: # cross site scripting https://www.cloudflare.com/learning/security/threats/cross-site-scripting/
 cloud: # https://www.cloudflare.com/learning/cloud/what-is-the-cloud/ https://en.wikipedia.org/wiki/Cloud_computing
   aws: # Amazon Web Services https://docs.aws.amazon.com/
@@ -21,10 +27,11 @@ cloud: # https://www.cloudflare.com/learning/cloud/what-is-the-cloud/ https://en
     vpc:
   cloudflare: # https://www.cloudflare.com/learning/what-is-cloudflare/
     cdn: # content delivery network https://www.cloudflare.com/learning/cdn/what-is-a-cdn/
+    firewall: # https://www.cloudflare.com/learning/cloud/what-is-a-cloud-firewall/
   gcp: # Google Cloud Platform https://cloud.google.com/docs
     sql:
     vpc:
-    OTHER:
+    notes:
       - https://cloud.google.com/certificate-authority-service/docs/using-cel
   hybridcloud: # https://www.cloudflare.com/learning/cloud/what-is-hybrid-cloud/
   multicloud: # https://www.cloudflare.com/learning/cloud/what-is-the-cloud/
@@ -33,7 +40,7 @@ cloud: # https://www.cloudflare.com/learning/cloud/what-is-the-cloud/ https://en
       api: # https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api
       settings: # https://docs.sendgrid.com/ui/account-and-settings/mail
 code: # https://github.com/collections/programming-languages
-  golang:
+  golang: # https://go.dev/doc/
     notes:
       - https://www.linkedin.com/pulse/its-time-understand-golang-contexts-lucas-schenkel-schieferdecker/
       - https://github.com/valyala/goloris/blob/master/goloris.go
@@ -41,8 +48,12 @@ code: # https://github.com/collections/programming-languages
       - https://golang.google.cn/pkg/os/signal/
       - https://github.com/lizrice/strace-from-scratch
   javascript: # https://developer.mozilla.org/en-US/docs/Web/JavaScript
+    api:
+      fetch: # https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
+      promise: 
     node: # https://nodejs.org/en/docs/
       npm: # https://docs.npmjs.com/
+    typescript: 
   vscode: # https://code.visualstudio.com/docs
 container:
   docker:
@@ -118,17 +129,16 @@ linux: # https://www.kernel.org/doc/html/latest/ https://github.com/torvalds/lin
       centos:
   filesystem:
     directories:
-      - name: /etc
-        files:
-          - /etc/hosts
-          - /etc/cron
-      - name: /proc
-      - name: /var
+      /etc:
+        /etc/hosts:
+        /etc/cron:
+      /proc:
+      /var:
     ext4: # https://ext4.wiki.kernel.org/index.php/Ext4_Howto
     inode: # https://www.redhat.com/sysadmin/inodes-linux-filesystem
   hardware:
     spi: # Serial Peripheral Interface https://docs.kernel.org/spi/spi-summary.html
-    other:
+    notes:
       - https://discord.com/blog/how-discord-supercharges-network-disks-for-extreme-low-latency
   kernel:
     ebpf: # https://ebpf.io/what-is-ebpf
@@ -138,35 +148,35 @@ network:
   ietf: # Internet Engineering Task Force https://en.wikipedia.org/wiki/Internet_Engineering_Task_Force
     rfc: # Request for Comments https://en.wikipedia.org/wiki/Request_for_Comments
       1918: # private network address allocations https://www.rfc-editor.org/rfc/rfc1918
-  osi: # Open Systems Interconnection model https://en.wikipedia.org/wiki/OSI_model
-    layer:
-      1: # physical layer https://en.wikipedia.org/wiki/Physical_layer
-      2: # data link layer https://en.wikipedia.org/wiki/Data_link_layer
-      3: # network layer https://en.wikipedia.org/wiki/Network_layer
-        protocol: 
+  osi: # Open Systems Interconnection model https://www.cloudflare.com/learning/ddos/glossary/open-systems-interconnection-model-osi/
+      1: # physical layer https://osi-model.com/physical-layer/
+      2: # data link layer https://osi-model.com/data-link-layer/
+      3: # network layer https://osi-model.com/network-layer/
+        protocol:
+          icmp:
+            notes:
+              - does not use ports
+            ping:
+            traceroute:
+              notes:
+                - must use "-I" option to use ICMP, otherwise it uses UDP
           ipv4:
           ipv6:
-        router:
+        router: # https://www.cloudflare.com/learning/network-layer/what-is-routing/
           cisco:
-      4: # transport layer https://en.wikipedia.org/wiki/Transport_layer
+      4: # transport layer https://osi-model.com/transport-layer/
+        port: # https://www.cloudflare.com/learning/network-layer/what-is-a-computer-port/
         protocol:
-            icmp:
-              notes:
-                - does not use ports
-              ping:
-              traceroute:
-                notes:
-                  - must use "-I" option to use ICMP, otherwise it uses UDP
             tcp:
             udp:
               protocol:
                 traceroute:
                   port: 33434 + (max-ttl * numberofprobes - 1)
-        ports: 
-      5:
-      6:
-      7: # application layer https://en.wikipedia.org/wiki/Application_layer
+      5: # session layer https://osi-model.com/session-layer/
+      6: # presentation layer https://osi-model.com/presentation-layer/
+      7: # application layer https://osi-model.com/application-layer/
         protocol:
+          bgp: # https://www.cloudflare.com/learning/security/glossary/what-is-bgp/
           dns: # domain name service https://www.rfc-editor.org/rfc/rfc1035
             dns-flood: # https://www.cloudflare.com/learning/ddos/dns-flood-ddos-attack/
             fqdn: # fully qualified domain name
@@ -178,6 +188,7 @@ network:
             mime: # Multipurpose Internet Mail Extensions https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
               header: Content-Type
             port: 80
+            url: # https://developer.mozilla.org/en-US/docs/Learn/Common_questions/What_is_a_URL
           https:
             port: 443
           tls/ssl:
@@ -200,7 +211,8 @@ security: # https://www.cloudflare.com/learning/security/what-is-web-application
   sso: # single sign on https://www.cloudflare.com/learning/access-management/what-is-sso/
   tls: # https://www.cloudflare.com/learning/ssl/transport-layer-security-tls/
   totp: # https://www.twilio.com/docs/glossary/totp
-other:
+  waf: # https://www.cloudflare.com/learning/ddos/glossary/web-application-firewall-waf/
+notes:
 - Conflict-Free Replicated Data Type (CRDT) https://github.com/automerge/automerge
 - WLAN Sensing
 - deepfake zoom call detection, turn sideways https://news.ycombinator.com/item?id=32385555
