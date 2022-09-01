@@ -96,40 +96,24 @@ code:
     typescript: https://www.typescriptlang.org/docs/
   vscode:
     ^: https://code.visualstudio.com/docs
-container:
-  ^: https://en.wikipedia.org/wiki/OS-level_virtualization
-  docker:
-    ^: https://docs.docker.com/reference/
-    cli:
-      ^: https://github.com/docker/cli
-    compose: https://github.com/docker/compose
-  containerd:
-    ^: https://github.com/containerd/containerd/tree/main/docs
-    cli:
-      example:
-        - ctr version
-        - ctr image pull docker.io/library/hello-world:latest
-        - ctr image list
-        - ctr run docker.io/library/hello-world:latest demo
-        - ctr container list
-        - ctr image remove docker.io/library/hello-world:latest
-        - ctr container remove demo
-computer-science:
+comp-sci:
   ^: https://github.com/jwasham/coding-interview-university
-  algorithm:
-    ^: https://github.com/trekhleb/javascript-algorithms
-  big-o-notation:
-    ^: Big O notation https://en.wikipedia.org/wiki/Big_O_notation
+  algorithm: https://github.com/trekhleb/javascript-algorithms
+  big-o-notation: Big O notation https://en.wikipedia.org/wiki/Big_O_notation
   encryption:
   ephemeral: Lasting for a very short time.
   hash:
   immutable: Not subject or susceptible to change.
-  jit:
-    ^: just in time compilation https://www.freecodecamp.org/news/just-in-time-compilation-explained/
-data-science:
-  ^: data store https://en.wikipedia.org/wiki/Data_store
-  nosql:
-    ^: https://en.wikipedia.org/wiki/NoSQL
+  jit: just in time compilation https://www.freecodecamp.org/news/just-in-time-compilation-explained/
+  normalize:
+datastore:
+  elk: https://www.elastic.co/what-is/elk-stack
+  kafka:
+    ^: https://materialize.com/blog/kafka-is-not-a-database/ https://kafka.apache.org/documentation/
+    strimzi: k8s operator https://github.com/strimzi/strimzi-kafka-operator
+  mongodb:
+    change-streams: https://www.mongodb.com/docs/manual/changeStreams/
+  redis: https://redis.io/docs/reference/
   sql:
     mysql:
       ^: https://dev.mysql.com/doc/
@@ -156,59 +140,83 @@ git:
     language-stats: https://madnight.github.io/githut/
   gitlab:
 k8s:
-  ^: kubernetes https://kubernetes.io/docs/concepts/overview/ https://github.com/kubernetes/kubernetes/tree/master/pkg
-  cncf:
+  ^: kubernetes https://kubernetes.io/docs/concepts/overview/components/ https://github.com/kubernetes/kubernetes/tree/master/pkg
+  cncf: 
     ^: cloud native compute foundation https://landscape.cncf.io/card-mode?grouping=no&sort=stars
+    certified-k8s-installers: https://landscape.cncf.io/card-mode?category=certified-kubernetes-installer&grouping=category
   cni:
     ^: container network interface https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/
     type:
       cilium:
         ^: eBPF based https://github.com/cilium/cilium
-  component:
-    ^: https://kubernetes.io/docs/concepts/overview/components/
-    controller-manager:
-    kube-api:
-    kube-proxy:
-    kube-schedule:
-    kubelet:
-    containerd:
-    etcd:
-      ^: https://etcd.io/docs https://github.com/etcd-io/etcd
+  cluster-data:
+    alias: backing-store
+    etcd: https://etcd.io/docs https://github.com/etcd-io/etcd
+  cloud-controller-manager:
+  controller-manager:
   cri:
     ^: container runtime interface https://kubernetes.io/docs/concepts/architecture/cri/
-  distribution:
-    eks:
-    gke:
-    kops:
-    kubeadm:
-      ^: https://kubernetes.io/docs/reference/setup-tools/kubeadm/ https://github.com/kubernetes/kubernetes/tree/master/cmd/kubeadm
-    k3s:
-      ^: https://k3s.io/ https://rancher.com/docs/k3s/latest/en/
-      config:
-        ^: https://rancher.com/docs/k3s/latest/en/installation/install-options/server-config/
-    rke:
-      ^: rancher kubernetes engine
+    container: https://en.wikipedia.org/wiki/OS-level_virtualization
+    cri-o: https://github.com/cri-o/cri-o
+    containerd:
+      ^: https://github.com/containerd/containerd/tree/main/docs
+      cli:
+        example:
+          - ctr version
+          - ctr image pull docker.io/library/hello-world:latest
+          - ctr image list
+          - ctr run docker.io/library/hello-world:latest demo
+          - ctr container list
+          - ctr image remove docker.io/library/hello-world:latest
+          - ctr container remove demo
+    docker:
+      ^: https://docs.docker.com/reference/
+      cli:
+        ^: https://github.com/docker/cli
+      compose: https://github.com/docker/compose
   helm:
     public-charts: https://artifacthub.io/
     common-expression-language: https://github.com/google/cel-spec/blob/master/doc/intro.md
+  kube-api: https://kubernetes.io/docs/concepts/overview/kubernetes-api/
+  kube-proxy:
+  kube-schedule:
+  kubectl:
+    example:
+  kubelet:
   resources:
     clusterrole:
+    crd:
+      ^: custom resource definition https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/
+      operator-pattern: https://kubernetes.io/docs/concepts/extend-kubernetes/operator/
     deploy:
     ing:
     pod:
     pvc:
     svc:
     storageclass:
+    sts:
     role:
     volume:
+  type:
+    eks:
+    gke:
+    kops:
+    kubeadm: https://kubernetes.io/docs/reference/setup-tools/kubeadm/ https://github.com/kubernetes/kubernetes/tree/master/cmd/kubeadm
+    k3s:
+      ^: https://k3s.io/ https://rancher.com/docs/k3s/latest/en/
+      config:
+        ^: https://rancher.com/docs/k3s/latest/en/installation/install-options/server-config/
+    rke:
+      ^: rancher kubernetes engine
 linux:
   ^: https://www.kernel.org/doc/html/latest/
-  bash:
-    ^: born-again-shell https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html
+  shell:
+    ^: https://www.tutorialspoint.com/unix/unix-what-is-shell.htm
+    bash: bourne-again-shell https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html
     background-process:
       ^: https://linuxhint.com/send-process-background-linux/
       characer: "&"
-    pipes:
+    pipe:
       character: "|"
     redirect:
       character: ">"
@@ -261,12 +269,12 @@ linux:
     ebpf: https://ebpf.io/what-is-ebpf
     syscall: https://man7.org/linux/man-pages/man2/syscalls.2.html
   process:
-    exit-code: https://richardsnider.github.io/linux-exit-codes.yaml
+    exit-code: https://richardsnider.github.io/notes/linux.process.exit-code.yaml
   storage:
     iops:
   user-space:
-    ^: https://en.wikipedia.org/wiki/User_space_and_kernel_space
-    distro:
+    ^: user data https://en.wikipedia.org/wiki/User_space_and_kernel_space
+    dist:
       ^: distribution https://en.wikipedia.org/wiki/Linux_distribution
       alpine:
       debian:
@@ -284,89 +292,79 @@ network:
   osi:
     ^: Open Systems Interconnection model https://www.cloudflare.com/learning/ddos/glossary/open-systems-interconnection-model-osi/
     layer:
-      1:
-        ^: https://osi-model.com/physical-layer/
-        name: physical
-      2:
-        ^: https://osi-model.com/data-link-layer/
-        name: data link
-      3:
-        ^: https://osi-model.com/network-layer/
-        name: network
-        protocol:
-          icmp:
-            notes:
-              - does not use ports
-            ping:
-            traceroute:
-              notes:
-                - must use "-I" option to use ICMP, otherwise it uses UDP
-          ipv4:
-          ipv6:
-        router:
-          ^: https://www.cloudflare.com/learning/network-layer/what-is-routing/
-          cisco:
-      4:
-        ^: https://osi-model.com/transport-layer/
-        name: transport
-        port:
-          ^: https://www.cloudflare.com/learning/network-layer/what-is-a-computer-port/
-        protocol:
-          tcp:
-          udp:
-            protocol:
-              traceroute:
-                port: 33434 + (max-ttl * numberofprobes - 1)
-      5:
-        ^: layer https://osi-model.com/session-layer/
-        name: session
-      6:
-        ^: https://osi-model.com/presentation-layer/
-        name: presentation
-      7:
-        ^: https://osi-model.com/application-layer/
-        name: application
-        protocol:
-          bgp:
-            ^: https://www.cloudflare.com/learning/security/glossary/what-is-bgp/
-            port: 179
-            notes:
-              - The initiating router uses a dynamic source port, but the destination port is 179. https://www.ciscopress.com/articles/article.asp?p=2756480&seqNum=4
-          dns:
-            ^: domain name service https://www.rfc-editor.org/rfc/rfc1035
-            dns-flood:
-              ^: https://www.cloudflare.com/learning/ddos/dns-flood-ddos-attack/
-            fqdn:
-              ^: fully qualified domain name
-            port: 53
-          http:
-            ^: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP
-            grpc:
-              - https://github.com/grpc-ecosystem/grpc-gateway
-            headers:
-              ^: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers
-              cors:
-                ^: Cross-Origin Resource Sharing https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
-                example:
-                  wildcard-header: "Access-Control-Allow-Origin: *"
-                  single-domain-header: "Access-Control-Allow-Origin: https://example.com"
-            mime:
-              ^: Multipurpose Internet Mail Extensions https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
-              header: Content-Type
-            port: 80
-            url:
-              ^: https://developer.mozilla.org/en-US/docs/Learn/Common_questions/What_is_a_URL
-          https:
-            port: 443
-          tls/ssl:
-          ssh:
-            port: 22
-  vpn:
-    openvpn:
-    wireguard:
-      ^: https://github.com/pirate/wireguard-docs
-      tailscale:
-        ^: https://tailscale.com/kb/
+      1: https://osi-model.com/physical-layer/
+      2: https://osi-model.com/data-link-layer/
+      3: https://osi-model.com/network-layer/
+      4: https://osi-model.com/transport-layer/
+      5: https://osi-model.com/session-layer/
+      6: https://osi-model.com/presentation-layer/
+      7: https://osi-model.com/application-layer/
+  layer-3:
+    icmp:
+      notes:
+        - does not use ports
+      ping:
+      traceroute:
+        notes:
+          - must use "-I" option to use ICMP, otherwise it uses UDP
+    ipv4:
+    ipv6:
+    router:
+      ^: https://www.cloudflare.com/learning/network-layer/what-is-routing/
+      cisco:
+    vpn:
+      openvpn:
+      wireguard:
+        ^: https://github.com/pirate/wireguard-docs
+        tailscale:
+          ^: https://tailscale.com/kb/
+  layer-4:
+    port: https://www.cloudflare.com/learning/network-layer/what-is-a-computer-port/
+    tcp:
+      bgp:
+        ^: https://www.cloudflare.com/learning/security/glossary/what-is-bgp/
+        port: 179
+        notes:
+          - The initiating router uses a dynamic source port, but the destination port is 179. https://www.ciscopress.com/articles/article.asp?p=2756480&seqNum=4
+      dns:
+        ^: domain name service https://www.rfc-editor.org/rfc/rfc1035
+        dns-flood:
+          ^: https://www.cloudflare.com/learning/ddos/dns-flood-ddos-attack/
+        fqdn:
+          ^: fully qualified domain name
+        port: 53
+      http:
+        ^: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP
+        http/1.1:
+        http/2:
+          ^: https://www.upwork.com/resources/what-is-http2
+          description: response multiplexing, binary instead of textua
+          grpc:
+            - can't be used in a browser out-of-the-box https://grpc.io/blog/state-of-grpc-web/
+            - https://github.com/grpc-ecosystem/grpc-gateway
+        headers:
+          ^: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers
+          cors:
+            ^: Cross-Origin Resource Sharing https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+            example:
+              wildcard-header: "Access-Control-Allow-Origin: *"
+              single-domain-header: "Access-Control-Allow-Origin: https://example.com"
+        mime:
+          ^: Multipurpose Internet Mail Extensions https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
+          header: Content-Type
+        port: 80
+        url:
+          ^: https://developer.mozilla.org/en-US/docs/Learn/Common_questions/What_is_a_URL
+      https:
+        port: 443
+      tls/ssl:
+      ssh:
+        port: 22
+    udp:
+      traceroute:
+        port: 33434 + (max-ttl * numberofprobes - 1)
+      http/3:
+        ^: QUIC https://en.wikipedia.org/wiki/HTTP/3
 security:
   ^: https://www.cloudflare.com/learning/security/what-is-web-application-security/
   attacks:
