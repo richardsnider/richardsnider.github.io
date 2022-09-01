@@ -1,4 +1,4 @@
-# "_" key is reserved for a parent object's general definition/hyperlinks
+# "^" key is reserved for a parent object's general definition/hyperlinks
 browser:
   cache: https://developer.mozilla.org/en-US/docs/Web/API/Cache
   chrome:
