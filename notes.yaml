@@ -109,7 +109,10 @@ comp-sci:
 datastore:
   elk: https://www.elastic.co/what-is/elk-stack
   kafka:
-    ^: https://materialize.com/blog/kafka-is-not-a-database/ https://kafka.apache.org/documentation/
+    ^: event streaming application by apache https://kafka.apache.org/documentation/
+    explanation:
+      - https://www.kai-waehner.de/blog/2020/03/12/can-apache-kafka-replace-database-acid-storage-transactions-sql-nosql-data-lake/
+      - https://materialize.com/blog/kafka-is-not-a-database/
     strimzi: k8s operator https://github.com/strimzi/strimzi-kafka-operator
   mongodb:
     change-streams: https://www.mongodb.com/docs/manual/changeStreams/
@@ -190,13 +193,24 @@ k8s:
       operator-pattern: https://kubernetes.io/docs/concepts/extend-kubernetes/operator/
     deploy:
     ing:
+      controller:
+        nginx:
+        gloo:
     pod:
     pvc:
     svc:
+      type:
+        NodePort:
+        ClusterIP:
+        None:
+          alias: "headless"
     storageclass:
     sts:
     role:
     volume:
+  service-mesh:
+    istio: https://istio.io/latest/about/service-mesh/#what-is-a-service-mesh
+    linkerd:
   type:
     eks:
     gke:
