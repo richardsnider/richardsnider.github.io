@@ -113,6 +113,7 @@ datastore:
     explanation:
       - https://www.kai-waehner.de/blog/2020/03/12/can-apache-kafka-replace-database-acid-storage-transactions-sql-nosql-data-lake/
       - https://materialize.com/blog/kafka-is-not-a-database/
+      - https://logz.io/blog/kafka-vs-redis/#:~:text=Redis'%20in%2Dmemory%20database%20is,for%20longer%20periods%20of%20time.
     strimzi: k8s operator https://github.com/strimzi/strimzi-kafka-operator
   mongodb:
     change-streams: https://www.mongodb.com/docs/manual/changeStreams/
@@ -177,6 +178,8 @@ k8s:
       cli:
         ^: https://github.com/docker/cli
       compose: https://github.com/docker/compose
+    oci: open container initiative
+    runsc: https://gvisor.dev/docs/
   helm:
     public-charts: https://artifacthub.io/
     common-expression-language: https://github.com/google/cel-spec/blob/master/doc/intro.md
@@ -282,6 +285,14 @@ linux:
     ^: https://github.com/torvalds/linux
     ebpf: https://ebpf.io/what-is-ebpf
     syscall: https://man7.org/linux/man-pages/man2/syscalls.2.html
+    cgroup:
+      ^: >
+        control groups for dynamically limit and monitor cpu, memory, disk, and network resource limits on processes.
+        Processes can use more than their cgroup limits as long as their is no resource contention.
+      example: 
+        - cat /sys/fs/cgroup/cpu/tasks
+        - cat /proc/3378/cgroup
+        - https://www.linuxjournal.com/content/everything-you-need-know-about-linux-containers-part-i-linux-control-groups-and-process
   process:
     exit-code: https://richardsnider.github.io/notes/linux.process.exit-code.yaml
   storage:
@@ -329,9 +340,18 @@ network:
     vpn:
       openvpn:
       wireguard:
-        ^: https://github.com/pirate/wireguard-docs
+        ^: https://www.wireguard.com/protocol/
+        unofficial-docs: https://github.com/pirate/wireguard-docs
+        videos:
+          - https://www.youtube.com/watch?v=88GyLoZbDNw
+          - https://www.youtube.com/watch?v=iVal1M3SLNI&t=1185s
         tailscale:
           ^: https://tailscale.com/kb/
+          cidr-block: 100.64.0.0/10
+          source-code:
+            - https://github.com/tailscale/tailscale/blob/main/wgengine/wgcfg/device.go
+            - https://github.com/tailscale/tailscale/blob/main/ipn/doc.go
+            - https://github.com/tailscale/tailscale/blob/main/safesocket/unixsocket.go
   layer-4:
     port: https://www.cloudflare.com/learning/network-layer/what-is-a-computer-port/
     tcp:
@@ -406,3 +426,5 @@ notes:
   - cellular network bioelectric signals physiological software layer https://www.youtube.com/watch?v=Z-9rLlFgcm0
   - https://en.wikipedia.org/wiki/Solar_Foods
   - map generator https://github.com/tepperly/Azimuthal
+  - stable diffusion text-to-image https://news.ycombinator.com/item?id=32634074
+  - lightweight VM "microVM" https://github.com/firecracker-microvm/firecracker
