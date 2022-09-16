@@ -74,6 +74,7 @@ code:
       - https://golangcode.com/print-the-current-memory-usage/
       - https://golang.google.cn/pkg/os/signal/
       - https://github.com/lizrice/strace-from-scratch
+      - vulnerability management https://go.dev/blog/vuln
     ref:
       ^: https://go.dev/ref/spec
       context:
@@ -150,6 +151,9 @@ k8s:
     certified-k8s-installers: https://landscape.cncf.io/card-mode?category=certified-kubernetes-installer&grouping=category
   cni:
     ^: container network interface https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/
+    interface-name: cni0
+    notes:
+      - https://itnext.io/kubernetes-networking-behind-the-scenes-39a1ab1792bb
     type:
       cilium:
         ^: eBPF based https://github.com/cilium/cilium
@@ -179,6 +183,7 @@ k8s:
         ^: https://github.com/docker/cli
       compose: https://github.com/docker/compose
     oci: open container initiative
+    pause-container: https://www.ianlewis.org/en/almighty-pause-container
     runsc: https://gvisor.dev/docs/
   helm:
     public-charts: https://artifacthub.io/
@@ -309,96 +314,193 @@ linux:
     user-data:
     virtual-memory:
 network:
+  control-plane: https://en.wikipedia.org/wiki/Control_plane
+  data-plane: https://en.wikipedia.org/wiki/Data_plane
   ietf:
     ^: Internet Engineering Task Force https://en.wikipedia.org/wiki/Internet_Engineering_Task_Force
     rfc:
       ^: Request for Comments https://en.wikipedia.org/wiki/Request_for_Comments
       1918: private network address allocations https://www.rfc-editor.org/rfc/rfc1918
+  interface:
+    nic: https://en.wikipedia.org/wiki/Network_interface_controller
+    vif: https://en.wikipedia.org/wiki/Virtual_network_interface
+  ip:
+    packet:
+      ^: https://www.baeldung.com/cs/networking-packet-fragment-frame-datagram-segment
+      explanation: A TCP segment is carried in one or more IP packets, which are each carried in one or more Ethernet frames.
+      ipv4:
+        address:
+        cidr:
+        header:
+      ipv6:
+        address:
+        cidr:
+        header:
+        tunnel:
+      fragment:
+      protocol-number: https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers
+      ospf: 
+        ^: https://en.wikipedia.org/wiki/Open_Shortest_Path_First
+        protocol-number: 89
+      icmp:
+        notes:
+          - https://www.cloudflare.com/learning/ddos/glossary/internet-control-message-protocol-icmp/
+          - https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol
+          - > 
+            Although ICMP messages are contained within standard IP packets, 
+            ICMP messages are usually processed as a special case, distinguished from normal IP processing.
+        ping:
+      transport:
+        datagram:
+          segment:
+        port:
+        socket: https://en.wikipedia.org/wiki/Network_socket
+        tcp:
+          header:
+          connection:
+            session:
+          protocol:
+            bgp:
+              ^: https://www.cloudflare.com/learning/security/glossary/what-is-bgp/
+              port: 179
+              notes:
+                - The initiating router uses a dynamic source port, but the destination port is 179. https://www.ciscopress.com/articles/article.asp?p=2756480&seqNum=4
+            http:
+              ^: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP
+              http/1.1:
+              http/2:
+                ^: https://www.upwork.com/resources/what-is-http2
+                description: response multiplexing, binary instead of textua
+                grpc:
+                  - can't be used in a browser out-of-the-box https://grpc.io/blog/state-of-grpc-web/
+                  - https://github.com/grpc-ecosystem/grpc-gateway
+              headers:
+                ^: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers
+                cors:
+                  ^: Cross-Origin Resource Sharing https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+                  example:
+                    wildcard-header: "Access-Control-Allow-Origin: *"
+                    single-domain-header: "Access-Control-Allow-Origin: https://example.com"
+              mime:
+                ^: Multipurpose Internet Mail Extensions https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
+                header: Content-Type
+              port: 80
+              url:
+                ^: https://developer.mozilla.org/en-US/docs/Learn/Common_questions/What_is_a_URL
+            https:
+              port: 443
+            ssh:
+              port: 22
+            tls/ssl:
+        udp:
+          connectionless: true
+          protocol:
+            dhcp: https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol
+            dns:
+              ^: domain name service https://www.rfc-editor.org/rfc/rfc1035
+              dns-flood:
+                ^: https://www.cloudflare.com/learning/ddos/dns-flood-ddos-attack/
+              fqdn:
+                ^: fully qualified domain name
+              port: 53
+            http/3:
+              ^: QUIC https://en.wikipedia.org/wiki/HTTP/3
+            rip:
+              ^: https://en.wikipedia.org/wiki/Routing_Information_Protocol
+              port: 520
+            traceroute:
+              port: 33434 + (max-ttl * numberofprobes - 1)
+              notes:
+                - must use "-I" option to actually use ICMP
+            wireguard: 
+              ^: https://www.wireguard.com/protocol/
+              port: 51820
+              notes:
+                - configure to use port 53 in because DNS is allowed on most networks https://github.com/trailofbits/algo/pull/1594
+    socket:
+      golang-dial: https://pkg.go.dev/net@latest#Dial
+      syscall-name: socket()
+      syscall-constant: 
+        SOCK_DGRAM:
+        SOCK_STREAM:
+    routing:
+      ^: https://www.cloudflare.com/learning/network-layer/what-is-routing/
+      firewall: 
+        ^:
+          - https://www.cloudflare.com/learning/security/what-is-a-firewall/
+          - https://www.bu.edu/tech/about/security-resources/host-based/intro/
+        example:
+          - https://github.com/pfsense/pfsense
+      networking-mode:
+        ^: https://docs.oracle.com/en/virtualization/virtualbox/6.0/user/networkingmodes.html
+        bridged:
+        nat:
+          ^: network address translations
+          notes:
+            - http://www.ciscozine.com/nat-and-pat-a-complete-explanation/
+            - https://avinetworks.com/glossary/network-address-translation/
+          pat:
+            ^: layer 4 (transport) port address translation, the most common form of nat
+            port-forwarding:
+            vip: https://en.wikipedia.org/wiki/Virtual_IP_address
+            example:
+             netfilter-iptables-nftables: linux packet filter
+      router:
+        cisco:
+      subnet:
+        cidr:
+        lan: https://en.wikipedia.org/wiki/Local_area_network
+        mask:
+        wan: https://en.wikipedia.org/wiki/Wide_area_network
+      vpn: 
+        ^: virtual private network
+        implementation:
+          openvpn: https://en.wikipedia.org/wiki/OpenVPN
+          ipsec:
+          wireguard:
+            unofficial-docs: https://github.com/pirate/wireguard-docs
+            videos:
+              - https://www.youtube.com/watch?v=88GyLoZbDNw
+              - https://www.youtube.com/watch?v=iVal1M3SLNI&t=1185s
+            tailscale:
+              ^: https://tailscale.com/kb/
+              cidr-block: 100.64.0.0/10
+              source-code:
+                - https://github.com/tailscale/tailscale/blob/main/wgengine/wgcfg/device.go
+                - https://github.com/tailscale/tailscale/blob/main/ipn/doc.go
+                - https://github.com/tailscale/tailscale/blob/main/safesocket/unixsocket.go
+  programming: https://beej.us/guide/bgnet/html/index-wide.html
   osi:
     ^: Open Systems Interconnection model https://www.cloudflare.com/learning/ddos/glossary/open-systems-interconnection-model-osi/
     layer:
-      1: https://osi-model.com/physical-layer/
-      2: https://osi-model.com/data-link-layer/
-      3: https://osi-model.com/network-layer/
-      4: https://osi-model.com/transport-layer/
-      5: https://osi-model.com/session-layer/
-      6: https://osi-model.com/presentation-layer/
-      7: https://osi-model.com/application-layer/
-  layer-3:
-    icmp:
-      notes:
-        - does not use ports
-      ping:
-      traceroute:
-        notes:
-          - must use "-I" option to use ICMP, otherwise it uses UDP
-    ipv4:
-    ipv6:
-    router:
-      ^: https://www.cloudflare.com/learning/network-layer/what-is-routing/
-      cisco:
-    vpn:
-      openvpn:
-      wireguard:
-        ^: https://www.wireguard.com/protocol/
-        unofficial-docs: https://github.com/pirate/wireguard-docs
-        videos:
-          - https://www.youtube.com/watch?v=88GyLoZbDNw
-          - https://www.youtube.com/watch?v=iVal1M3SLNI&t=1185s
-        tailscale:
-          ^: https://tailscale.com/kb/
-          cidr-block: 100.64.0.0/10
-          source-code:
-            - https://github.com/tailscale/tailscale/blob/main/wgengine/wgcfg/device.go
-            - https://github.com/tailscale/tailscale/blob/main/ipn/doc.go
-            - https://github.com/tailscale/tailscale/blob/main/safesocket/unixsocket.go
-  layer-4:
-    port: https://www.cloudflare.com/learning/network-layer/what-is-a-computer-port/
-    tcp:
-      bgp:
-        ^: https://www.cloudflare.com/learning/security/glossary/what-is-bgp/
-        port: 179
-        notes:
-          - The initiating router uses a dynamic source port, but the destination port is 179. https://www.ciscopress.com/articles/article.asp?p=2756480&seqNum=4
-      dns:
-        ^: domain name service https://www.rfc-editor.org/rfc/rfc1035
-        dns-flood:
-          ^: https://www.cloudflare.com/learning/ddos/dns-flood-ddos-attack/
-        fqdn:
-          ^: fully qualified domain name
-        port: 53
-      http:
-        ^: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP
-        http/1.1:
-        http/2:
-          ^: https://www.upwork.com/resources/what-is-http2
-          description: response multiplexing, binary instead of textua
-          grpc:
-            - can't be used in a browser out-of-the-box https://grpc.io/blog/state-of-grpc-web/
-            - https://github.com/grpc-ecosystem/grpc-gateway
-        headers:
-          ^: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers
-          cors:
-            ^: Cross-Origin Resource Sharing https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
-            example:
-              wildcard-header: "Access-Control-Allow-Origin: *"
-              single-domain-header: "Access-Control-Allow-Origin: https://example.com"
-        mime:
-          ^: Multipurpose Internet Mail Extensions https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
-          header: Content-Type
-        port: 80
-        url:
-          ^: https://developer.mozilla.org/en-US/docs/Learn/Common_questions/What_is_a_URL
-      https:
-        port: 443
-      tls/ssl:
-      ssh:
-        port: 22
-    udp:
-      traceroute:
-        port: 33434 + (max-ttl * numberofprobes - 1)
-      http/3:
-        ^: QUIC https://en.wikipedia.org/wiki/HTTP/3
+      1: 
+        ^: https://osi-model.com/physical-layer/
+        involves: [ ethernet, fiber, wifi ]
+      2:
+        ^: https://osi-model.com/data-link-layer/
+        involves: [ frames, switches, tunnels ]
+      3:
+        ^: https://osi-model.com/network-layer/
+        involves: [ ip, nat, routers, vpn (data-plane) ]
+      4:
+        ^: https://osi-model.com/transport-layer/
+        involves: [ ports, pat, icmp, tcp, tcp sessions, udp, vpn (control-plane) ]
+      5: 
+        ^: https://osi-model.com/session-layer/
+        involves: []
+      6: 
+        ^: https://osi-model.com/presentation-layer/
+        involves: [] 
+      7: 
+        ^: https://osi-model.com/application-layer/
+        involves: [ http, https, ssl, tls ]
+  topology: https://www.educba.com/types-of-network-topology/
+  tunnel:
+  wifi:
+    wlan:
+      wlan:
+      wlan2:
+      wlan3:
 security:
   ^: https://www.cloudflare.com/learning/security/what-is-web-application-security/
   attacks:
