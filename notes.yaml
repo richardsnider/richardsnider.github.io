@@ -65,8 +65,35 @@ cloud:
       ^: https://docs.sendgrid.com/onboarding/email-api
       api: https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api
       settings: https://docs.sendgrid.com/ui/account-and-settings/mail
+chem:
+  bio:
+    neuromodulator:
+      adrenaline: epinephrine
+      dopamine: motivation
+      serotonin: contentness
+      acetylcholine: memory/focus
+    routine:
+      - sunlight
+      - meditate
+      - study
+      - caffeine
+      - snapshot review
+      - cold exposure
 code:
   ^: https://github.com/collections/programming-languages
+  git:
+    ^: https://github.com/git/git https://mirrors.edge.kernel.org/pub/software/scm/git/
+    cli:
+      ^: https://git-scm.com/docs
+      examples:
+        - http://guides.beanstalkapp.com/version-control/common-git-commands.html
+    github:
+      ^: https://docs.github.com/en
+      actions:
+      cli:
+        ^: https://cli.github.com/manual/gh_help_reference
+      language-stats: https://madnight.github.io/githut/
+    gitlab:
   golang:
     ^: https://go.dev/doc/ https://github.com/golang/go
     notes:
@@ -101,6 +128,17 @@ comp-sci:
   ^: https://github.com/jwasham/coding-interview-university
   algorithm: https://github.com/trekhleb/javascript-algorithms
   big-o-notation: Big O notation https://en.wikipedia.org/wiki/Big_O_notation
+  binary:
+    byte:
+      ^: arbitrary yet standard data size
+      min-value: [ 0, 0b00000000, 0x00 ]
+      max-value: [ 0b11111111, 07777, 255, 0xFF ]
+      unit:
+        kB: 
+        Ki: { kibibit: 2^10 }
+        Mi: { mebibit: 2^20 }
+        MB:
+        GB:
   encryption:
   ephemeral: Lasting for a very short time.
   hash:
@@ -120,6 +158,7 @@ datastore:
     change-streams: https://www.mongodb.com/docs/manual/changeStreams/
   redis: https://redis.io/docs/reference/
   sql:
+    ^: https://www.digitalocean.com/community/tutorials/sqlite-vs-mysql-vs-postgresql-a-comparison-of-relational-database-management-systems
     mysql:
       ^: https://dev.mysql.com/doc/
       ddl: data definition language https://dev.mysql.com/doc/refman/8.0/en/sql-data-definition-statements.html
@@ -130,20 +169,11 @@ datastore:
     sqllite:
       ^: https://www.sqlite.org/docs.html
       compression: https://github.com/phiresky/sqlite-zstd
-      litestream: https://litestream.io/tips/
-git:
-  ^: https://github.com/git/git https://mirrors.edge.kernel.org/pub/software/scm/git/
-  cli:
-    ^: https://git-scm.com/docs
-    examples:
-      - http://guides.beanstalkapp.com/version-control/common-git-commands.html
-  github:
-    ^: https://docs.github.com/en
-    actions:
-    cli:
-      ^: https://cli.github.com/manual/gh_help_reference
-    language-stats: https://madnight.github.io/githut/
-  gitlab:
+      litestream:
+        ^: https://litestream.io/how-it-works/
+        tips: https://litestream.io/tips/
+        example:
+          - https://mtlynch.io/litestream/
 k8s:
   ^: kubernetes https://kubernetes.io/docs/concepts/overview/components/ https://github.com/kubernetes/kubernetes/tree/master/pkg
   cncf: 
@@ -193,6 +223,7 @@ k8s:
   kube-schedule:
   kubectl:
     example:
+      change-namespace: kubectl config set-context --current --namespace=my-namespace
   kubelet:
   resources:
     clusterrole:
@@ -228,6 +259,7 @@ k8s:
       ^: https://k3s.io/ https://rancher.com/docs/k3s/latest/en/
       config:
         ^: https://rancher.com/docs/k3s/latest/en/installation/install-options/server-config/
+      logs: https://medium.com/kubernetes-tutorials/cluster-level-logging-in-kubernetes-with-fluentd-e59aa2b6093a
     rke:
       ^: rancher kubernetes engine
 linux:
@@ -450,25 +482,24 @@ network:
       subnet:
         cidr:
         lan: https://en.wikipedia.org/wiki/Local_area_network
-        mask:
+        mask: [ /32: 1, /31: 2, /30: 4, /29: 8, /28: 16, /27: 32, /26: 64, /25: 128, /24: 256, /23: 512, /22: 1024, /21: 2048, /20: 4096,  ]
         wan: https://en.wikipedia.org/wiki/Wide_area_network
       vpn: 
         ^: virtual private network
-        implementation:
-          openvpn: https://en.wikipedia.org/wiki/OpenVPN
-          ipsec:
-          wireguard:
-            unofficial-docs: https://github.com/pirate/wireguard-docs
-            videos:
-              - https://www.youtube.com/watch?v=88GyLoZbDNw
-              - https://www.youtube.com/watch?v=iVal1M3SLNI&t=1185s
-            tailscale:
-              ^: https://tailscale.com/kb/
-              cidr-block: 100.64.0.0/10
-              source-code:
-                - https://github.com/tailscale/tailscale/blob/main/wgengine/wgcfg/device.go
-                - https://github.com/tailscale/tailscale/blob/main/ipn/doc.go
-                - https://github.com/tailscale/tailscale/blob/main/safesocket/unixsocket.go
+        openvpn: https://en.wikipedia.org/wiki/OpenVPN
+        ipsec:
+        wireguard:
+          unofficial-docs: https://github.com/pirate/wireguard-docs
+          videos:
+            - https://www.youtube.com/watch?v=88GyLoZbDNw
+            - https://www.youtube.com/watch?v=iVal1M3SLNI&t=1185s
+          tailscale:
+            ^: https://tailscale.com/kb/
+            cidr-block: 100.64.0.0/10
+            source-code:
+              - https://github.com/tailscale/tailscale/blob/main/wgengine/wgcfg/device.go
+              - https://github.com/tailscale/tailscale/blob/main/ipn/doc.go
+              - https://github.com/tailscale/tailscale/blob/main/safesocket/unixsocket.go
   programming: https://beej.us/guide/bgnet/html/index-wide.html
   osi:
     ^: Open Systems Interconnection model https://www.cloudflare.com/learning/ddos/glossary/open-systems-interconnection-model-osi/
@@ -513,6 +544,8 @@ security:
   okta:
   ssl:
     ^: https://www.cloudflare.com/learning/ssl/what-is-ssl/
+    lets-encrypt: https://letsencrypt.org/how-it-works/
+    certificate-authority: https://github.com/letsencrypt/boulder
   sso:
     ^: single sign on https://www.cloudflare.com/learning/access-management/what-is-sso/
   tls:
