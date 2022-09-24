@@ -38,6 +38,20 @@ browser:
     web: web worker https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API
   xss:
     ^: cross site scripting https://www.cloudflare.com/learning/security/threats/cross-site-scripting/
+chem:
+  bio:
+    neuromodulator:
+      acetylcholine: memory/focus
+      adrenaline: epinephrine
+      dopamine: motivation
+      serotonin: contentness
+    routine:
+      - sunlight
+      - meditate
+      - study
+      - caffeine
+      - snapshot review
+      - cold exposure
 cloud:
   ^: https://www.cloudflare.com/learning/cloud/what-is-the-cloud/ https://en.wikipedia.org/wiki/Cloud_computing
   aws:
@@ -65,20 +79,6 @@ cloud:
       ^: https://docs.sendgrid.com/onboarding/email-api
       api: https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api
       settings: https://docs.sendgrid.com/ui/account-and-settings/mail
-chem:
-  bio:
-    neuromodulator:
-      adrenaline: epinephrine
-      dopamine: motivation
-      serotonin: contentness
-      acetylcholine: memory/focus
-    routine:
-      - sunlight
-      - meditate
-      - study
-      - caffeine
-      - snapshot review
-      - cold exposure
 code:
   ^: https://github.com/collections/programming-languages
   git:
