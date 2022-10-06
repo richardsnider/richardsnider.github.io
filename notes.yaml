@@ -19,7 +19,9 @@ browser:
     third-party:
   css:
     ^: cascading style sheets https://developer.mozilla.org/en-US/docs/Web/CSS
-    example: https://htmlcheatsheet.com/css/
+    example:
+      - https://htmlcheatsheet.com/css/
+      - 58 bytes of css that look great anywhere https://news.ycombinator.com/item?id=32972004
   html:
     ^: https://developer.mozilla.org/en-US/docs/Web/HTML
     csp: Content Security Policy https://www.w3.org/TR/CSP/
@@ -48,7 +50,8 @@ chem:
     routine:
       - sunlight
       - meditate
-      - study
+      - maximize repitions
+      - focus on errors
       - caffeine
       - snapshot review
       - cold exposure
@@ -73,6 +76,19 @@ cloud:
     notes:
       - https://cloud.google.com/certificate-authority-service/docs/using-cel
   hybrid-cloud: https://www.cloudflare.com/learning/cloud/what-is-hybrid-cloud/
+  iac:
+    ^: infrastructure as code
+    crossplane:
+      ^: https://crossplane.io/docs/
+      source: https://github.com/crossplane/crossplane
+      aws-provider: https://doc.crds.dev/github.com/crossplane/provider-aws/aws.crossplane.io/ProviderConfig/v1beta1@v0.31.0
+    terraform:
+      ^:
+      modules: https://registry.terraform.io/browse/modules
+      provider:
+        aws: https://registry.terraform.io/providers/hashicorp/aws/latest/docs
+        gcp: https://registry.terraform.io/providers/hashicorp/google/latest/docs
+      source: https://github.com/hashicorp/terraform
   multi-cloud: https://www.cloudflare.com/learning/cloud/what-is-multicloud/
   twilio:
     sendgrid:
@@ -102,6 +118,7 @@ code:
       - https://golang.google.cn/pkg/os/signal/
       - https://github.com/lizrice/strace-from-scratch
       - vulnerability management https://go.dev/blog/vuln
+    project-layout: https://github.com/golang-standards/project-layout
     ref:
       ^: https://go.dev/ref/spec
       context:
@@ -126,6 +143,12 @@ code:
     ^: https://code.visualstudio.com/docs
 comp-sci:
   ^: https://github.com/jwasham/coding-interview-university
+  ai:
+    diffusion: https://en.wikipedia.org/wiki/Diffusion_process
+    machine-learning:
+      deep-learning: https://github.com/tensorflow/tensorflow
+      get3d: https://github.com/nv-tlabs/GET3D
+      neural-network: https://datadan.io/blog/neural-net-with-go (https://github.com/dwhitena/gophernet/blob/master/main.go)
   algorithm: https://github.com/trekhleb/javascript-algorithms
   big-o-notation: Big O notation https://en.wikipedia.org/wiki/Big_O_notation
   binary:
@@ -168,12 +191,15 @@ datastore:
     postgres: https://www.postgresql.org/docs/
     sqllite:
       ^: https://www.sqlite.org/docs.html
+      cli: sqlite3 /var/lib/rancher/k3s/server/db/state.db
       compression: https://github.com/phiresky/sqlite-zstd
       litestream:
         ^: https://litestream.io/how-it-works/
         tips: https://litestream.io/tips/
         example:
           - https://mtlynch.io/litestream/
+      query:
+        - select value from kine where name = "/registry/apiregistration.k8s.io/apiservices/v1.events.k8s.io" order by create_revision desc limit 1
 k8s:
   ^: kubernetes https://kubernetes.io/docs/concepts/overview/components/ https://github.com/kubernetes/kubernetes/tree/master/pkg
   cncf: 
@@ -218,19 +244,30 @@ k8s:
   helm:
     public-charts: https://artifacthub.io/
     common-expression-language: https://github.com/google/cel-spec/blob/master/doc/intro.md
-  kube-api: https://kubernetes.io/docs/concepts/overview/kubernetes-api/
+  kube-api: 
+    ^: https://kubernetes.io/docs/concepts/overview/kubernetes-api/
+    aggregation: https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/apiserver-aggregation/
+    example:
+      - curl -k https://localhost:6443
+    metrics-server: https://github.com/kubernetes-sigs/metrics-server
   kube-proxy:
   kube-schedule:
   kubectl:
     example:
       change-namespace: kubectl config set-context --current --namespace=my-namespace
+      kube-proxy: kubectl proxy
   kubelet:
+  network-model: https://kubernetes.io/docs/concepts/services-networking/#the-kubernetes-network-model
   resources:
     clusterrole:
     crd:
       ^: custom resource definition https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/
       operator-pattern: https://kubernetes.io/docs/concepts/extend-kubernetes/operator/
     deploy:
+    event:
+      - https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/ Events such as the ones you saw at the end of kubectl describe pod are persisted in etcd and provide high-level information on what is happening in the cluster
+      - https://www.youtube.com/watch?v=K-F-p-ekSsM&t=737s
+      - https://github.com/vmware-archive/eventrouter/blob/master/main.go#L111
     ing:
       controller:
         nginx:
@@ -256,10 +293,10 @@ k8s:
     kops:
     kubeadm: https://kubernetes.io/docs/reference/setup-tools/kubeadm/ https://github.com/kubernetes/kubernetes/tree/master/cmd/kubeadm
     k3s:
-      ^: https://k3s.io/ https://rancher.com/docs/k3s/latest/en/
-      config:
-        ^: https://rancher.com/docs/k3s/latest/en/installation/install-options/server-config/
+      ^: https://docs.k3s.io/
+      config: https://docs.k3s.io/reference/server-config
       logs: https://medium.com/kubernetes-tutorials/cluster-level-logging-in-kubernetes-with-fluentd-e59aa2b6093a
+      storage: https://docs.k3s.io/storage
     rke:
       ^: rancher kubernetes engine
 linux:
@@ -541,6 +578,8 @@ security:
         - twilio signal phishing attack https://support.signal.org/hc/en-us/articles/4850133017242
         - https://blog.cloudflare.com/2022-07-sms-phishing-attacks/
   authoritative:
+  incidents:
+    - https://blog.lastpass.com/2022/08/notice-of-recent-security-incident/
   okta:
   ssl:
     ^: https://www.cloudflare.com/learning/ssl/what-is-ssl/
@@ -554,7 +593,7 @@ security:
     ^: https://www.twilio.com/docs/glossary/totp
   waf:
     ^: https://www.cloudflare.com/learning/ddos/glossary/web-application-firewall-waf/
-notes:
+uncategorized:
   - Conflict-Free Replicated Data Type (CRDT) https://github.com/automerge/automerge
   - WLAN Sensing
   - deepfake zoom call detection, turn sideways https://news.ycombinator.com/item?id=32385555
