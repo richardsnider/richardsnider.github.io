@@ -9,6 +9,7 @@ function search-files {
   grep --recursive --ignore-case --line-number $1 ${2:-.}
 }
 
+alias notes="curl --silent richardsnider.github.io/notes.yaml | yq"
 alias root-shell="sudo -s"
 alias read-perms="chmod 755" # rwx for owner, rx for group and all users
 alias symlink="ln -s"
