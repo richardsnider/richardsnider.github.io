@@ -65,6 +65,17 @@ cloud:
     iam:
     s3:
     vpc:
+    note:
+      - https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-target-tracking.html#available-metrics
+      - https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_TargetTrackingConfiguration.html
+      - https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints.html
+      - https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws_deny-ip.html
+      - https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html
+      - https://docs.aws.amazon.com/vpc/latest/reachability/what-is-reachability-analyzer.html
+      - https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_TagSpecification.html
+      - https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_TagSpecification.html
+      - https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html
+
   cloudflare:
     ^: https://www.cloudflare.com/learning/what-is-cloudflare/
     cdn: content delivery network https://www.cloudflare.com/learning/cdn/what-is-a-cdn/
@@ -118,6 +129,8 @@ code:
       - https://golang.google.cn/pkg/os/signal/
       - https://github.com/lizrice/strace-from-scratch
       - vulnerability management https://go.dev/blog/vuln
+      - https://github.com/zcalusic/sysinfo
+      - how to write golang https://go.dev/doc/code
     project-layout: https://github.com/golang-standards/project-layout
     ref:
       ^: https://go.dev/ref/spec
@@ -146,11 +159,19 @@ comp-sci:
   ai:
     diffusion: https://en.wikipedia.org/wiki/Diffusion_process
     machine-learning:
+      tool:
+        - https://dreamfusion3d.github.io/
+        - https://github.com/nv-tlabs/GET3D
+        - https://phenaki.video/index.html
       deep-learning: https://github.com/tensorflow/tensorflow
-      get3d: https://github.com/nv-tlabs/GET3D
       neural-network: https://datadan.io/blog/neural-net-with-go (https://github.com/dwhitena/gophernet/blob/master/main.go)
   algorithm: https://github.com/trekhleb/javascript-algorithms
-  big-o-notation: Big O notation https://en.wikipedia.org/wiki/Big_O_notation
+  big-o-notation:
+    ^: https://www.freecodecamp.org/news/big-o-notation-why-it-matters-and-why-it-doesnt-1674cfa8a23c/
+    example:
+      - efficiency of a function as the number of elements (n) trends towards infinity
+      - big o complexity chart http://biercoff.com/content/images/2016/07/Screenshot-2016-07-15-16-16-10.png
+      - Big O notation https://en.wikipedia.org/wiki/Big_O_notation
   binary:
     byte:
       ^: arbitrary yet standard data size
@@ -213,6 +234,15 @@ k8s:
     type:
       cilium:
         ^: eBPF based https://github.com/cilium/cilium
+      flannel:
+        vxlan-device: https://github.com/flannel-io/flannel/blob/master/backend/vxlan/device.go
+        netlink-dependency: https://github.com/vishvananda/netlink
+        source: https://github.com/flannel-io/flannel
+        note:
+          - no network policy capability
+      calico:
+        note:
+          - 
   cluster-data:
     alias: backing-store
     etcd: https://etcd.io/docs https://github.com/etcd-io/etcd
@@ -249,7 +279,9 @@ k8s:
     aggregation: https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/apiserver-aggregation/
     example:
       - curl -k https://localhost:6443
-    metrics-server: https://github.com/kubernetes-sigs/metrics-server
+    metrics:
+      pipeline: https://kubernetes.io/docs/tasks/debug/debug-cluster/resource-metrics-pipeline/#metrics-api
+      server: https://github.com/kubernetes-sigs/metrics-server
   kube-proxy:
   kube-schedule:
   kubectl:
@@ -740,9 +772,6 @@ uncategorized:
   - https://www.kernel.org/doc/html/latest/userspace-api/ebpf/syscall.html
   - https://github.com/cilium/ebpf/blob/master/examples/tracepoint_in_go/main.go
   - https://www.youtube.com/watch?v=wf8N0RO81Cs
-  - https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-target-tracking.html#available-metrics
-  - https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_TargetTrackingConfiguration.html
-  - https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints.html
   - https://www.iana.org/assignments/media-types/media-types.xhtml#application
   - https://httpwg.org/http-core/draft-ietf-httpbis-semantics-latest.html
   - https://nickolinger.com/blog/2021-08-04-you-dont-need-that-cors-request/
@@ -757,7 +786,6 @@ uncategorized:
   - https://blog.immersed.team/working-from-orbit-39bf95a6d385
   - https://globe.gl/example/submarine-cables/
   - https://www.dotnetperls.com/convert-map-slice-go
-  - big o complexity chart http://biercoff.com/content/images/2016/07/Screenshot-2016-07-15-16-16-10.png
   - https://hak5.org/
   - https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths
   - https://github.com/golang/go/wiki/MutexOrChannel
@@ -768,16 +796,13 @@ uncategorized:
   - https://globe.adsbexchange.com/
   - https://developers.google.com/maps/documentation/javascript/examples/map-projection-simple#maps_map_projection_simple-javascript
   - https://ns6t.net/azimuth/
-  - https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_examples_aws_deny-ip.html
   - https://secrethub.io/integrations/github-actions/
-  - https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html
   - https://yourbasic.org/golang/format-parse-string-time-date-example/
   - https://devhints.io/jsdoc
   - https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions
   - https://favicon.io/favicon-generator/
   - https://avatars.githubusercontent.com/u/40783698?s=200&v=4
   - https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing
-  - https://docs.aws.amazon.com/vpc/latest/reachability/what-is-reachability-analyzer.html
   - https://blog.golang.org/defer-panic-and-recover
   - https://pkg.go.dev/github.com/gorilla/mux#Router
   - https://docs.github.com/en/actions/reference/workflow-commands-for-github-actions#setting-an-environment-variable
@@ -805,7 +830,6 @@ uncategorized:
   - https://stackoverflow.com/questions/750172/how-to-change-the-author-and-committer-name-and-e-mail-of-multiple-commits-in-gi
   - https://sci-hub.se/
   - https://webdesign.tutsplus.com/tutorials/how-to-create-an-open-source-directory-on-github-pages--cms-26225
-  - https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_TagSpecification.html
   - https://www.theplanetstoday.com/index.html
   - https://www.digitalattackmap.com/#anim=1&color=0&country=ALL&list=0&time=18681&view=map
   - https://globe.akamai.com/
@@ -858,6 +882,4 @@ uncategorized:
   - http://blog.functorial.com/posts/2018-04-08-Incrementally-Improving-The-DOM.html
   - https://blog.sessionstack.com/how-does-javascript-actually-work-part-1-b0bacc073cf
   - https://app.codility.com/programmers/
-  - https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_TagSpecification.html
-  - https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html
   - https://pkg.go.dev/net@latest#Dial
