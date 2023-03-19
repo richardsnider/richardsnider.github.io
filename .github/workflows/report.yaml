@@ -1,0 +1,20 @@
+# https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
+name: daily-report
+on:
+  schedule:
+    - cron: 0 0,12 * * * # run everyday at noon and midnight (UTC)
+defaults:
+  run:
+    shell: bash -ex {0} # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#custom-shell
+jobs:
+  generate-report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: richardsnider.github.io
+        run: | # https://docs.github.com/en/rest/actions/workflow-runs#list-workflow-runs-for-a-repository
+          gh api repos/richardsnider/richardsnider.github.io/actions/runs
+  intentional-failure-notification:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          >&2 echo "Report Complete (Intentional Fail Notification)"
