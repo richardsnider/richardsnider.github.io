@@ -389,7 +389,21 @@ linux:
       - https://discord.com/blog/how-discord-supercharges-network-disks-for-extreme-low-latency
   kernel:
     ^: https://github.com/torvalds/linux
-    ebpf: https://ebpf.io/what-is-ebpf
+    ebpf: 
+      ^: https://ebpf.io/what-is-ebpf
+      bpftrace:
+        examples:
+          listing-probes: bpftrace -l 'tracepoint:syscalls:sys_enter_*'
+          hello-world: bpftrace -e 'BEGIN { printf("hello world\n") }'
+          file-opens: bpftrace -e 'tracepoint:syscalls:sys_enter_open { printf("%s %s\n", comm, str(args->filename)) }'
+          syscall-counts by process: bpftrace -e 'tracepoint:raw_syscalls:sys_enter { @[comm] = count() }'
+          distribution-of read() bytes: bpftrace -e 'tracepoint:syscalls:sys_exit_read /pid == 18644/ { @bytes = hist(args->retval) }'
+          kernel-dynamic tracing of read() bytes: bpftrace -e 'kretprobe:vfs_read { @bytes = lhist(retval, 0, 2000, 200) }'
+          timing-read()s: bpftrace -e 'kprobe:vfs_read { @start[tid] = nsecs } kretprobe:vfs_read /@start[tid]/ { @ns[comm] = hist(nsecs - @start[tid]); delete(@start[tid]) }'
+          count-process-level events: bpftrace -e 'tracepoint:sched:sched* { @[name] = count() } interval:s:5 { exit() }'
+          profile-on-CPU kernel stacks: bpftrace -e 'profile:hz:99 { @[stack] = count() }'
+          scheduler-tracing: bpftrace -e 'tracepoint:sched:sched_switch { @[stack] = count() }'
+          block-I/O tracing: bpftrace -e 'tracepoint:block:block_rq_issue { @ = hist(args->bytes); }
     syscall: https://man7.org/linux/man-pages/man2/syscalls.2.html
     cgroup:
       ^: >
