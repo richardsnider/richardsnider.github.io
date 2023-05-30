@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 export PATH=$PATH:/usr/local/go/bin
 
-function search-bashrc {
-  grep $1 ~/.bashrc
-}
-
 function search-files {
   grep --recursive --ignore-case --line-number $1 ${2:-.}
 }
