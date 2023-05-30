@@ -19,6 +19,15 @@ function wiki {
   done
 }
 
+function hn {
+  ALGOLIA_URL='https://uj5wyc0l7x-dsn.algolia.net/1/indexes/Item_production_ordered/query'
+  ALGOLIA_PARAMS='?x-algolia-api-key=8ece23f8eb07cd25d40262a1764599b1&x-algolia-application-id=UJ5WYC0L7X'
+  ONE_WEEK_AGO_EPOCH=$(date -d "1 week ago" +%s)
+  curl --silent $ALGOLIA_URL$ALGOLIA_PARAMS --data-raw '{"page":0,"hitsPerPage":30,"numericFilters":["created_at_i>'$ONE_WEEK_AGO_EPOCH'"]}' > /tmp/hn-algolia.json
+  HN_URL_PREFIX='https://news.ycombinator.com/item?id='
+  yq '.hits[] | pick(["title", "url", "objectID", "points"])' /tmp/hn-algolia.json -P
+}
+
 alias notes="curl --silent richardsnider.github.io/notes.yaml | yq"
 alias root-shell="sudo -s"
 alias read-perms="chmod 755" # rwx for owner, rx for group and all users
