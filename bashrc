@@ -24,6 +24,21 @@ function hn {
   yq '.hits[] | pick(["title", "url", "objectID", "points"])' /tmp/hn-algolia.json -P
 }
 
+function monitor {
+  while true; do
+    clear
+    echo "#####################################################################################################################" >> /tmp/monitor.log
+    date +%s.%N >> /tmp/monitor.log
+    ps -eo pcpu,pid,user,args | sort -k 1 -r | head -5 >> /tmp/monitor.log
+    ps -eo pmem,pid,user,args | sort -k 1 -r | head -5 >> /tmp/monitor.log
+    df -h >> /tmp/monitor.log
+    # largest open files
+    lsof -s | awk '$5 == "REG"' | sort -u -n -r -k 7,7 | head -n 5 >> /tmp/monitor.log
+    lsof -i >> /tmp/monitor.log
+    sleep 5
+  done
+}
+
 alias notes="curl --silent richardsnider.github.io/notes.yaml | yq"
 alias root-shell="sudo -s"
 alias read-perms="chmod 755" # rwx for owner, rx for group and all users
