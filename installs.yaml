@@ -1,0 +1,120 @@
+aws:
+  url: https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html
+  script: |
+    #!/usr/bin/env bash
+    set -ex
+    sudo apt install curl unzip
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
+    unzip /tmp/awscliv2.zip
+    sudo /tmp/aws/install
+    rm -rf /tmp/aws /tmp/awscliv2.zip
+brave:
+  script: |
+    #!/usr/bin/env bash
+    set -ex
+    sudo apt install apt-transport-https curl
+    sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+    echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+    sudo apt update
+    sudo apt install brave-browser
+brew:
+  url: https://docs.brew.sh/Homebrew-on-Linux#alternative-installation
+  script: | 
+    #!/usr/bin/env bash
+    set -ex
+    git clone https://github.com/Homebrew/brew $HOME/.linuxbrew/Homebrew
+    mkdir $HOME/.linuxbrew/bin
+    ln -s $HOME/.linuxbrew/Homebrew/bin/brew $HOME/.linuxbrew/bin
+    eval $($HOME/.linuxbrew/bin/brew shellenv)
+    brew update
+    brew upgrade
+    brew --version
+docker:
+  url: https://docs.docker.com/engine/install/ubuntu/
+  script: |
+    #!/usr/bin/env bash
+    set -ex
+    sudo apt-get install -y software-properties-common python-software-properties
+    sudo add-apt-repository -y ppa:hluk/copyq
+    sudo apt-get update -y
+    sudo apt-get install -y copyq#!/usr/bin/env bash
+    set -ex
+    sudo apt-get install --yes ca-certificates curl gnupg 
+    sudo install -m 0755 -d /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    sudo chmod a+r /etc/apt/keyrings/docker.gpg
+    echo \
+      "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+      "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+      sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    sudo apt-get update
+    sudo apt-get install --yes docker-ce docker-ce-cli containerd.io docker-buildx-plugin
+git-ssh-setup:
+  script: |
+    #!/usr/bin/env bash
+    set -ex
+    ssh-keygen -t ed25519 -C "" -N "" -f $HOME/.ssh/id_ed25519
+    echo "Host github.com
+    User git
+    Hostname github.com
+    PreferredAuthentications publickey
+    IdentityFile $HOME/.ssh/id_ed25519" >> $HOME/.ssh/config
+    cat $HOME/.ssh/id_ed25519.pub >> $HOME/.ssh/authorized_keys
+    chmod --recursive 700 $HOME/.ssh
+    eval "$(ssh-agent -s)"
+    ssh-add -qv $HOME/.ssh/id_ed25519
+    ssh -o StrictHostKeyChecking=no -vT git@github.com
+golang:
+  url: https://github.com/golang/go/wiki/Ubuntu
+  script: |
+    #!/usr/bin/env bash
+    set -ex
+    sudo add-apt-repository ppa:longsleep/golang-backports
+    sudo apt update
+    sudo apt install --yes golang-go
+kubectl:
+  url: https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-native-package-management
+  script: |
+    #!/usr/bin/env bash
+    set -ex
+    curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+    echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+    sudo apt-get update
+    sudo apt-get install -y kubectl
+qemu:
+  script: |
+    #!/usr/bin/env bash
+    set -ex
+    sudo apt-get install -y qemu-kvm qemu virt-manager virt-viewer libvirt-bin
+nodejs:
+  url: https://github.com/nodesource/distributions/blob/master/README.md#debinstall
+  script:
+    #!/usr/bin/env bash
+    set -ex
+    curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+    sudo apt-get install -y nodejs
+terraform:
+  url: https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli#install-terraform
+  script: |
+    #!/usr/bin/env bash
+    sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
+    wget -O- https://apt.releases.hashicorp.com/gpg | \
+        gpg --dearmor | \
+        sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+    echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
+        https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
+        sudo tee /etc/apt/sources.list.d/hashicorp.list
+    sudo apt update
+    sudo apt-get install terraform
+vscode:
+  url: https://code.visualstudio.com/docs/setup/linux
+  script: |
+    #!/usr/bin/env bash
+    set -ex
+    sudo apt-get install wget gpg apt-transport-https --yes
+    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+    sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+    sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+    rm -f packages.microsoft.gpg
+    sudo apt update
+    sudo apt install code --yes
