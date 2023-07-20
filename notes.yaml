@@ -221,6 +221,12 @@ datastore:
           - https://mtlynch.io/litestream/
       query:
         - select value from kine where name = "/registry/apiregistration.k8s.io/apiservices/v1.events.k8s.io" order by create_revision desc limit 1
+engineering:
+  electronics:
+    transistor:
+      bjt:
+      mosfet:
+      op-amp:
 k8s:
   ^: kubernetes https://kubernetes.io/docs/concepts/overview/components/ https://github.com/kubernetes/kubernetes/tree/master/pkg
   cncf: 
@@ -250,7 +256,8 @@ k8s:
   controller-manager:
   cri:
     ^: container runtime interface https://kubernetes.io/docs/concepts/architecture/cri/
-    container: https://en.wikipedia.org/wiki/OS-level_virtualization
+    container: 
+      ^: https://en.wikipedia.org/wiki/OS-level_virtualization
     cri-o: https://github.com/cri-o/cri-o
     containerd:
       ^: https://github.com/containerd/containerd/tree/main/docs
@@ -267,6 +274,9 @@ k8s:
       ^: https://docs.docker.com/reference/
       cli:
         ^: https://github.com/docker/cli
+        examples:
+          run-container-endlessly: docker run --name alpine --rm --detached --publish 3000:80 golang:alpine sleep infinity
+          shell-into-container: docker exec -it alpine sh
       compose: https://github.com/docker/compose
     oci: open container initiative
     pause-container: https://www.ianlewis.org/en/almighty-pause-container
@@ -304,7 +314,7 @@ k8s:
       controller:
         nginx:
         gloo:
-    pod:
+    pod: https://www.ianlewis.org/en/what-are-kubernetes-pods-anyway
     pvc:
     svc:
       type:
@@ -357,9 +367,9 @@ linux:
       anacrontab: https://www.man7.org/linux/man-pages/man5/anacrontab.5.html
       crontab: https://man7.org/linux/man-pages/man5/crontab.5.html
       du:
-        _: disk usage
+        ^: disk usage
         example:
-          - du -a -- sh
+          - du -had 2 /etc | sort -h
       grep:
         - https://regex101.com/
       ls:
@@ -370,17 +380,65 @@ linux:
         - https://carlosbecker.dev/posts/ssh-tips-and-tricks/
       strace:
       systemctl:
+      watch:
+        examples:
+          view-open-sockets: watch -n 0.2 "date +%s.%N && lsof -i"
+    practice:
+      - run a golang proxy container
+      - run a javascript proxy container
+      - create an eks cluster and install prometheus and grafana
+      - create a k3s cluster on ec2 and install prometheus and grafana
+      - list largest files in a directory
+      - find the docker service, find the service using the most memory
+      - list ip address
+      - list ip tables
+      - monitor open sockets and the epoch date down to nano seconds
+      - list all root directories and compare results
+      - install yq
+      - filter notes.yaml and bashrc
     sym-link: symbolic link
   filesystem:
     directories:
-      /etc:
-        /etc/hosts:
-        /etc/crontab:
-          ^: https://www.man7.org/linux/man-pages/man8/cron.8.html
-        /etc/anacrontab:
-          ^: https://www.man7.org/linux/man-pages/man8/anacron.8.html
-      /proc:
-      /var:
+      normal:
+        boot:
+        bin:
+        etc:
+          /etc/hosts:
+          /etc/crontab:
+            ^: https://www.man7.org/linux/man-pages/man8/cron.8.html
+          /etc/anacrontab:
+            ^: https://www.man7.org/linux/man-pages/man8/anacron.8.html
+        home:
+        mount:
+        opt:
+        root:
+        run: https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch03s15.html
+        srv:
+        tmp:
+        usr:
+          bin:
+          include:
+          lib:
+          lib32:
+          lib64:
+          libexec:
+          libx32:
+          local:
+          sbin:
+          shared:
+          src:
+        var:
+      virtual:
+        dev:
+        proc:
+        sys:
+      sym-linked:
+        bin: /usr/bin
+        lib: /usr/lib
+        lib32: /usr/lib32
+        lib64: /usr/lib64
+        libx32: /usr/libx32
+        sbin: /usr/sbin
     ext4: https://ext4.wiki.kernel.org/index.php/Ext4_Howto
     inode: https://www.redhat.com/sysadmin/inodes-linux-filesystem
   hardware:
@@ -422,6 +480,7 @@ linux:
     dist:
       ^: distribution https://en.wikipedia.org/wiki/Linux_distribution
       alpine:
+        busybox: https://github.com/mirror/busybox
       debian:
         ubuntu:
       redhat:
@@ -879,7 +938,6 @@ uncategorized:
   - https://yqnn.github.io/svg-path-editor/
   - https://www.mgasch.com/post/scratch/
   - https://github.com/surma/gobox
-  - https://github.com/mirror/busybox
   - https://github.com/robertdavidgraham/masscan
   - https://secretgeek.github.io/html_wysiwyg/html.html
   - https://jrl.ninja/etc/1/
