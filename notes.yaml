@@ -396,6 +396,7 @@ linux:
       - list all root directories and compare results
       - install yq
       - filter notes.yaml and bashrc
+      - create a tcpdump systemd service
     sym-link: symbolic link
   filesystem:
     directories:
