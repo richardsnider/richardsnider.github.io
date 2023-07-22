@@ -44,8 +44,8 @@ alias root-shell="sudo -s"
 alias read-perms="chmod 755" # rwx for owner, rx for group and all users
 alias symlink="ln -s"
 alias list="ls -thal"
-alias ps-cpu="ps -Ao user,pcpu,pid,command --sort=pcpu"
-alias ps-mem="ps -Ao user,pmem,s,pid,command --sort=pmem"
+alias ps-cpu="ps -Ao user,pcpu,ppid,pid,command --sort=pcpu"
+alias ps-mem="ps -Ao user,pmem,ppid,pid,command --sort=pmem"
 alias install-debian-file="dpkg --install" # ~/Downloads/some-package.deb
 alias apt-purge="apt-get purge" # delete package and related configuration files
 alias show-apt-repositories="ls /etc/apt/sources.list.d"
