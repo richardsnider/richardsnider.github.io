@@ -112,7 +112,7 @@ code:
     ^: https://github.com/git/git https://mirrors.edge.kernel.org/pub/software/scm/git/
     cli:
       ^: https://git-scm.com/docs
-      examples:
+      example:
         - http://guides.beanstalkapp.com/version-control/common-git-commands.html
     github:
       ^: https://docs.github.com/en
@@ -123,6 +123,77 @@ code:
     gitlab:
   golang:
     ^: https://go.dev/doc/ https://github.com/golang/go
+    example:
+      server: |
+        package main
+
+        import (
+        	"encoding/json"
+        	"fmt"
+        	"net"
+        	"os"
+        	"os/exec"
+        	"time"
+
+        	"github.com/samber/lo"
+        )
+
+        func main() {
+        	port, _ := lo.Coalesce(os.Getenv("APP_PORT"), "80")
+
+        	ln, err := net.Listen("tcp", ":"+port)
+        	if err != nil {
+        		panic(err)
+        	}
+
+        	fmt.Println("Listening on port " + port)
+
+        	for {
+        		conn, err := ln.Accept()
+        		if err != nil {
+        			fmt.Println(err)
+        			continue
+        		}
+
+        		go func(c net.Conn) {
+        			fmt.Println("request received")
+        			commandOutput, err := exec.Command("curl", "ifconfig.me/all.json").Output()
+        			if err != nil {
+        				fmt.Println(err)
+        				return
+        			}
+
+        			requestData := map[string]interface{}{
+        				"id":           lo.RandomString(32, []rune{'a', 'b', 'c'}),
+        				"timestamp":    time.Now().UTC().UnixMicro(),
+        				"remoteAddr":   c.RemoteAddr().String(),
+        				"curlResponse": string(commandOutput),
+        			}
+
+        			jsonBytes, err := json.Marshal(requestData)
+        			if err != nil {
+        				fmt.Println(err)
+        				return
+        			}
+
+        			err = os.WriteFile("/tmp/data.json", jsonBytes, 0644)
+        			if err != nil {
+        				fmt.Println(err)
+        				return
+        			}
+
+        			fileBytes, err := os.ReadFile("/tmp/data.json")
+        			if err != nil {
+        				fmt.Println(err)
+        				return
+        			}
+
+        			fmt.Println(string(fileBytes))
+        			c.Write([]byte("HTTP/1.0 200 OK\r\n\r\n"))
+        			c.Close()
+        		}(conn)
+        	}
+        }
     notes:
       - https://github.com/valyala/goloris/blob/master/goloris.go
       - https://golangcode.com/print-the-current-memory-usage/
@@ -274,7 +345,7 @@ k8s:
       ^: https://docs.docker.com/reference/
       cli:
         ^: https://github.com/docker/cli
-        examples:
+        example:
           run-container-endlessly: docker run --name alpine --rm --detached --publish 3000:80 golang:alpine sleep infinity
           shell-into-container: docker exec -it alpine sh
       compose: https://github.com/docker/compose
@@ -353,7 +424,7 @@ linux:
       character: "|"
     redirect:
       character: ">"
-      examples:
+      example:
         - command 2> error.txt 1> output.txt
         - command > output_file 2>&1 & # redirect background process
     io-file-descriptor:
@@ -381,7 +452,7 @@ linux:
       strace:
       systemctl:
       watch:
-        examples:
+        example:
           view-open-sockets: watch -n 0.2 "date +%s.%N && lsof -i"
     practice:
       - run a golang proxy container
@@ -451,7 +522,7 @@ linux:
     ebpf: 
       ^: https://ebpf.io/what-is-ebpf
       bpftrace:
-        examples:
+        example:
           hello-world: bpftrace -e 'BEGIN { printf("hello world\n") }'
           list-probes: bpftrace -l 'tracepoint:syscalls:sys_enter_*'
           syscall-counts-by-process: bpftrace -e 'tracepoint:raw_syscalls:sys_enter { @[comm] = count() }'
