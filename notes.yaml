@@ -41,21 +41,6 @@ browser:
     web: web worker https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API
   xss:
     ^: cross site scripting https://www.cloudflare.com/learning/security/threats/cross-site-scripting/
-chem:
-  bio:
-    neuromodulator:
-      acetylcholine: memory/focus
-      adrenaline: epinephrine
-      dopamine: motivation
-      serotonin: contentness
-    routine:
-      - sunlight
-      - meditate
-      - maximize repitions
-      - focus on errors
-      - caffeine
-      - snapshot review
-      - cold exposure
 cloud:
   ^: https://www.cloudflare.com/learning/cloud/what-is-the-cloud/ https://en.wikipedia.org/wiki/Cloud_computing
   aws:
@@ -294,6 +279,8 @@ datastore:
       query:
         - select value from kine where name = "/registry/apiregistration.k8s.io/apiservices/v1.events.k8s.io" order by create_revision desc limit 1
 engineering:
+  chem:
+    doping: https://en.wikipedia.org/wiki/Doping_(semiconductor)
   electronics:
     transistor:
       bjt:
