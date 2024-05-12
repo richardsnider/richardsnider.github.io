@@ -1,4 +1,5 @@
 # "^" key is reserved for a parent object's general definition/hyperlinks
+^: curl -Lk github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /tmp/yq
 browser:
   cache: https://developer.mozilla.org/en-US/docs/Web/API/Cache
   chrome:
