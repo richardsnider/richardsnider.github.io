@@ -1,6 +1,6 @@
 # "^" key is reserved for a parent object's general definition/hyperlinks
 ^: # information for how to query the data in this file
-  install: curl -Lk github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /tmp/yq
+  install: sudo curl -Lk github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /bin/yq && sudo chmod +x /bin/yq
   docs: https://mikefarah.gitbook.io/yq/recipes
   examples:
     - yq '. | keys' notes.yaml
