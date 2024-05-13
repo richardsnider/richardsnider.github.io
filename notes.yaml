@@ -1,5 +1,12 @@
 # "^" key is reserved for a parent object's general definition/hyperlinks
-^: curl -Lk github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /tmp/yq
+^: # information for how to query the data in this file
+  install: curl -Lk github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /tmp/yq
+  docs: https://mikefarah.gitbook.io/yq/recipes
+  examples:
+    - yq '. | keys' notes.yaml
+    - yq '.. | select(. == "*linux*")' notes.yaml
+    - yq '.. | select(. == "*sql*") | {(path | join(".")):.}' notes.yaml
+    - yq '.linux' notes.yaml
 browser:
   cache: https://developer.mozilla.org/en-US/docs/Web/API/Cache
   chrome:
@@ -457,13 +464,6 @@ linux:
       - filter notes.yaml and bashrc
       - create a tcpdump systemd service
     sym-link: symbolic link
-    yq:
-     docs: https://mikefarah.gitbook.io/yq/recipes
-     examples:
-      - yq '. | keys' notes.yaml
-      - yq '.. | select(. == "*linux*")' notes.yaml
-      - yq '.. | select(. == "*linux*") | {(path | join(".")):.}' notes.yaml
-      - yq '.linux' notes.yaml
   filesystem:
     directories:
       normal:
