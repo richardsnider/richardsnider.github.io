@@ -457,6 +457,13 @@ linux:
       - filter notes.yaml and bashrc
       - create a tcpdump systemd service
     sym-link: symbolic link
+    yq:
+     docs: https://mikefarah.gitbook.io/yq/recipes
+     examples:
+      - yq '. | keys' notes.yaml
+      - yq '.. | select(. == "*linux*")' notes.yaml
+      - yq '.. | select(. == "*linux*") | {(path | join(".")):.}' notes.yaml
+      - yq '.linux' notes.yaml
   filesystem:
     directories:
       normal:
