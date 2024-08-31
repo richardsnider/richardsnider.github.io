@@ -947,14 +947,153 @@ engineering:
         type: actinide
     doping: https://en.wikipedia.org/wiki/Doping_(semiconductor)
   electronics:
+    lorentz-force: F = q(E + v x B)
+    coulombs-law: F = k(q1q2)/r^2
+    faradays-law: V = -dΦ/dt
+    maxwell-equations:
+      gauss-law-magnetism: ∇⋅B = 0
+      faraday-law: ∇xE = -∂B/∂t
+      ampere-law: ∇xB = μ₀J + μ₀ε₀∂E/∂t
+    ohms-law: V = IR
+    kirchhoffs-law:
+      current: ΣI = 0
+      voltage: ΣV = 0
+    resistor:
+      ohm: Ω
+      power: P = IV = (I^2)R = (V^2)/R
+      series: R = R1 + R2 + R3
+      parallel: 1/R = 1/R1 + 1/R2 + 1/R3
+    inductor:
+      henry: H
+      energy: W = 1/2LI^2
+      voltage: V = L(dI/dt)
+      series: L = L1 + L2 + L3
+      parallel: 1/L = 1/L1 + 1/L2 + 1/L3
+    capacitor:
+      farad: F
+      energy: W = 1/2CV^2
+      voltage: V = Q/C
+      series: C = C1 + C2 + C3
+      parallel: 1/C = 1/C1 + 1/C2 + 1/C3
+    diode:
+      forward-voltage: 0.7V
+      reverse-voltage: 50V
+      current: I = I_s(e^(V/VT) - 1)
+      power: P = IV
+      rectifier:
+        half-wave: Vdc = Vm/π
+        full-wave: Vdc = 2Vm/π
+        bridge: Vdc = 2Vm/π
     transistor:
       bjt:
+        npn:
+          current: Ic = β*Ib
+          voltage: Vce = Vcc - Ic*Rc
+          power: P = IV
+        pnp:
+          current: Ic = β*Ib
+          voltage: Vce = Vcc + Ic*Rc
+          power: P = IV
       mosfet:
+        n-channel:
+          current: Id = k(Vgs - Vt)^2
+          voltage: Vds = Vdd - Id*Rd
+          power: P = IV
+        p-channel:
+          current: Id = k(Vgs - Vt)^2
+          voltage: Vds = Vdd + Id*Rd
+          power: P = IV
       op-amp:
+        inverting: Vout = -Rf/R1 * Vin
+        non-inverting: Vout = (1 + Rf/R1) * Vin
+        summing: Vout = -Rf/R1 * Vin1 - Rf/R2 * Vin2
+        difference: Vout = (Rf/R1) * (Vin1 - Vin2)
   math:
+    linear-algebra:
+      cross-product:
+        calculation: A x B = (A2B3 - A3B2)i + (A3B1 - A1B3)j + (A1B2 - A2B1)k
+        magnitude: "|A x B| = |A||B|sin(θ)"
+        direction: right-hand-rule
+        area: A = |A x B|
+        volume: V = |A x B| * h
+        examples:
+          - force: F = q(v x B)
+          - torque: τ = r x F
+          - angular-momentum: L = r x p
+          - magnetic-moment: μ = I x A
+          - angular-velocity: ω = r x v
+      dot-product:
+        calculation: A • B = A1B1 + A2B2 + A3B3
+        magnitude: "|A • B| = |A||B|cos(θ)"
+        projection: A • B = |A||B|cos(θ)
+        angle: cos(θ) = A • B / |A||B|
+      matrix:
+        transpose: A^T
+        inverse: A^-1
+        determinant:
+          symbol: "|A|"
+          2x2: ad - bc
+          3x3: a(ei - fh) - b(di - fg) + c(dh - eg)
+          4x4: a(ei - fh) - b(di - fg) + c(dh - eg) - d(eh - fg)
+        trace: tr(A)
+        adjoint: adj(A)
+        rank: rank(A)
+        eigenvalue: λ
+        eigenvector: v
+        diagonalization: A = PDP^-1
+        singular-value-decomposition: A = UΣV^T
+        cholesky-decomposition: A = LL^T
+        qr-decomposition: A = QR
+        lu-decomposition: A = LU
+        svd: https://en.wikipedia.org/wiki/Singular-value_decomposition
+        qr: https://en.wikipedia.org/wiki/QR_decomposition
+        lu: https://en.wikipedia.org/wiki/LU_decomposition
+        cholesky: https://en.wikipedia.org/wiki/Cholesky_decomposition
+        diagonal: https://en.wikipedia.org/wiki/Diagonal_matrix
+        identity: https://en.wikipedia.org/wiki/Identity_matrix
+        orthogonal: https://en.wikipedia.org/wiki/Orthogonal_matrix
+        symmetric: https://en.wikipedia.org/wiki/Symmetric_matrix
+    calculus:
+      derivative:
+        symbol: d/dx
+        definition: f'(x) = lim(h->0) (f(x + h) - f(x)) / h
+        rules:
+          constant: d/dx(c) = 0
+          power: d/dx(x^n) = nx^(n-1)
+          sum: d/dx(f(x) + g(x)) = f'(x) + g'(x)
+          product: d/dx(f(x) * g(x)) = f'(x)g(x) + f(x)g'(x)
+          quotient: d/dx(f(x) / g(x)) = (f'(x)g(x) - f(x)g'(x)) / g(x)^2
+          chain: d/dx(f(g(x))) = f'(g(x)) * g'(x)
+        notation:
+          - f'(x) = df/dx
+          - f''(x) = d^2f/dx^2
+      integral:
+        symbol: ∫
+        definition: F'(x) = f(x)
+        rules:
+          constant: ∫c dx = cx + C
+          power: ∫x^n dx = x^(n+1) / (n+1) + C
+          sum: ∫(f(x) + g(x)) dx = ∫f(x) dx + ∫g(x) dx
+          product: ∫f(x)g(x) dx = f(x)∫g(x) dx - ∫f'(x)∫g(x) dx
+          quotient: ∫f(x) / g(x) dx = ∫f(x) dx / ∫g(x) dx
+          substitution: ∫f(g(x))g'(x) dx = ∫f(u) du
+          by-parts: ∫u dv = uv - ∫v du
+        notation:
+          - ∫f(x) dx = F(x) + C
+          - ∫f(x) dx = ∫f(x) dx
+      limit:
+        symbol: lim
+        notation: lim(x->c) f(x)
+        definition: lim(x->c) f(x) = L if for all ε > 0 there exists δ > 0 such that 0 < |x
     (-1)^x:
+      equivalent: (i^2)^x == i^(2x)
+      coincidentally: i^(2/pi) == e^i
+      euler: (e^pi)^(i*x) == e^(i*pi*x)
       trig: cos(pi*x) + i*sin(pi*x)
-      euler: e^(i*pi*x)
+      sin-series: x - x^3/3! + x^5/5! - x^7/7! + x^9/9! - x^11/11! + x^13/13! - x^15/15!...
+      cos-series: 1 - x^2/2! + x^4/4! - x^6/6! + x^8/8! - x^10/10! + x^12/12! - x^14/14!...
+      e-series: 1 + i*pi*x - pi^2*x^2/2! - i*pi^3*x^3/3! + pi^4*x^4/4! + i*pi^5*x^5/5! - pi^6*x^6/6! - i*pi^7*x^7/7!...
+
       derivative: i*pi*(-1)^x
     pythagorean:
       - 1 + 1 = √2
@@ -965,6 +1104,7 @@ engineering:
     sin(pi/6): 1/2
     sin(pi/4): √2/2
     sin(pi/3): √3/2
+
     √2:
       decimal: 1.41421356237
       inverse: 0.70710678118

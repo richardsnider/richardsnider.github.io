@@ -56,6 +56,7 @@ alias tty-ui="chvt 7" # Alternative to Ctrl+Alt+F7
 alias archive="tar --create --gzip --file" # (-czf) compressed archive file then target directory
 alias extract="tar --extract --gzip --file" # (-xzf) compressed archive file
 alias aws-metadata="curl http://169.254.169.254/latest/meta-data/"
+alias rm-trash="mv --force --target-directory=$HOME/.local/share/Trash/files"
 
 function decrypt-folder {
   sudo mount -t ecryptfs  $1 $1 -o ecryptfs_cipher=aes,ecryptfs_key_bytes=32,ecryptfs_passthrough=n,ecryptfs_enable_filename_crypto=y 
