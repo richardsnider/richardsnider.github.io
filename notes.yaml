@@ -1294,7 +1294,7 @@ linux:
       - list all root directories and diff results
       - install yq
       - list all instances of "sql" in notes.yaml
-      - list all keys in notes.yaml
+      - list all keys in notes.yaml as a single csv line
       - create a tcpdump systemd service
       - compress and encrypt a directory
     sym-link: symbolic link
