@@ -1281,19 +1281,22 @@ linux:
         example:
           view-open-sockets: watch -n 0.2 "date +%s.%N && lsof -i"
     practice:
-      - run a golang proxy container
-      - run a javascript proxy container
+      - install docker
+      - compile a basic C program
+      - build and run a nodejs container
       - create an eks cluster and install prometheus and grafana
-      - create a k3s cluster on ec2 and install prometheus and grafana
+      - create a k3s cluster and install prometheus and grafana
       - list largest files in a directory
       - find the docker service, find the service using the most memory
       - list ip address
       - list ip tables
       - monitor open sockets and the epoch date down to nano seconds
-      - list all root directories and compare results
+      - list all root directories and diff results
       - install yq
-      - filter notes.yaml and bashrc
+      - list all instances of "sql" in notes.yaml
+      - list all keys in notes.yaml
       - create a tcpdump systemd service
+      - compress and encrypt a directory
     sym-link: symbolic link
   filesystem:
     directories:
