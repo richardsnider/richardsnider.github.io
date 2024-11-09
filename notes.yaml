@@ -1272,6 +1272,10 @@ linux:
       ls:
         example:
           - ls -thal
+      openssl:
+        example:
+          - tar -czf - /tmp/files | openssl enc -e -aes256 -out /tmp/archive.tar.gz
+          - openssl enc -d -aes256 -in /tmp/archive.tar.gz | tar -xz
       ptrace:
       ssh:
         - https://carlosbecker.dev/posts/ssh-tips-and-tricks/
