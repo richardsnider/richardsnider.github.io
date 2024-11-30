@@ -209,6 +209,47 @@ code:
       ^: https://developer.mozilla.org/en-US/docs/Web/API
       fetch: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
     closure: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures
+    example:
+      - |
+        const fs = require('node:fs');
+        const crypto = require('node:crypto');
+        const http = require('node:http');
+
+        const server = http.createServer((req, res) => {
+          let body = '';
+          req.on('data', chunk => body += chunk);
+
+          req.on('end', () => {
+            const data = JSON.parse(body);
+            if (!data || !data.string || !data.pos) {
+              res.end('Invalid request');
+              return;
+            }
+
+            fs.openSync('/tmp/data.txt', 'a');
+            const fd = fs.openSync('/tmp/data.txt', 'r+');
+            fs.writeSync(fd, data.string, data.pos);
+
+            const content = fs.readFileSync(fd, 'utf8', { start: data.pos, stop: data.pos + data.string.length });
+            console.log(content);
+
+            fs.closeSync(fd);
+            res.end(JSON.stringify(`content-length header was: ${req.headers['content-length']}`));
+          });
+        });
+
+        server.listen(3000);
+
+        setInterval(() => {
+          const randString = crypto.randomBytes(10).toString('hex');
+          const randPos = crypto.randomBytes(1).readUInt8(0) % 100;
+
+          fetch('http://localhost:3000', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ string: randString, pos: randPos }),
+          }).then((res) => res.json()).then(console.log).catch(console.error);
+        }, 2000);
     node:
       ^: https://nodejs.org/en/docs/
       npm:
