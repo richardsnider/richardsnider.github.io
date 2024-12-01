@@ -211,45 +211,53 @@ code:
     closure: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures
     example:
       - |
-        const fs = require('node:fs');
         const crypto = require('node:crypto');
+        const fs = require('node:fs');
         const http = require('node:http');
 
-        const server = http.createServer((req, res) => {
+        const fd = fs.openSync('/tmp/data.txt', 'a');
+        fs.closeSync(fd);
+
+        const handle = async (req, res) => {
           let body = '';
           req.on('data', chunk => body += chunk);
 
           req.on('end', () => {
             const data = JSON.parse(body);
-            if (!data || !data.string || !data.pos) {
-              res.end('Invalid request');
+
+            if (typeof data.string !== 'string' || typeof data.position !== 'number') {
+              res.statusCode = 400;
+              res.end('Bad Request');
               return;
             }
 
-            fs.openSync('/tmp/data.txt', 'a');
+            console.log(data);
+
             const fd = fs.openSync('/tmp/data.txt', 'r+');
-            fs.writeSync(fd, data.string, data.pos);
-
-            const content = fs.readFileSync(fd, 'utf8', { start: data.pos, stop: data.pos + data.string.length });
-            console.log(content);
-
+            fs.writeSync(fd, data.string, data.position, data.string.length, null);
             fs.closeSync(fd);
-            res.end(JSON.stringify(`content-length header was: ${req.headers['content-length']}`));
-          });
-        });
 
+            const content = fs.readFileSync('/tmp/data.txt', 'utf-8');
+            console.log(content);
+            res.end();
+          });
+        };
+
+        const server = http.createServer(handle);
         server.listen(3000);
 
-        setInterval(() => {
-          const randString = crypto.randomBytes(10).toString('hex');
-          const randPos = crypto.randomBytes(1).readUInt8(0) % 100;
-
-          fetch('http://localhost:3000', {
+        setInterval(async () => {
+          const response = await fetch('http://localhost:3000', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ string: randString, pos: randPos }),
-          }).then((res) => res.json()).then(console.log).catch(console.error);
-        }, 2000);
+            body: JSON.stringify({
+              string: crypto.randomBytes(5).toString('base64url') + '\n',
+              position: 8 * (crypto.randomBytes(1).readUInt8() % 10)
+            }),
+          });
+
+          console.log(await response.text());
+        }, 1000);
     node:
       ^: https://nodejs.org/en/docs/
       npm:
@@ -1239,21 +1247,117 @@ k8s:
   network-model: https://kubernetes.io/docs/concepts/services-networking/#the-kubernetes-network-model
   resources:
     clusterrole:
+      example:
+        apiVersion: rbac.authorization.k8s.io/v1
+        kind: ClusterRole
+        metadata:
+          name: viewer
+        rules:
+          - apiGroups: ["*"]
+            resources: ["deployments", "configmaps", "pods", "secrets", "services"]
+            verbs: ["get", "list", "watch"]
+    clusterrolebinding:
+      example:
+        apiVersion: rbac.authorization.k8s.io/v1
+        kind: ClusterRoleBinding
+        metadata:
+          name: my-viewer-binding
+        roleRef:
+          kind: ClusterRole
+          name: viewer
+          apiGroup: rbac.authorization.k8s.io
+        subjects:
+          - kind: Group
+            name: my-viewer
+            apiGroup: rbac.authorization.k8s.io
     crd:
       ^: custom resource definition https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/
       operator-pattern: https://kubernetes.io/docs/concepts/extend-kubernetes/operator/
-    deploy:
+    deployment:
+      example:
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: myapp
+          namespace: 3-example
+        spec:
+          selector:
+            matchLabels:
+              app: myapp
+          template:
+            metadata:
+              labels:
+                app: myapp
+            spec:
+              containers:
+                - name: myapp
+                  image: aputra/myapp-195:v2
+                  ports:
+                    - name: http
+                      containerPort: 8080
+                  resources:
+                    requests:
+                      memory: 256Mi
+                      cpu: 100m
+                    limits:
+                      memory: 256Mi
+                      cpu: 100m
     event:
       - https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/ Events such as the ones you saw at the end of kubectl describe pod are persisted in etcd and provide high-level information on what is happening in the cluster
       - https://www.youtube.com/watch?v=K-F-p-ekSsM&t=737s
       - https://github.com/vmware-archive/eventrouter/blob/master/main.go#L111
+    hpa:
+      example:
+        apiVersion: autoscaling/v2
+        kind: HorizontalPodAutoscaler
+        metadata:
+          name: myapp
+          namespace: 3-example
+        spec:
+          scaleTargetRef:
+            apiVersion: apps/v1
+            kind: Deployment
+            name: myapp
+          minReplicas: 1
+          maxReplicas: 5
+          metrics:
+            - type: Resource
+              resource:
+                name: cpu
+                target:
+                  type: Utilization
+                  averageUtilization: 80
+            - type: Resource
+              resource:
+                name: memory
+                target:
+                  type: Utilization
+                  averageUtilization: 70
     ing:
       controller:
         nginx:
         gloo:
+    namespace:
+      example:
+        apiVersion: v1
+        kind: Namespace
+        metadata:
+          name: 3-example
     pod: https://www.ianlewis.org/en/what-are-kubernetes-pods-anyway
     pvc:
-    svc:
+    service:
+      example:
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: myapp
+          namespace: 3-example
+        spec:
+          ports:
+            - port: 8080
+              targetPort: http
+          selector:
+            app: myapp
       type:
         NodePort:
         ClusterIP:
