@@ -101,20 +101,7 @@ cloud:
       settings: https://docs.sendgrid.com/ui/account-and-settings/mail
 code:
   ^: https://github.com/collections/programming-languages
-  git:
-    ^: https://github.com/git/git https://mirrors.edge.kernel.org/pub/software/scm/git/
-    cli:
-      ^: https://git-scm.com/docs
-      example:
-        - http://guides.beanstalkapp.com/version-control/common-git-commands.html
-    github:
-      ^: https://docs.github.com/en
-      actions:
-      cli:
-        ^: https://cli.github.com/manual/gh_help_reference
-      language-stats: https://madnight.github.io/githut/
-    gitlab:
-  golang:
+  go:
     ^: https://go.dev/doc/ https://github.com/golang/go
     example:
       server: |
@@ -203,14 +190,16 @@ code:
           - https://www.linkedin.com/pulse/its-time-understand-golang-contexts-lucas-schenkel-schieferdecker/
     std:
       ^: standard library https://pkg.go.dev/std
-  javascript:
+  js:
     ^: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
     api:
       ^: https://developer.mozilla.org/en-US/docs/Web/API
       fetch: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
     closure: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures
     example:
-      - |
+      random-strings: setInterval(() => console.log(require('node:crypto').randomBytes(100).toString('base64url')), 1000);
+      random-bigint: setInterval(() => console.log((BigInt('0x' + require('node:crypto').randomBytes(100).toString('hex')) % (10n ** 12n)).toString()), 1000);
+      http-fs: |
         const crypto = require('node:crypto');
         const fs = require('node:fs');
         const http = require('node:http');
@@ -1404,49 +1393,62 @@ linux:
       stderr: 2
   command:
     alias: https://tldp.org/LDP/abs/html/aliases.html
-    list-all-available-commands: compgen -ac
-    list:
-      anacrontab: https://www.man7.org/linux/man-pages/man5/anacrontab.5.html
-      crontab: https://man7.org/linux/man-pages/man5/crontab.5.html
-      du:
+    anacrontab: https://www.man7.org/linux/man-pages/man5/anacrontab.5.html
+    compgen:
+      list-all-available-commands: compgen -ac
+    crontab: https://man7.org/linux/man-pages/man5/crontab.5.html
+    du:
         ^: disk usage
         example:
           - du -had 2 /etc | sort -h
-      grep:
-        - https://regex101.com/
-      ls:
+    git:
+      ^: https://github.com/git/git https://mirrors.edge.kernel.org/pub/software/scm/git/
+      cli:
+        ^: https://git-scm.com/docs
+        common-commands: http://guides.beanstalkapp.com/version-control/common-git-commands.html
+        commit: git commit -m "message" && git push
+        config: git config --global user.name "John Doe" && git config --global user.email
+        word-diff: git diff --word-diff=color --no-index original_file new_file
+        log: git log --oneline
+        checkout: git checkout -b new-branch
+        reset-local: git reset HEAD~1
+        reset-remote: git reset HEAD~1 && git push origin -f
+        revert-local: git revert HEAD
+        squash-commits: git rebase -i HEAD~3
+        abort-merge: git merge --abort
+        abort-changes: git checkout -- .
+        remove-local-branch: git branch -d branch-name
+        remove-remote-branch: git push origin --delete branch-name
+        remove-local-tag: git tag -d tag-name
+        remove-remote-tag: git push origin :tag-name
+      github:
+        ^: https://docs.github.com/en
+        actions:
+        cli:
+          ^: https://cli.github.com/manual/gh_help_reference
+        language-stats: https://madnight.github.io/githut/
+    grep:
+      ^: https://regex101.com/
+      example:
+        recursive-directory-search: grep -r "pattern" /path/to/directory
+        regex-all-instances-of-either: grep -rE "pattern1|pattern2" /path/to/directory
+    ln:
+      create-sym-link: ln -s /path/to/file /path/to/symlink
+    ls:
         example:
           - ls -thal
-      openssl:
+    openssl:
         example:
           - tar -czf - /tmp/files | openssl enc -e -aes256 -out /tmp/archive.tar.gz
           - openssl enc -d -aes256 -in /tmp/archive.tar.gz | tar -xz
-      ptrace:
-      ssh:
+    ptrace:
+    ssh:
         - https://carlosbecker.dev/posts/ssh-tips-and-tricks/
-      strace:
-      systemctl:
-      watch:
-        example:
-          view-open-sockets: watch -n 0.2 "date +%s.%N && lsof -i"
-    practice:
-      - install docker
-      - compile a basic C program
-      - build and run a nodejs container
-      - create an eks cluster and install prometheus and grafana
-      - create a k3s cluster and install prometheus and grafana
-      - list largest files in a directory
-      - find the docker service, find the service using the most memory
-      - list ip address
-      - list ip tables
-      - monitor open sockets and the epoch date down to nano seconds
-      - list all root directories and diff results
-      - install yq
-      - list all instances of "sql" in notes.yaml
-      - list all keys in notes.yaml as a single csv line
-      - create a tcpdump systemd service
-      - compress and encrypt a directory
-    sym-link: symbolic link
+    strace:
+    systemctl:
+    watch:
+      example:
+        view-open-sockets: watch -n 0.2 "date +%s.%N && lsof -i"
   filesystem:
     directories:
       normal:
@@ -1521,6 +1523,23 @@ linux:
         - cat /sys/fs/cgroup/cpu/tasks
         - cat /proc/3378/cgroup
         - https://www.linuxjournal.com/content/everything-you-need-know-about-linux-containers-part-i-linux-control-groups-and-process
+  practice:
+    - compile a basic C program then create an encrypted archive and upload it to s3
+    - run a nodejs container then find its file directory
+    - list largest files in a directory
+    - find the docker service, find the service using the most memory
+    - list ip addresses and tables
+    - monitor open sockets and the epoch date down to nano seconds
+    - list all root directories and diff results
+    - install yq and list all instances of "sql" in notes.yaml
+    - list all keys in notes.yaml as a single csv line
+    - print a random string and random big int every second
+    - print contents of hosts, resolve, certificates, crontab, anacrontab
+
+  # install docker
+  # create an eks cluster and install prometheus and grafana
+  # create a k3s cluster and install prometheus and grafana
+  # create a tcpdump systemd service
   process:
     exit-code: https://richardsnider.github.io/notes/linux.process.exit-code.yaml
   storage:
