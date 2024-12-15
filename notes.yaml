@@ -1438,14 +1438,21 @@ linux:
         example:
           - ls -thal
     openssl:
-        example:
-          - tar -czf - /tmp/files | openssl enc -e -aes256 -out /tmp/archive.tar.gz
-          - openssl enc -d -aes256 -in /tmp/archive.tar.gz | tar -xz
+      example:
+        encrypt-symmetrci: tar -czf - /tmp/files | openssl enc -e -aes256 -out /tmp/archive.tar.gz
+        decrypt-symmetric: openssl enc -d -aes256 -in /tmp/archive.tar.gz | tar -xz
+        generate-rsa-private-key: openssl genrsa -out /tmp/private-key.pem 3072
+        generate-rsa-public-key: openssl rsa -in /tmp/private-key.pem -pubout -out /tmp/public-key.pem
+        encrypt-b64: openssl pkeyutl -encrypt -pubin -inkey /tmp/public-key.pem -in /tmp/secret | base64 > /tmp/secret_encrypted_b64
+        decrypt-b64: cat /tmp/secret_encrypted_b64 | base64 -D | openssl pkeyutl -decrypt -inkey /tmp/private-key.pem
     ptrace:
     ssh:
         - https://carlosbecker.dev/posts/ssh-tips-and-tricks/
     strace:
     systemctl:
+    vault:
+      example:
+        get-secret: vault read my_env/data/my_secret -format=json | yq .data.data.MY_KEY | base64 -d > /tmp/secret-value
     watch:
       example:
         view-open-sockets: watch -n 0.2 "date +%s.%N && lsof -i"
