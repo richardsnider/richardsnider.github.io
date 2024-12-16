@@ -1,0 +1,18 @@
+name: compress files and commit
+on:
+  push:
+    paths:
+      - notes.yaml
+defaults:
+  run:
+    shell: bash -ex {0} # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#custom-shell
+jobs:
+  compress:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          tar -czvf notes.yaml.tar.gz notes.yaml
+          git add notes.yaml.tar.gz
+          git commit -m "compress files (github action)"
+          git push
