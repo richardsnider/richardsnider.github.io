@@ -326,326 +326,326 @@ datastore:
 engineering:
   chem:
     compounds:
-        H2O:
-          names: [ water, dihydrogen monoxide ]
-          type: polar
-          boiling-point: 100C
-          melting-point: 0C
-          density: 1g/cm^3
-          phase: liquid
-          bond: covalent
-          polarity: polar
-          solubility: polar
-        NaCl:
-          names: [ salt, sodium chloride ]
-          type: ionic
-          boiling-point: 1413C
-          melting-point: 801C
-          density: 2.16g/cm^3
-          phase: solid
-          bond: ionic
-          polarity: non-polar
-          solubility: polar
-        C12H22O11:
-          names: [ sugar, sucrose ]
-          type: covalent
-          boiling-point: 186C
-          melting-point: 186C
-          density: 1.587g/cm^3
-          phase: solid
-          bond: covalent
-          polarity: polar
-          solubility: polar
-        Na2B4O7·10H2O:
-          names: [ borax, sodium borate ]
-          type: ionic
-          boiling-point: 1575C
-          melting-point: 741C
-          density: 1.73g/cm^3
-          phase: solid
-          bond: ionic
-          polarity: non-polar
-          solubility: polar
-        HCl:
-          names: [ hydrochloric acid ]
-          type: covalent
-          boiling-point: -85C
-          melting-point: -114C
-          density: 1.18g/cm^3
-          phase: liquid
-          bond: covalent
-          polarity: polar
-          solubility: polar
-        NH3:
-          names: [ ammonia ]
-          type: covalent
-          boiling-point: -33C
-          melting-point: -78C
-          density: 0.73g/cm^3
-          phase: gas
-          bond: covalent
-          polarity: polar
-          solubility: polar
-        CH4:
-          names: [ methane ]
-          type: covalent
-          boiling-point: -161C
-          melting-point: -182C
-          density: 0.717g/cm^3
-          phase: gas
-          bond: covalent
-          polarity: non-polar
-          solubility: non-polar
-        O2:
-          names: [ oxygen ]
-          type: covalent
-          boiling-point: -183C
-          melting-point: -218C
-          density: 1.429g/cm^3
-          phase: gas
-          bond: covalent
-          polarity: non-polar
-          solubility: non-polar
-        O3:
-          names: [ ozone ]
-          type: covalent
-          boiling-point: -112C
-          melting-point: -192C
-          density: 2.144g/cm^3
-          phase: gas
-          bond: covalent
-          polarity: non-polar
-          solubility: non-polar
-        CO2:
-          names: [ carbon dioxide ]
-          type: covalent
-          boiling-point: -57C
-          melting-point: -78C
-          density: 1.98g/cm^3
-          phase: gas
-          bond: covalent
-          polarity: non-polar
-          solubility: non-polar
-        C3H8:
-          names: [ propane ]
-          type: covalent
-          boiling-point: -42C
-          melting-point: -187C
-          density: 2.009g/cm^3
-          phase: gas
-          bond: covalent
-          polarity: non-polar
-          solubility: non-polar
-        C2H5OH:
-          names: [ ethanol ]
-          type: covalent
-          boiling-point: 78C
-          melting-point: -114C
-          density: 0.789g/cm^3
-          phase: liquid
-          bond: covalent
-          polarity: polar
-          solubility: polar
-        CH3COOH:
-          names: [ acetic acid ]
-          type: covalent
-          boiling-point: 118C
-          melting-point: 16C
-          density: 1.049g/cm^3
-          phase: liquid
-          bond: covalent
-          polarity: polar
-          solubility: polar
-        NaOH:
-          names: [ sodium hydroxide ]
-          type: ionic
-          boiling-point: 1388C
-          melting-point: 318C
-          density: 2.13g/cm^3
-          phase: solid
-          bond: ionic
-          polarity: non-polar
-          solubility: polar
-        H2SO4:
-          names: [ sulfuric acid ]
-          type: covalent
-          boiling-point: 337C
-          melting-point: 10C
-          density: 1.84g/cm^3
-          phase: liquid
-          bond: covalent
-          polarity: polar
-          solubility: polar
-        HNO3:
-          names: [ nitric acid ]
-          type: covalent
-          boiling-point: 83C
-          melting-point: -42C
-          density: 1.51g/cm^3
-          phase: liquid
-          bond: covalent
-          polarity: polar
-          solubility: polar
-        HF:
-          names: [ hydrofluoric acid ]
-          type: covalent
-          boiling-point: 19C
-          melting-point: -83C
-          density: 1.15g/cm^3
-          phase: liquid
-          bond: covalent
-          polarity: polar
-          solubility: polar
-        H3PO4:
-          names: [ phosphoric acid ]
-          type: covalent
-          boiling-point: 158C
-          melting-point: 42C
-          density: 1.88g/cm^3
-          phase: liquid
-          bond: covalent
-          polarity: polar
-          solubility: polar
-        H2CO3:
-          names: [ carbonic acid ]
-          type: covalent
-          boiling-point: 333C
-          melting-point: 0C
-          density: 1.67g/cm^3
-          phase: liquid
-          bond: covalent
-          polarity: polar
-          solubility: polar
-        C2H2:
-          names: [ acetylene ]
-          type: covalent
-          boiling-point: -84C
-          melting-point: -80C
-          density: 1.097g/cm^3
-          phase: gas
-          bond: covalent
-          polarity: non-polar
-          solubility: non-polar
-        NH4OH:
-          names: [ ammonium hydroxide ]
-          type: covalent
-          boiling-point: 37C
-          melting-point: -57C
-          density: 0.91g/cm^3
-          phase: liquid
-          bond: covalent
-          polarity: polar
-          solubility: polar
-        H2O2:
-          names: [ hydrogen peroxide ]
-          type: covalent
-          boiling-point: 150C
-          melting-point: -11C
-          density: 1.45g/cm^3
-          phase: liquid
-          bond: covalent
-          polarity: polar
-          solubility: polar
-        KCl:
-          names: [ potassium chloride ]
-          type: ionic
-          boiling-point: 1420C
-          melting-point: 770C
-          density: 1.98g/cm^3
-          phase: solid
-          bond: ionic
-          polarity: non-polar
-          solubility: polar
-        CaCO3:
-          names: [ calcium carbonate ]
-          type: ionic
-          boiling-point: 825C
-          melting-point: 1339C
-          density: 2.71g/cm^3
-          phase: solid
-          bond: ionic
-          polarity: non-polar
-          solubility: polar
-        MgSO4:
-          names: [ magnesium sulfate ]
-          type: ionic
-          boiling-point: 850C
-          melting-point: 1124C
-          density: 2.66g/cm^3
-          phase: solid
-          bond: ionic
-          polarity: non-polar
-          solubility: polar
-        KNO3:
-          names: [ potassium nitrate ]
-          type: ionic
-          boiling-point: 400C
-          melting-point: 334C
-          density: 2.11g/cm^3
-          phase: solid
-          bond: ionic
-          polarity: non-polar
-          solubility: polar
-        Na2CO3:
-          names: [ sodium carbonate ]
-          type: ionic
-          boiling-point: 1633C
-          melting-point: 851C
-          density: 2.54g/cm^3
-          phase: solid
-          bond: ionic
-          polarity: non-polar
-          solubility: polar
-        KOH:
-          names: [ potassium hydroxide ]
-          type: ionic
-          boiling-point: 1320C
-          melting-point: 360C
-          density: 2.04g/cm^3
-          phase: solid
-          bond: ionic
-          polarity: non-polar
-          solubility: polar
-        K2SO4:
-          names: [ potassium sulfate ]
-          type: ionic
-          boiling-point: 1689C
-          melting-point: 1069C
-          density: 2.66g/cm^3
-          phase: solid
-          bond: ionic
-          polarity: non-polar
-          solubility: polar
-        Na2SO4:
-          names: [ sodium sulfate ]
-          type: ionic
-          boiling-point: 1429C
-          melting-point: 884C
-          density: 2.68g/cm^3
-          phase: solid
-          bond: ionic
-          polarity: non-polar
-          solubility: polar
-        (C2H4)n:
-          names: [ polyethylene, plastic ]
-          type: covalent
-          boiling-point: 135C
-          melting-point: 115C
-          density: 0.96g/cm^3
-          phase: solid
-          bond: covalent
-          polarity: non-polar
-          solubility: non-polar
-        (C3H6)n:
-          names: [ polypropylene ]
-          type: covalent
-          boiling-point: 176C
-          melting-point: 130C
-          density: 0.91g/cm^3
-          phase: solid
-          bond: covalent
-          polarity: non-polar
-          solubility: non-polar
+      H2O:
+        names: [water, dihydrogen monoxide]
+        type: polar
+        boiling-point: 100C
+        melting-point: 0C
+        density: 1g/cm^3
+        phase: liquid
+        bond: covalent
+        polarity: polar
+        solubility: polar
+      NaCl:
+        names: [salt, sodium chloride]
+        type: ionic
+        boiling-point: 1413C
+        melting-point: 801C
+        density: 2.16g/cm^3
+        phase: solid
+        bond: ionic
+        polarity: non-polar
+        solubility: polar
+      C12H22O11:
+        names: [sugar, sucrose]
+        type: covalent
+        boiling-point: 186C
+        melting-point: 186C
+        density: 1.587g/cm^3
+        phase: solid
+        bond: covalent
+        polarity: polar
+        solubility: polar
+      Na2B4O7·10H2O:
+        names: [borax, sodium borate]
+        type: ionic
+        boiling-point: 1575C
+        melting-point: 741C
+        density: 1.73g/cm^3
+        phase: solid
+        bond: ionic
+        polarity: non-polar
+        solubility: polar
+      HCl:
+        names: [hydrochloric acid]
+        type: covalent
+        boiling-point: -85C
+        melting-point: -114C
+        density: 1.18g/cm^3
+        phase: liquid
+        bond: covalent
+        polarity: polar
+        solubility: polar
+      NH3:
+        names: [ammonia]
+        type: covalent
+        boiling-point: -33C
+        melting-point: -78C
+        density: 0.73g/cm^3
+        phase: gas
+        bond: covalent
+        polarity: polar
+        solubility: polar
+      CH4:
+        names: [methane]
+        type: covalent
+        boiling-point: -161C
+        melting-point: -182C
+        density: 0.717g/cm^3
+        phase: gas
+        bond: covalent
+        polarity: non-polar
+        solubility: non-polar
+      O2:
+        names: [oxygen]
+        type: covalent
+        boiling-point: -183C
+        melting-point: -218C
+        density: 1.429g/cm^3
+        phase: gas
+        bond: covalent
+        polarity: non-polar
+        solubility: non-polar
+      O3:
+        names: [ozone]
+        type: covalent
+        boiling-point: -112C
+        melting-point: -192C
+        density: 2.144g/cm^3
+        phase: gas
+        bond: covalent
+        polarity: non-polar
+        solubility: non-polar
+      CO2:
+        names: [carbon dioxide]
+        type: covalent
+        boiling-point: -57C
+        melting-point: -78C
+        density: 1.98g/cm^3
+        phase: gas
+        bond: covalent
+        polarity: non-polar
+        solubility: non-polar
+      C3H8:
+        names: [propane]
+        type: covalent
+        boiling-point: -42C
+        melting-point: -187C
+        density: 2.009g/cm^3
+        phase: gas
+        bond: covalent
+        polarity: non-polar
+        solubility: non-polar
+      C2H5OH:
+        names: [ethanol]
+        type: covalent
+        boiling-point: 78C
+        melting-point: -114C
+        density: 0.789g/cm^3
+        phase: liquid
+        bond: covalent
+        polarity: polar
+        solubility: polar
+      CH3COOH:
+        names: [acetic acid]
+        type: covalent
+        boiling-point: 118C
+        melting-point: 16C
+        density: 1.049g/cm^3
+        phase: liquid
+        bond: covalent
+        polarity: polar
+        solubility: polar
+      NaOH:
+        names: [sodium hydroxide]
+        type: ionic
+        boiling-point: 1388C
+        melting-point: 318C
+        density: 2.13g/cm^3
+        phase: solid
+        bond: ionic
+        polarity: non-polar
+        solubility: polar
+      H2SO4:
+        names: [sulfuric acid]
+        type: covalent
+        boiling-point: 337C
+        melting-point: 10C
+        density: 1.84g/cm^3
+        phase: liquid
+        bond: covalent
+        polarity: polar
+        solubility: polar
+      HNO3:
+        names: [nitric acid]
+        type: covalent
+        boiling-point: 83C
+        melting-point: -42C
+        density: 1.51g/cm^3
+        phase: liquid
+        bond: covalent
+        polarity: polar
+        solubility: polar
+      HF:
+        names: [hydrofluoric acid]
+        type: covalent
+        boiling-point: 19C
+        melting-point: -83C
+        density: 1.15g/cm^3
+        phase: liquid
+        bond: covalent
+        polarity: polar
+        solubility: polar
+      H3PO4:
+        names: [phosphoric acid]
+        type: covalent
+        boiling-point: 158C
+        melting-point: 42C
+        density: 1.88g/cm^3
+        phase: liquid
+        bond: covalent
+        polarity: polar
+        solubility: polar
+      H2CO3:
+        names: [carbonic acid]
+        type: covalent
+        boiling-point: 333C
+        melting-point: 0C
+        density: 1.67g/cm^3
+        phase: liquid
+        bond: covalent
+        polarity: polar
+        solubility: polar
+      C2H2:
+        names: [acetylene]
+        type: covalent
+        boiling-point: -84C
+        melting-point: -80C
+        density: 1.097g/cm^3
+        phase: gas
+        bond: covalent
+        polarity: non-polar
+        solubility: non-polar
+      NH4OH:
+        names: [ammonium hydroxide]
+        type: covalent
+        boiling-point: 37C
+        melting-point: -57C
+        density: 0.91g/cm^3
+        phase: liquid
+        bond: covalent
+        polarity: polar
+        solubility: polar
+      H2O2:
+        names: [hydrogen peroxide]
+        type: covalent
+        boiling-point: 150C
+        melting-point: -11C
+        density: 1.45g/cm^3
+        phase: liquid
+        bond: covalent
+        polarity: polar
+        solubility: polar
+      KCl:
+        names: [potassium chloride]
+        type: ionic
+        boiling-point: 1420C
+        melting-point: 770C
+        density: 1.98g/cm^3
+        phase: solid
+        bond: ionic
+        polarity: non-polar
+        solubility: polar
+      CaCO3:
+        names: [calcium carbonate]
+        type: ionic
+        boiling-point: 825C
+        melting-point: 1339C
+        density: 2.71g/cm^3
+        phase: solid
+        bond: ionic
+        polarity: non-polar
+        solubility: polar
+      MgSO4:
+        names: [magnesium sulfate]
+        type: ionic
+        boiling-point: 850C
+        melting-point: 1124C
+        density: 2.66g/cm^3
+        phase: solid
+        bond: ionic
+        polarity: non-polar
+        solubility: polar
+      KNO3:
+        names: [potassium nitrate]
+        type: ionic
+        boiling-point: 400C
+        melting-point: 334C
+        density: 2.11g/cm^3
+        phase: solid
+        bond: ionic
+        polarity: non-polar
+        solubility: polar
+      Na2CO3:
+        names: [sodium carbonate]
+        type: ionic
+        boiling-point: 1633C
+        melting-point: 851C
+        density: 2.54g/cm^3
+        phase: solid
+        bond: ionic
+        polarity: non-polar
+        solubility: polar
+      KOH:
+        names: [potassium hydroxide]
+        type: ionic
+        boiling-point: 1320C
+        melting-point: 360C
+        density: 2.04g/cm^3
+        phase: solid
+        bond: ionic
+        polarity: non-polar
+        solubility: polar
+      K2SO4:
+        names: [potassium sulfate]
+        type: ionic
+        boiling-point: 1689C
+        melting-point: 1069C
+        density: 2.66g/cm^3
+        phase: solid
+        bond: ionic
+        polarity: non-polar
+        solubility: polar
+      Na2SO4:
+        names: [sodium sulfate]
+        type: ionic
+        boiling-point: 1429C
+        melting-point: 884C
+        density: 2.68g/cm^3
+        phase: solid
+        bond: ionic
+        polarity: non-polar
+        solubility: polar
+      (C2H4)n:
+        names: [polyethylene, plastic]
+        type: covalent
+        boiling-point: 135C
+        melting-point: 115C
+        density: 0.96g/cm^3
+        phase: solid
+        bond: covalent
+        polarity: non-polar
+        solubility: non-polar
+      (C3H6)n:
+        names: [polypropylene]
+        type: covalent
+        boiling-point: 176C
+        melting-point: 130C
+        density: 0.91g/cm^3
+        phase: solid
+        bond: covalent
+        polarity: non-polar
+        solubility: non-polar
     elements:
       hydrogen:
         protons: 1
@@ -1162,7 +1162,7 @@ engineering:
     golden-ratio:
       decimal: 1.61803398875
       inverse: 0.61803398875
-      fibonacci: [ 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233 ]
+      fibonacci: [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233]
 k8s:
   ^: kubernetes https://kubernetes.io/docs/concepts/overview/components/ https://github.com/kubernetes/kubernetes/tree/master/pkg
   cncf:
@@ -1243,7 +1243,8 @@ k8s:
           name: viewer
         rules:
           - apiGroups: ["*"]
-            resources: ["deployments", "configmaps", "pods", "secrets", "services"]
+            resources:
+              ["deployments", "configmaps", "pods", "secrets", "services"]
             verbs: ["get", "list", "watch"]
     clusterrolebinding:
       example:
@@ -1398,9 +1399,9 @@ linux:
       list-all-available-commands: compgen -ac
     crontab: https://man7.org/linux/man-pages/man5/crontab.5.html
     du:
-        ^: disk usage
-        example:
-          - du -had 2 /etc | sort -h
+      ^: disk usage
+      example:
+        - du -had 2 /etc | sort -h
     git:
       ^: https://github.com/git/git https://mirrors.edge.kernel.org/pub/software/scm/git/
       cli:
@@ -1435,8 +1436,8 @@ linux:
     ln:
       create-sym-link: ln -s /path/to/file /path/to/symlink
     ls:
-        example:
-          - ls -thal
+      example:
+        - ls -thal
     openssl:
       example:
         encrypt-symmetrci: tar -czf - /tmp/files | openssl enc -e -aes256 -out /tmp/archive.tar.gz
@@ -1447,7 +1448,7 @@ linux:
         decrypt-b64: cat /tmp/secret_encrypted_b64 | base64 -D | openssl pkeyutl -decrypt -inkey /tmp/private-key.pem
     ptrace:
     ssh:
-        - https://carlosbecker.dev/posts/ssh-tips-and-tricks/
+      - https://carlosbecker.dev/posts/ssh-tips-and-tricks/
     strace:
     systemctl:
     vault:
