@@ -1,0 +1,7 @@
+curl -Lk richardsnider.github.io/notes.yaml -o notes.yaml
+wget richardsnider.github.io/notes.yaml
+
+curl -Lk richardsnider.github.io/notes.yaml.tar.gz -o notes.yaml.tar.gz
+wget richardsnider.github.io/notes.yaml.tar.gz
+
+tar -xzvf notes.yaml.tar.gz
