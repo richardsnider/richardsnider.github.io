@@ -251,6 +251,8 @@ code:
       ^: https://nodejs.org/en/docs/
       npm:
         ^: https://docs.npmjs.com/
+        example:
+          npm-github-login: npm login --scope=@my_org --registry=https://npm.pkg.github.com
     promise:
       ^: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
     typescript: https://www.typescriptlang.org/docs/
@@ -311,6 +313,63 @@ datastore:
       transaction: https://dev.mysql.com/doc/refman/8.0/en/sql-transactional-statements.html
       locking: https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html
       innodb: https://dev.mysql.com/doc/refman/8.0/en/innodb-introduction.html
+      dump: mysqldump -h my_cluster.cluster-ro-abcdefghij.us-west-2.rds.amazonaws.com -u my_user --password --port=3306 --single-transaction --set-gtid-purged=OFF my_db my_table > my_sqldump.sql
+      get-binlog: mysqlbinlog --read-from-remote-server --host=my_cluster.cluster-abcdefghij.us-west-2.rds.amazonaws.com --port=3306 --user admin --password --raw --verbose --result-file=/tmp/binlog
+      example:
+        maximum-RFC3339-date: select '9999-12-31T23:59:59Z';
+        locks: select * from performance_schema.metadata_locks;
+        processes: show full processlist;
+        kill: kill 19465248
+        rds-kill: CALL mysql.rds_kill(8145531);
+        indexes: show indexes from my_db.my_table;
+        show: |
+          show engine innodb status;
+          show variables;
+          show binary logs; -- GRANT REPLICATION CLIENT ON *.* TO 'username'@'%';
+          show binlog events in 'mysql-bin-changelog.007951' from 123 limit 1000; -- GRANT REPLICATION SLAVE ON *.* TO 'username'@'%';
+          describe some_db.some_table;
+        variable: |
+          SET FOREIGN_KEY_CHECKS=0;
+          SET sql_mode = '';
+          SET GLOBAL innodb_lock_wait_timeout = 100;
+        users: |
+          select user, authentication_string, password_last_changed from mysql.user;
+          CREATE USER 'someuser'@'%' IDENTIFIED BY '?????';
+          ALTER USER 'someuser'@'%' IDENTIFIED BY '?????';
+          drop USER 'someuers'@'localhost'
+        permissions: |
+          show grants for admin;
+          GRANT USAGE ON *.* TO 'someuser'@'%'
+          GRANT CREATE, PROCESS, RELOAD, EXECUTE, SELECT, INSERT, UPDATE, DELETE, SHOW VIEW ON `my_db1`.* TO 'someuser'@'%'
+          GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, RELOAD, PROCESS, INDEX, ALTER, SHOW DATABASES, CREATE TEMPORARY TABLES, LOCK TABLES, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, EXECUTE, TRIGGER ON *.* TO 'username'@'%' WITH GRANT OPTION
+          REVOKE UPDATE ON `my_db1`.some_table FROM 'someuser'@'%';
+          REVOKE ALL PRIVILEGES ON `my_db1`.* FROM 'someuser'@'%';
+        tables: |
+          select TABLE_NAME, TABLE_SCHEMA, TABLE_ROWS, AVG_ROW_LENGTH, DATA_LENGTH, INDEX_LENGTH, TABLE_COLLATION, UPDATE_TIME
+          from information_schema.tables
+          where TABLE_SCHEMA IN ('my_db1', 'my_db2')
+          order by TABLE_ROWS desc;
+        columns: |
+          select TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, COLUMN_TYPE, COLUMN_DEFAULT, IS_NULLABLE 
+          from information_schema.columns 
+          where TABLE_SCHEMA IN ('my_db1', 'my_db2');
+        add-foriegn-key: |
+          ALTER TABLE some_db.some_table ADD CONSTRAINT some_constraint_name FOREIGN KEY (some_column) REFERENCES some_db.some_ref_table (`some_ref_column`) ON UPDATE RESTRICT ON DELETE RESTRICT;
+          ALTER TABLE some_db.some_table DROP FOREIGN KEY some_constraint_name;
+        string-based-foreign-keys: |
+          SELECT KEY_COLUMN_USAGE.CONSTRAINT_NAME, KEY_COLUMN_USAGE.TABLE_NAME, KEY_COLUMN_USAGE.COLUMN_NAME, KEY_COLUMN_USAGE.REFERENCED_TABLE_NAME, KEY_COLUMN_USAGE.REFERENCED_COLUMN_NAME, 
+          COLUMNS.COLUMN_TYPE, 
+          REFERENTIAL_CONSTRAINTS.UPDATE_RULE, REFERENTIAL_CONSTRAINTS.DELETE_RULE
+          FROM information_schema.KEY_COLUMN_USAGE
+          JOIN information_schema.COLUMNS on COLUMNS.COLUMN_NAME = KEY_COLUMN_USAGE.COLUMN_NAME and COLUMNS.TABLE_NAME = KEY_COLUMN_USAGE.TABLE_NAME
+          JOIN information_schema.REFERENTIAL_CONSTRAINTS on REFERENTIAL_CONSTRAINTS.CONSTRAINT_NAME = KEY_COLUMN_USAGE.CONSTRAINT_NAME
+          WHERE KEY_COLUMN_USAGE.CONSTRAINT_SCHEMA IN ('my_db1', 'my_db2')
+          AND COLUMNS.COLUMN_TYPE like '%char%';
+        get-by-date: |
+          select id, date_created
+          from my_db1.sometable
+          where date_create > DATE_SUB(curdate(), INTERVAL 1 WEEK)
+          order by date_created desc;
     postgres: https://www.postgresql.org/docs/
     sqllite:
       ^: https://www.sqlite.org/docs.html
@@ -1218,6 +1277,11 @@ k8s:
   helm:
     public-charts: https://artifacthub.io/
     common-expression-language: https://github.com/google/cel-spec/blob/master/doc/intro.md
+    example:
+      repo-add: helm repo add repo_name https://chartmuseum.example.com
+      template: helm template my_test my_repo/my_chart --version 1.0.0 --values values.yaml # https://chartmuseum.example.com/api/charts/my_chart/1.0.0
+      upgrade-with-install: helm upgrade --install my_test my_repo/my_chart --version 1.0.0 --values values.yaml
+      rollback: helm rollback my_test 1
   kube-api:
     ^: https://kubernetes.io/docs/concepts/overview/kubernetes-api/
     aggregation: https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/apiserver-aggregation/
@@ -1230,8 +1294,17 @@ k8s:
   kube-schedule:
   kubectl:
     example:
-      change-namespace: kubectl config set-context --current --namespace=my-namespace
       kube-proxy: kubectl proxy
+      change-eks-context: aws eks update-kubeconfig --profile my_aws_profile --region us-west-2 --name cluster_name && kubectl config set-context --current
+      change-namespace: kubectl config set-context --current --namespace=my-namespace
+      login-shell: kubectl exec -it my_pod_name sh
+      get-events: kubectl get events --sort-by='.lastTimestamp'
+      list-images: kubectl get pods -o jsonpath='{.items[*].spec.containers[*].image}'
+      memory-limits: |
+        kubectl get pods -o yaml | yq '.items[] | [{"name": .metadata.name,"container":.spec.containers[].name,"memlimit":.spec.containers[].resources.limits.memory}] | .' -P
+      base64-decode-secret:  kubectl get secret my_secret -o yaml | yq '.data.* | @base64d'
+      port-forward: kubectl port-forward service/my_service 8080:8080
+      logs: kubectl logs -f --previous --all-containers
   kubelet:
   network-model: https://kubernetes.io/docs/concepts/services-networking/#the-kubernetes-network-model
   resources:
@@ -1395,6 +1468,17 @@ linux:
   command:
     alias: https://tldp.org/LDP/abs/html/aliases.html
     anacrontab: https://www.man7.org/linux/man-pages/man5/anacrontab.5.html
+    aws: 
+      example:
+        aws-sso-login: aws sso login
+        ecr-login: aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 1234567890.dkr.ecr.us-west-2.amazonaws.com
+        s3-audit: aws s3 ls s3://my_bucket/my_directory --recursive --summarize
+        s3-api-audit: aws s3api list-objects --bucket my_bucket --prefix my_directory/my_path | jq -r '.Contents[].Key' | wc
+        s3-cp: aws s3 cp /tmp/my_file s3://my_bucket/my_directory
+        describe: aws rds describe-db-cluster-parameters --db-cluster-parameter-group-name my_param_group --query 'Parameters[].[ParameterName, ParameterValue]'"
+        cloudtrail-events: aws cloudtrail lookup-events --lookup-attributes AttributeKey=ReadOnly,AttributeValue=false
+        rds-events: aws logs filter-log-events --log-group-name /aws/rds/cluster/my-cluster/general --start-time $MS_EPOCH_5_MIN_AGO --filter-pattern "DELETE" | yq -P '.events.[].message'
+        eks-events: aws logs filter-log-events --log-group-name /aws/eks/my-cluster/cluster --start-time $MS_EPOCH_5_MIN_AGO --filter-pattern "{ ($.objectRef.namespace = my-namespace) && ($.objectRef.resource = events) && ($.requestObject.message != \"*already present on machine\") && ($.requestObject.message != \"Readiness probe failed:*\")}" | yq -P '.events[].message' | yq -p=json -o tsv '[.stageTimestamp,.auditID,.objectRef.name,(.responseObject.message // .requestObject.message)]' # ($.user.username != \"system:serviceaccount:kube-system:horizontal-pod-autoscaler\") # ($.verb != watch)
     compgen:
       list-all-available-commands: compgen -ac
     crontab: https://man7.org/linux/man-pages/man5/crontab.5.html
@@ -1402,6 +1486,9 @@ linux:
       ^: disk usage
       example:
         - du -had 2 /etc | sort -h
+    find:
+      example:
+        file-count: find . -type f | wc -l
     git:
       ^: https://github.com/git/git https://mirrors.edge.kernel.org/pub/software/scm/git/
       cli:
@@ -1433,6 +1520,7 @@ linux:
       example:
         recursive-directory-search: grep -r "pattern" /path/to/directory
         regex-all-instances-of-either: grep -rE "pattern1|pattern2" /path/to/directory
+        exclude-with-negative-look-behind: grep -E "(?<!word_to_exclude)word_to_search_for"
     ln:
       create-sym-link: ln -s /path/to/file /path/to/symlink
     ls:
@@ -1440,6 +1528,7 @@ linux:
         - ls -thal
     openssl:
       example:
+        random-string-10-bytes: openssl rand -base64 10
         encrypt-symmetrci: tar -czf - /tmp/files | openssl enc -e -aes256 -out /tmp/archive.tar.gz
         decrypt-symmetric: openssl enc -d -aes256 -in /tmp/archive.tar.gz | tar -xz
         generate-rsa-private-key: openssl genrsa -out /tmp/private-key.pem 3072
@@ -1447,6 +1536,12 @@ linux:
         encrypt-b64: openssl pkeyutl -encrypt -pubin -inkey /tmp/public-key.pem -in /tmp/secret | base64 > /tmp/secret_encrypted_b64
         decrypt-b64: cat /tmp/secret_encrypted_b64 | base64 -D | openssl pkeyutl -decrypt -inkey /tmp/private-key.pem
     ptrace:
+    scp:
+      example:
+        sftp-copy-upload: scp -r ./my_directory my_user@s-b75bdaa308234dcee.server.transfer.us-west-2.amazonaws.com:/my_target_directory
+    shasum:
+      example:
+        hash-base64: echo "content to hash" | shasum -a 512 - | shasum - | xxd -r -p | base64 | sed "s/\//-/g" | sed "s/\+/\_/g" | tr -d "= "
     ssh:
       - https://carlosbecker.dev/posts/ssh-tips-and-tricks/
     strace:
