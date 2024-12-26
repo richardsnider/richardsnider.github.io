@@ -3,10 +3,13 @@
   install: sudo curl -Lk github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /bin/yq && sudo chmod +x /bin/yq
   docs: https://mikefarah.gitbook.io/yq/recipes
   examples:
-    - yq 'keys' notes.yaml
-    - yq '.. | select(kind == "scalar") | {(path | join(".")):.}' notes.yaml | grep linux
-    - yq '.. | select(. == "*sql*") | {(path | join(".")):.}' notes.yaml
-    - yq '.linux.command.practice | shuffle' notes.yaml
+    descending-sort: yq --csv-separator '-' '.|keys|sort_by(.)|reverse|@csv' notes.yaml
+    print-full-paths: yq '..|select(kind=="scalar")|{(path|join(".")):.}' notes.yaml
+    filter-to-path: yq '..|select(.=="*sql*")' notes.yaml
+    random-sort-order-subset: yq '.linux.practice|shuffle|.[0:3]' notes.yaml
+    multiple-files: yq --no-doc '{filename:.}|keys' data/**/*.yaml data/.*/**/*.yaml data/**/.*/*.yaml
+    map-elements: yq 'map(select(.type=="covalent"))' notes.yaml
+    random-array-of-numbers: yq 'range(10)|shuffle' notes.yaml
 browser:
   cache: https://developer.mozilla.org/en-US/docs/Web/API/Cache
   chrome:
@@ -199,6 +202,11 @@ code:
     example:
       random-strings: setInterval(() => console.log(require('node:crypto').randomBytes(100).toString('base64url')), 1000);
       random-bigint: setInterval(() => console.log((BigInt('0x' + require('node:crypto').randomBytes(100).toString('hex')) % (10n ** 12n)).toString()), 1000);
+      crypto-random: |
+        const randomBytes = crypto.getRandomValues(new Buffer.alloc(10));
+        const randomString = Array.from(randomBytes).map(i => String.fromCharCode(i%54+48)).join("");
+        console.log(randomString);
+        console.log(randomBytes.toString('base64url'));
       http-fs: |
         const crypto = require('node:crypto');
         const fs = require('node:fs');
@@ -1270,6 +1278,7 @@ k8s:
         example:
           run-container-endlessly: docker run --name alpine --rm --detached --publish 3000:80 golang:alpine sleep infinity
           shell-into-container: docker exec -it alpine sh
+          override-entrypoint:  docker run --platform linux/amd64 -it --entrypoint /bin/bash 1234567890.dkr.ecr.us-west-2.amazonaws.com/my_image:my_tag -c "my-override-command" 
       compose: https://github.com/docker/compose
     oci: open container initiative
     pause-container: https://www.ianlewis.org/en/almighty-pause-container
@@ -1496,7 +1505,7 @@ linux:
         common-commands: http://guides.beanstalkapp.com/version-control/common-git-commands.html
         commit: git commit -m "message" && git push
         config: git config --global user.name "John Doe" && git config --global user.email
-        word-diff: git diff --word-diff=color --no-index original_file new_file
+        word-diff: git diff --word-diff=color --word-diff-regex=. --no-index original_file new_file
         log: git log --oneline
         checkout: git checkout -b new-branch
         reset-local: git reset HEAD~1
@@ -1518,8 +1527,7 @@ linux:
     grep:
       ^: https://regex101.com/
       example:
-        recursive-directory-search: grep -r "pattern" /path/to/directory
-        regex-all-instances-of-either: grep -rE "pattern1|pattern2" /path/to/directory
+        regex-search-directory-json-files: grep -irE "match1|match2" my_dir/**/my_filename-*.json
         exclude-with-negative-look-behind: grep -E "(?<!word_to_exclude)word_to_search_for"
     ln:
       create-sym-link: ln -s /path/to/file /path/to/symlink
@@ -1529,8 +1537,10 @@ linux:
     openssl:
       example:
         random-string-10-bytes: openssl rand -base64 10
-        encrypt-symmetrci: tar -czf - /tmp/files | openssl enc -e -aes256 -out /tmp/archive.tar.gz
-        decrypt-symmetric: openssl enc -d -aes256 -in /tmp/archive.tar.gz | tar -xz
+        encrypt-symmetrci: tar -czf - pkg | openssl enc -aes256 -out pkg.tar.gz
+        decrypt-symmetric: openssl enc -d -aes256 -in pkg.tar.gz | tar -xz
+        base64-encrypt: tar -czf - pkg | openssl enc -aes256 | base64 > enc.txt
+        base64-decrypt: cat enc.txt | base64 -d | openssl enc -d -aes256 | tar -xz
         generate-rsa-private-key: openssl genrsa -out /tmp/private-key.pem 3072
         generate-rsa-public-key: openssl rsa -in /tmp/private-key.pem -pubout -out /tmp/public-key.pem
         encrypt-b64: openssl pkeyutl -encrypt -pubin -inkey /tmp/public-key.pem -in /tmp/secret | base64 > /tmp/secret_encrypted_b64
