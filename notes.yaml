@@ -3,13 +3,14 @@
   install: sudo curl -Lk github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /bin/yq && sudo chmod +x /bin/yq
   docs: https://mikefarah.gitbook.io/yq/recipes
   examples:
-    descending-sort: yq --csv-separator '-' '.|keys|sort_by(.)|reverse|@csv' notes.yaml
+    descending-order-encode: yq --csv-separator '-' '.|keys|sort_by(.)|reverse|@csv' notes.yaml
     print-full-paths: yq '..|select(kind=="scalar")|{(path|join(".")):.}' notes.yaml
     filter-to-path: yq '..|select(.=="*sql*")' notes.yaml
-    random-sort-order-subset: yq '.linux.practice|shuffle|.[0:3]' notes.yaml
+    random-order-subset: yq '.linux.practice|shuffle|.[0:3]' notes.yaml
     multiple-files: yq --no-doc '{filename:.}|keys' data/**/*.yaml data/.*/**/*.yaml data/**/.*/*.yaml
     map-elements: yq 'map(select(.type=="covalent"))' notes.yaml
-    random-array-of-numbers: yq 'range(10)|shuffle' notes.yaml
+    null-coalesque: yq '(.a//(.a = 0))+=1' notes.yml
+    base64: yq '(.chem.compounds.[].name|trim|join(",")|@base64)' notes.yaml
 browser:
   cache: https://developer.mozilla.org/en-US/docs/Web/API/Cache
   chrome:
@@ -1564,48 +1565,79 @@ linux:
         view-open-sockets: watch -n 0.2 "date +%s.%N && lsof -i"
   filesystem:
     directories:
-      normal:
-        boot:
+      boot:
+      dev:
+      etc:
+        ^: https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch03s13.html
+        crontab:
+          ^: https://www.man7.org/linux/man-pages/man8/cron.8.html
+        anacrontab:
+          ^: https://www.man7.org/linux/man-pages/man8/anacron.8.html
+        fstab:
+        group:
+        hosts:
+        hostname:
+        network:
+          if-up.d:
+          if-down.d:
+        passwd:
+        resolv.conf:
+        shadow:
+        ssl:
+          certs:
+            ca-certificates:
+          private:
+        sudoers:
+        sysctl.conf:
+        sysctl.d:
+        systemd:
+          system:
+          user:
+      home:
+      media:
+      mount:
+      opt:
+      proc:
+        net:
+          tcp:
+          tcp6:
+          udp:
+          udp6:
+      root:
+      run: https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch03s15.html
+      srv:
+      sys:
+      tmp:
+      usr:
         bin:
-        etc:
-          /etc/hosts:
-          /etc/crontab:
-            ^: https://www.man7.org/linux/man-pages/man8/cron.8.html
-          /etc/anacrontab:
-            ^: https://www.man7.org/linux/man-pages/man8/anacron.8.html
-        home:
-        mount:
+        include:
+        lib:
+        lib32:
+        lib64:
+        libexec:
+        libx32:
+        local:
+        sbin:
+        shared:
+        src:
+      var:
+        cache:
+        lib:
+        local:
+        log:
+        mail:
         opt:
-        root:
-        run: https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch03s15.html
-        srv:
+        spool:
         tmp:
-        usr:
-          bin:
-          include:
-          lib:
-          lib32:
-          lib64:
-          libexec:
-          libx32:
-          local:
-          sbin:
-          shared:
-          src:
-        var:
-      virtual:
-        dev:
-        proc:
-        sys:
-      sym-linked:
-        bin: /usr/bin
-        lib: /usr/lib
-        lib32: /usr/lib32
-        lib64: /usr/lib64
-        libx32: /usr/libx32
-        sbin: /usr/sbin
     ext4: https://ext4.wiki.kernel.org/index.php/Ext4_Howto
     inode: https://www.redhat.com/sysadmin/inodes-linux-filesystem
+    symlink:
+      /bin: /usr/bin
+      /lib: /usr/lib
+      /lib32: /usr/lib32
+      /lib64: /usr/lib64
+      /libx32: /usr/libx32
+      /sbin: /usr/sbin
   hardware:
     spi: Serial Peripheral Interface https://docs.kernel.org/spi/spi-summary.html
     notes:
@@ -1639,15 +1671,15 @@ linux:
   practice:
     - compile a basic C program then create an encrypted archive and upload it to s3
     - run a nodejs container then find its file directory
-    - list largest files in a directory
+    - get contents of important files in etc then sort all files by size
     - find the docker service, find the service using the most memory
     - list ip addresses and tables
     - monitor open sockets and the epoch date down to nano seconds
     - list all root directories and diff results
     - install yq and list all instances of "sql" in notes.yaml
-    - list all keys in notes.yaml as a single csv line
+    - list all key names with "!" in notes.yaml as a single json line
     - print a random string and random big int every second
-    - print contents of hosts, resolve, certificates, crontab, anacrontab
+    - search all log files for "error" and "exception"
 
   # install docker
   # create an eks cluster and install prometheus and grafana
