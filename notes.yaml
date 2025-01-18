@@ -208,6 +208,36 @@ code:
         const randomString = Array.from(randomBytes).map(i => String.fromCharCode(i%54+48)).join("");
         console.log(randomString);
         console.log(randomBytes.toString('base64url'));
+      web-worker-dedicated-origin-private-opfs: |
+        if (typeof document !== 'undefined') {
+          if (!window.Worker) throw new Error("Your browser doesn't support web workers.")
+
+          const worker = new Worker('main.js');
+          const input = document.querySelector("#input");
+          input.value = `{ "at": 0, "s": "hello world" }`;
+          input.onchange = () => { worker.postMessage(input.value); input.value = `{ "at": 0, "s": "hello world" }`; }
+          worker.postMessage(JSON.stringify({at:0, s:""}));
+          worker.onmessage = (e) => document.querySelector("#result").textContent = e.data;
+        } else {
+          onmessage = async (e) => {
+            const root = await navigator.storage.getDirectory();
+            const draftHandle = await root.getFileHandle("draft.txt", { create: true });
+            const accessHandle = await draftHandle.createSyncAccessHandle();
+
+            const data = JSON.parse(e.data);
+            const encodedMessage = new TextEncoder().encode(data.s);
+            accessHandle.write(encodedMessage, { at: data.at });
+
+            const fileSize = accessHandle.getSize();
+            const buffer = new DataView(new ArrayBuffer(fileSize));
+            accessHandle.read(buffer, { at: 0 });
+
+            accessHandle.flush(); // Persist changes to disk.
+            accessHandle.close();
+
+            postMessage(new TextDecoder().decode(buffer));
+          };
+        }
       http-fs: |
         const crypto = require('node:crypto');
         const fs = require('node:fs');
