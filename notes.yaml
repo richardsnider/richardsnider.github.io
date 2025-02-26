@@ -201,6 +201,8 @@ code:
       fetch: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
     closure: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures
     example:
+      log-every-second-10-times: for (const i in Array.from(Array(10))) await new Promise(r=>setTimeout(r,1000))
+      random-characters: for (const i in Array.from(Array(10))) { console.log({key:i-1+2,value:'abcde'.at(Math.floor(Math.random()*4+1))}); await new Promise(r=>setTimeout(r, 500)) }
       random-strings: setInterval(() => console.log(require('node:crypto').randomBytes(100).toString('base64url')), 1000);
       random-bigint: setInterval(() => console.log((BigInt('0x' + require('node:crypto').randomBytes(100).toString('hex')) % (10n ** 12n)).toString()), 1000);
       crypto-random: |
@@ -237,6 +239,31 @@ code:
 
             postMessage(new TextDecoder().decode(buffer));
           };
+        }
+      okta: |
+        const getOktaAccessToken = async () => {
+          // https://developer.okta.com/docs/reference/api/authn/#authentication-operations
+          const oktaSessionTokenResponse = await fetch(`https://example.okta.com/api/v1/authn`, {
+            method: `POST`,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username: 'admin@example.com', password: 'my-secret-password' })
+          });
+
+          const oktaSessionToken = (await oktaSessionTokenResponse.json()).sessionToken;
+          const authorizationServerId = 'ausb4a1b2c3d4e5f6g8h';
+
+          // https://developer.okta.com/docs/reference/api/oidc/#authorize
+          const oktaRedirectResponse = await fetch(`https://example.okta.com`
+            + `/oauth2/${authorizationServerId}/v1/authorize?response_type=token`
+            + `&scope=openid%20example_profile%20email%20offline_access&state=TEST`
+            + `&nonce=TEST&client_id=0oab4pskjhQQ6ZlLi1d7`
+            + `&redirect_uri=https%3A%2F%2Fmy-app.example.com`
+            + `&sessionToken=${oktaSessionToken}`,
+            { redirect: "manual" }
+          );
+
+          const oktaRedirectUrl = new URL(oktaRedirectResponse.headers.get("Location") as string);
+          return new URLSearchParams(oktaRedirectUrl.hash.substring(1)).get("access_token") as string;
         }
       http-fs: |
         const crypto = require('node:crypto');

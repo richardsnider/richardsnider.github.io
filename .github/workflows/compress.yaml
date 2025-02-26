@@ -8,6 +8,7 @@ defaults:
     shell: bash -ex {0} # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#custom-shell
 jobs:
   compress:
+    if: false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
