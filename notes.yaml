@@ -1958,6 +1958,19 @@ security:
   incidents:
     - https://blog.lastpass.com/2022/08/notice-of-recent-security-incident/
   okta:
+    example:
+      bla: |
+        export OKTA_SESSION_TOKEN=$(curl --silent --request POST \
+        --header "Content-Type: application/json" \
+        --data '{"username":"admin@example.com","password":"Password1!"}' \
+        https://example.okta.com/api/v1/authn | jq -r .sessionToken)
+
+        export ACCESS_TOKEN=$(curl --silent -L -o /dev/null -w %{url_effective} \
+        "https://example.okta.com/oauth2/aus9o8wzkhckw9TLa0h7z/v1/authorize?response_type=token&scope=openid%20my_profile%20email%20offline_access&state=TEST&nonce=TEST&client_id=0oab4pskjhQQ6ZlLi1d7&redirect_uri=https%3A%2F%2Fapp.example.com&sessionToken=$OKTA_SESSION_TOKEN" | ggrep -oP "(?<=access_token=).*?(?=&)")
+
+        curl --silent --header 'Content-Type: application/json' \
+        --header "Authorization: Bearer $ACCESS_TOKEN" \
+        https://app.example.com/path?token=$ACCESS_TOKEN }
   ssl:
     ^: https://www.cloudflare.com/learning/ssl/what-is-ssl/
     lets-encrypt: https://letsencrypt.org/how-it-works/
