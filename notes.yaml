@@ -1726,17 +1726,29 @@ linux:
         - cat /proc/3378/cgroup
         - https://www.linuxjournal.com/content/everything-you-need-know-about-linux-containers-part-i-linux-control-groups-and-process
   practice:
-    - compile a basic C program then create an encrypted archive and upload it to s3
-    - run a nodejs container then find its file directory
-    - get contents of important files in etc then sort all files by size
-    - find the docker service, find the service using the most memory
+    - compile and run a basic C program, then log its system calls
+    - create a password encrypted archive and upload it to s3
+    - run a nodejs container, send requests to it with curl, then find its file directory
+    - get contents of important files in /etc then sort all files by size
+    - list all services, print the docker service, start a new service, stop the service
     - list ip addresses and tables
+    - generate an x509 certificate using openssl and encrypt a file with it
     - monitor open sockets and the epoch date down to nano seconds
-    - list all root directories and diff results
+    - list all root directories and diff with results from ls
     - install yq and list all instances of "sql" in notes.yaml
-    - list all key names with "!" in notes.yaml as a single json line
+    - base64 encode all keys and output as a single json line
     - print a random string and random big int every second
-    - search all log files for "error" and "exception"
+    - search all log files modified in the last 24 hours for "error" and "exception"
+    - deep sort the key value pairs in notes.yaml
+    - run a basic service and deployment in k8s
+    - set up a cron job to log the service using the most memory every 2 minutes
+    - listen to a tcp port and print the contents of the packets
+    - use iptables to block all incoming traffic except SSH and HTTP
+    - use bcrypt to hash a password and verify it
+    - list common claims in a JWT token
+    - list all tables in a database and alter a user's password
+    - list aws vpc subnets and security groups
+    - wrtie a b-tree algorithm that fills from a buffer
 
   # install docker
   # create an eks cluster and install prometheus and grafana
