@@ -897,6 +897,8 @@ code:
       random-character: for (const i in Array.from(Array(10))) { console.log({key:i-1+2,value:'abcde'.at(Math.floor(Math.random()*4+1))}); await new Promise(r=>setTimeout(r, 500)) }
       random-strings: setInterval(() => console.log(require('node:crypto').randomBytes(100).toString('base64url')), 1000);
       random-bigint: setInterval(() => console.log((BigInt('0x' + require('node:crypto').randomBytes(100).toString('hex')) % (10n ** 12n)).toString()), 1000);
+      bcrypt-hash: console.log(require('bcrypt').hashSync('some-password','\$2b\$10\$uGaLXOLPDEGbtnU7jhDPKO'))
+      bcrypt-compare: console.log(require('bcrypt').compareSync('some-password','\$2b\$10\$uGaLXOLPDEGbtnU7jhDPKOhij1LkIua/4tHNcNwxbrsIkGYdgUSOu'))
       crypto-random: |
         const randomBytes = crypto.getRandomValues(new Buffer.alloc(10));
         const randomString = Array.from(randomBytes).map(i => String.fromCharCode(i%54+48)).join("");
@@ -1451,8 +1453,30 @@ linux:
         decrypt-symmetric: openssl enc -d -aes256 -in pkg.tar.gz | tar -xz
         base64-encrypt: tar -czf - pkg | openssl enc -aes256 | base64 > enc.txt
         base64-decrypt: cat enc.txt | base64 -d | openssl enc -d -aes256 | tar -xz
-        generate-rsa-private-key: openssl genrsa -out /tmp/private-key.pem 3072
-        generate-rsa-public-key: openssl rsa -in /tmp/private-key.pem -pubout -out /tmp/public-key.pem
+        generate-rsa-keypair: openssl genrsa 3072 | tee private.pem | openssl rsa -pubout | tee public.pem
+        encrypt-asymmetric: echo "secret" | openssl pkeyutl -encrypt -pubin -inkey public.pem > encrypted.txt
+        decrypt-asymmetric: cat encrypted.txt | openssl pkeyutl -decrypt -inkey private.pem
+        sign: echo "certified legit content" | openssl pkeyutl -sign -inkey private.pem > signature.txt
+        verify-signature: echo "certified legit content" | openssl pkeyutl -verify -pubin -inkey public.pem -sigfile signature.txt
+        create-jwt: |
+          openssl req -new -key private.pem -subj "/C=US/ST=California/L=San Francisco/O=My Company/CN=mycompany.com" > jwt_csr.pem
+          cat jwt_csr.pem | openssl x509 -req -days 365  -signkey private.pem > jwt_cert.pem
+          # create JWT
+          JWT_HEADER='{"alg":"RS256","typ":"JWT"}'
+          JWT_PAYLOAD='{"sub":"1234567890","name":"John Doe","iat":'"$(date +%s)"'}'
+          JWT_HEADER_BASE64=$(echo -n "$JWT_HEADER" | openssl base64 | tr -d '=' | tr '/+' '_-' | tr -d '\n')
+          JWT_PAYLOAD_BASE64=$(echo -n "$JWT_PAYLOAD" | openssl base64 | tr -d '=' | tr '/+' '_-' | tr -d '\n')
+          JWT_SIGNATURE=$(echo -n "$JWT_HEADER_BASE64.$JWT_PAYLOAD_BASE64" | openssl dgst -sha256 -sign private.pem | openssl base64 | tr -d '=' | tr '/+' '_-' | tr -d '\n')
+          # verify JWT
+          JWT="$JWT_HEADER_BASE64.$JWT_PAYLOAD_BASE64.$JWT_SIGNATURE"
+          echo "JWT: \n $JWT"
+          # verify JWT signature
+          echo -n "$JWT_HEADER_BASE64.$JWT_PAYLOAD_BASE64" | openssl dgst -sha256 -verify public.pem -signature <(echo -n "$JWT_SIGNATURE
+          " | openssl base64 -d | tr -d '\n')
+          # verify JWT payload
+          echo "$JWT_PAYLOAD" | jq -R 'fromjson? | {sub, name, iat}' | jq .
+          # verify JWT header
+          echo "$JWT_HEADER" | jq -R 'fromjson? | {alg, typ}' | jq .
         encrypt-b64: openssl pkeyutl -encrypt -pubin -inkey /tmp/public-key.pem -in /tmp/secret | base64 > /tmp/secret_encrypted_b64
         decrypt-b64: cat /tmp/secret_encrypted_b64 | base64 -D | openssl pkeyutl -decrypt -inkey /tmp/private-key.pem
     ptrace:
