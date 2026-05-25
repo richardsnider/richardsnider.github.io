@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
-  <title style="display:none">Richard Snider</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Richard Snider</title>
   <style>
     h1 {
       margin-bottom: 0;
@@ -13,24 +14,28 @@
       margin-top: 0;
     }
 
+    h3 {
+      font-size: 1em;
+      margin-top: 0;
+      margin-bottom: 2px;
+    }
+
     hr {
       margin-top: 15px;
     }
 
-    p {
-      margin-left: 25px;
-      margin-top: 0px;
+    ul {
+      margin-top: 0;
+      margin-bottom: 10px;
+      padding-left: 25px;
+    }
+
+    li {
       margin-bottom: 2px;
-      text-indent: -10px;
     }
 
     a:link {
       color: dodgerblue;
-    }
-
-    .fade,
-    .fade * {
-      color: grey;
     }
   </style>
 </head>
@@ -40,75 +45,75 @@
   <div>
     <a href="mailto:richardnsnider@gmail.com">richardnsnider@gmail.com</a> |
     <a href="https://richardsnider.github.io">richardsnider.github.io</a> |
-    <a href="https://www.linkedin.com/in/richardsnider/">linkedin.com/in/richardsnider</a>    
+    <a href="https://www.linkedin.com/in/richardsnider/">linkedin.com/in/richardsnider</a>
   </div>
 
-  <div class="fade">
-    <hr>
-    </hr>
-    <h2>Experience</h2>
-  </div>
-
-  <b>Platform Engineer at CHG Healthcare</b>
+  <hr>
+  <h3>Platform Engineer at CHG Healthcare</h3>
   <div>Jan 2023 - Present</div>
-  <p>• Build and maintain platform tooling on AWS (EKS, S3, KMS, IAM, ECR) with Kubernetes, ArgoCD, and Istio service mesh</p>
-  <p>• Develop Node.js services backed by MySQL/Aurora RDS, Redis, and Confluent Kafka</p>
-  <p>• Author GitHub Actions workflows for CI/CD across platform repositories</p>
-  <p>• Set up Okta SSO integrations for enterprise user bases</p>
-  <p>• Deploy Grafana Alloy to ship telemetry into Grafana Cloud</p>
-  </br>
+  <ul>
+    <li>Build and maintain platform tooling on AWS (EKS, S3, KMS, IAM, ECR) with Kubernetes, ArgoCD, and Istio service mesh</li>
+    <li>Develop Node.js services backed by MySQL/Aurora RDS, Redis, and Confluent Kafka</li>
+    <li>Author GitHub Actions workflows for CI/CD across platform repositories</li>
+    <li>Set up Okta SSO integrations for enterprise user bases</li>
+    <li>Deploy Grafana Alloy to ship telemetry into Grafana Cloud</li>
+  </ul>
 
-  <b>DevOps Engineer at Smule</b>
-  <div>April 2022 - Dec 2022</div>
-  <p>• Key contributor to hybrid cloud strategy and implementation, with a focus on BCDR</p>
-  <p>• Create Terraform and Crossplane IaC for GCP resources (GKE, GCS, Cloud SQL, IAM)</p>
-  <p>• Manage self-hosted services like Gitlab, Vault (GKE), and Vitess (GKE)</p>
-  <p>• Establish canary deployment process using Nginx ingress annotations</p>
-  <p>• Administer on-premises Kubernetes clusters with Ansible and RKE (Rancher)</p>
-  <p>• Work with Okta, Cloudflare, Fastly, and ArgoCD</p>
-  </br>
+  <h3>DevOps Engineer at Smule</h3>
+  <div>Apr 2022 - Dec 2022</div>
+  <ul>
+    <li>Key contributor to hybrid cloud strategy and implementation, with a focus on BCDR</li>
+    <li>Create Terraform and Crossplane IaC for GCP resources (GKE, GCS, Cloud SQL, IAM)</li>
+    <li>Manage self-hosted services like Gitlab, Vault (GKE), and Vitess (GKE)</li>
+    <li>Establish canary deployment process using Nginx ingress annotations</li>
+    <li>Administer on-premises Kubernetes clusters with Ansible and RKE (Rancher)</li>
+    <li>Work with Okta, Cloudflare, Fastly, and ArgoCD</li>
+  </ul>
 
-  <b>Senior Site Reliability Engineer at Carnegie Learning</b>
-  <div>October 2021 - April 2022</div>
-  <p>• Designed AWS infrastructure with SQS, SNS, Lambda, S3, IAM, and Cloudfront resources</p>
-  <p>• Led development of Jenkins scripted pipelines utilizing ECS and Cloudformation</p>
-  <p>• Investigated production issues across many applications written in different languages</p>
-  </br>
+  <h3>Site Reliability Engineer at Carnegie Learning</h3>
+  <div>Oct 2021 - Apr 2022</div>
+  <ul>
+    <li>Designed AWS infrastructure with SQS, SNS, Lambda, S3, IAM, and Cloudfront resources</li>
+    <li>Led development of Jenkins scripted pipelines utilizing ECS and Cloudformation</li>
+    <li>Investigated production issues across many applications written in different languages</li>
+  </ul>
 
-  <b>DevOps Engineer at SkySlope</b>
-  <div>Jul 2019 - October 2021</div>
-  <p>• Led the DevOps team's efforts to support engineering teams</p>
-  <p>• Improved and maintained Kubernetes clusters and custom Helm charts</p>
-  <p>• Worked heavily with AWS S3, IAM, Route 53, RDS, KMS, EC2 ELB/ALB, and VPC Transit Gateway</p>
-  <p>• Guided CI/CD efforts by using Linux expertise to develop Codefresh pipelines</p>
-  <p>• Single-handedly migrated existing Terraform IaC to Terraform Cloud Enterprise for all business verticals</p>
-  <p>• Wrote Golang Docker apps and deployed them as production microservices</p>
-  <p>• Gained experience working with Kops, Cilium CNI, Wireguard, Linkerd service mesh, Gloo Edge, Prometheus, Grafana, Okta SAML, and MongoDB Atlas</p>
-  </br>
+  <h3>DevOps Engineer at SkySlope</h3>
+  <div>Jul 2019 - Oct 2021</div>
+  <ul>
+    <li>Led the DevOps team's efforts to support engineering teams</li>
+    <li>Improved and maintained Kubernetes clusters and custom Helm charts</li>
+    <li>Worked heavily with AWS S3, IAM, Route 53, RDS, KMS, EC2 ELB/ALB, and VPC Transit Gateway</li>
+    <li>Guided CI/CD efforts by using Linux expertise to develop Codefresh pipelines</li>
+    <li>Single-handedly migrated existing Terraform IaC to Terraform Cloud Enterprise for all business verticals</li>
+    <li>Wrote Golang Docker apps and deployed them as production microservices</li>
+    <li>Gained experience working with Kops, Cilium CNI, Wireguard, Linkerd service mesh, Gloo Edge, Prometheus, Grafana, Okta SAML, and MongoDB Atlas</li>
+  </ul>
 
-  <b>Software Engineer at SkySlope</b>
+  <h3>Software Engineer at SkySlope</h3>
   <div>Apr 2018 - Jul 2019</div>
-  <p>• Role with a scrum team focused on integrations and ETL initiatives</p>
-  <p>• Used Node.js, Typescript React, MySQL, and Elastic Search (ELK)</p>
-  </br>
+  <ul>
+    <li>Role with a scrum team focused on integrations and ETL initiatives</li>
+    <li>Used Node.js, Typescript React, MySQL, and Elastic Search (ELK)</li>
+  </ul>
 
-  <b>Software Engineer at Top of Mind Networks</b>
-  <div> Sep 2015 - Dec 2017</div>
-  <p>• Created a Twilio/Sendgrid deployment engine and other API features</p>
-  </br>
+  <h3>Software Engineer at Top of Mind Networks</h3>
+  <div>Sep 2015 - Dec 2017</div>
+  <ul>
+    <li>Created a Twilio/Sendgrid deployment engine and other API features</li>
+  </ul>
 
-  <b>Associate Software Engineer at DealerSocket</b>
-  <div> Feb 2015 - Aug 2015</div>
-  <p>• Full stack position in an agile team environment</p>
+  <h3>Associate Software Engineer at DealerSocket</h3>
+  <div>Feb 2015 - Aug 2015</div>
+  <ul>
+    <li>Full stack position in an agile team environment</li>
+  </ul>
 
-  <div class="fade">
-    <hr>
-    </hr>
-    <h2>Education</h2>
-  </div>
+  <hr>
+  <h2>Education</h2>
 
-  <b>MS Engineering Science, BS Electrical Engineering</b>
-  <p>University of the Pacific, Stockton CA</p>
+  <h3>MS, BS Electrical Engineering</h3>
+  <div>University of the Pacific, Stockton CA</div>
 </body>
 
 </html>
