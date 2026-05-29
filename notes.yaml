@@ -752,6 +752,12 @@ cloud:
       asg:
         - https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-target-tracking.html#available-metrics
     iam:
+    rds:
+      ^: Relational Database Service https://docs.aws.amazon.com/rds/
+      restore-to-point-in-time:
+        - https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/rds_cluster#restore_to_point_in_time-argument-reference
+        - https://docs.aws.amazon.com/cli/latest/reference/rds/restore-db-cluster-to-point-in-time.html
+        - aws_rds_cluster resource's restore_to_point_in_time block clones from source_cluster_identifier; restore_type is "full-copy" (independent volume) or "copy-on-write" (shares source volume), and use_latest_restorable_time = true
     s3:
     vpc:
     note:
@@ -1021,14 +1027,23 @@ code:
 comp-sci:
   ^: https://github.com/jwasham/coding-interview-university
   ai:
-    diffusion: https://en.wikipedia.org/wiki/Diffusion_process
-    machine-learning:
-      tool:
-        - https://dreamfusion3d.github.io/
-        - https://github.com/nv-tlabs/GET3D
-        - https://phenaki.video/index.html
-      deep-learning: https://github.com/tensorflow/tensorflow
-      neural-network: https://datadan.io/blog/neural-net-with-go (https://github.com/dwhitena/gophernet/blob/master/main.go)
+    anthropic:
+      summarize-git-diff:
+        env:
+          CLAUDE_PAYLOAD: |
+            model: claude-sonnet-4-6
+            max_tokens: 4096
+            messages:
+              - role: user
+                content: "Summarize the diff: "
+        run: |
+          export GIT_DIFF=$(git diff HEAD~1 HEAD)
+
+          printf '%s' "$CLAUDE_PAYLOAD" | yq '(.messages[0].content) += strenv(GIT_DIFF) | @json' | curl -sf https://api.anthropic.com/v1/messages \
+            -H "content-type: application/json" \
+            -H "x-api-key: ${ANTHROPIC_API_KEY}" \
+            -H "anthropic-version: 2023-06-01" \
+            --data @- | yq '.content[0].text'
   algorithm: https://github.com/trekhleb/javascript-algorithms
   big-o-notation:
     ^: https://www.freecodecamp.org/news/big-o-notation-why-it-matters-and-why-it-doesnt-1674cfa8a23c/
@@ -1054,7 +1069,6 @@ comp-sci:
   jit: just in time compilation https://www.freecodecamp.org/news/just-in-time-compilation-explained/
   normalize:
 data:
-  elk: https://www.elastic.co/what-is/elk-stack
   kafka:
     ^: event streaming application by apache https://kafka.apache.org/documentation/
     explanation:

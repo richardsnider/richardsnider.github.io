@@ -5,6 +5,8 @@ function search-files {
   grep --recursive --ignore-case --line-number $1 ${2:-.}
 }
 
+alias k="kubectl"
+
 function wiki {
   results=$(curl 'https://en.wikipedia.org/w/rest.php/v1/search/title?limit=10&q='$1 | yq '.pages | map(.key) | join(" ")')
   select opt in $results; do
