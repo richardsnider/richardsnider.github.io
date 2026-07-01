@@ -12,6 +12,12 @@ const els = {
   newBtn: document.getElementById('new-btn'),
   checkBtn: document.getElementById('check-btn'),
   revealBtn: document.getElementById('reveal-btn'),
+  difficulty: document.getElementById('difficulty'),
+};
+
+const WORD_FILES = {
+  easy: '../../notes/words-easy.yaml',
+  hard: '../../notes/words.yaml',
 };
 
 let pool = [];           // [{word, def}]
@@ -21,8 +27,8 @@ let numbers = null;      // 2D array of numbers (or 0)
 let hints = null;        // Set of "r,c" strings for pre-filled helper cells
 let cursor = { r: 0, c: 0, dir: 'A' };
 
-async function loadWords() {
-  const res = await fetch('../../notes/words.yaml');
+async function loadWords(file) {
+  const res = await fetch(file);
   const text = await res.text();
   const entries = [];
   for (const line of text.split('\n')) {
@@ -384,19 +390,28 @@ function newPuzzle() {
   }, 0);
 }
 
-async function init() {
+async function loadPool() {
   els.status.textContent = 'Loading vocabulary...';
+  const file = WORD_FILES[els.difficulty.value] || WORD_FILES.hard;
   try {
-    pool = await loadWords();
+    pool = await loadWords(file);
   } catch (err) {
-    els.status.textContent = 'Failed to load words.yaml — serve this over http, not file://';
-    return;
+    els.status.textContent = 'Failed to load words — serve this over http, not file://';
+    pool = [];
+    return false;
   }
   els.status.textContent = `${pool.length} words loaded.`;
+  return true;
+}
+
+async function init() {
   els.newBtn.addEventListener('click', newPuzzle);
   els.checkBtn.addEventListener('click', check);
   els.revealBtn.addEventListener('click', reveal);
-  newPuzzle();
+  els.difficulty.addEventListener('change', async () => {
+    if (await loadPool()) newPuzzle();
+  });
+  if (await loadPool()) newPuzzle();
 }
 
 init();
