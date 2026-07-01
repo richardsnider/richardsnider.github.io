@@ -30,9 +30,9 @@ const DIRS = [
 const DIR_GRID_LAYOUT = ['NW', 'N', 'NE', 'W', null, 'E', 'SW', 'S', 'SE'];
 
 const FLASH_MS = 3000;
-const PERIPHERAL_DISTRACTORS = 3;
-const CENTRAL_TARGETS = 5;      // characters shown at random central positions
-const CENTRAL_CANDIDATES = 10;   // total buttons: the targets plus decoys
+const PERIPHERAL_DISTRACTORS = 2;
+const CENTRAL_TARGETS = 4;      // characters shown at random central positions
+const CENTRAL_CANDIDATES = 8;   // total buttons: the targets plus decoys
 
 const state = {
   trial: 0,
