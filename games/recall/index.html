@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recall</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <a href="../" class="back">&larr; Games</a>
+    <h1>Recall</h1>
+    <div class="controls">
+      <select id="difficulty" title="Difficulty">
+        <option value="easy">Easy</option>
+        <option value="hard">Hard</option>
+      </select>
+      <button id="hint-btn" title="Reveal a letter (Space)">Hint</button>
+      <button id="continue-btn" title="Next word (Enter)">Continue</button>
+    </div>
+  </header>
+  <main>
+    <p id="definition"></p>
+    <div id="word"></div>
+    <p id="hint-help">Space to reveal a letter &middot; Enter for the next word</p>
+  </main>
+  <div id="status"></div>
+  <script src="game.js"></script>
+</body>
+</html>

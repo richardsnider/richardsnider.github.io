@@ -1,7 +1,7 @@
 const CENTER = 250;
 const PERIPHERAL_RADIUS = 200;
-const CENTRAL_RADIUS = 80;
-const FONT_SIZE = 26;
+const CENTRAL_RADIUS = 92;
+const FONT_SIZE = 34;
 
 // A wide array of visually distinct glyphs: uppercase letters, digits, and
 // common symbols. Rendered in Georgia (serif), whose serifed I and narrow 0
@@ -12,6 +12,9 @@ const CHARS = [
   '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
   '★', '♦', '♥', '♠', '♣', '●', '▲', '■', '◆', '✦', '✿', '❄',
   '☀', '☂', '☎', '☯', '♫', '⚡', '✈', '☺', '⚑', '⌘',
+  '☾', '♛', '♞', '♜', '☘', '✂', '✎', '⚓', '⚙', '☕',
+  '☁', '⌛', '☔', '♻', '⚖', '✉', '☠', '⚔', '♬', '❀',
+  '⌂', '✺', '❁', '✚', '⬟', '⬢', '✤', '❖', '⚜', '☑',
 ];
 const PALETTE = [
   '#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff',
@@ -31,7 +34,7 @@ const DIR_GRID_LAYOUT = ['NW', 'N', 'NE', 'W', null, 'E', 'SW', 'S', 'SE'];
 
 const FLASH_MS = 3000;
 const PERIPHERAL_DISTRACTORS = 2;
-const CENTRAL_TARGETS = 4;      // characters shown at random central positions
+const CENTRAL_TARGETS = 3;      // characters shown at random central positions
 const CENTRAL_CANDIDATES = 8;   // total buttons: the targets plus decoys
 
 const state = {

@@ -1,0 +1,16 @@
+* { box-sizing: border-box; }
+body { font-family: system-ui, sans-serif; background: #111; color: #eee; margin: 0; padding: 1rem; }
+header { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
+header h1 { margin: 0; font-size: 1.25rem; }
+.back { color: #8ab4f8; text-decoration: none; }
+.controls { margin-left: auto; display: flex; gap: 0.5rem; }
+button, #difficulty { background: #333; color: #eee; border: 1px solid #555; padding: 0.4rem 0.75rem; border-radius: 4px; cursor: pointer; font: inherit; }
+button:hover, #difficulty:hover { background: #444; }
+main { max-width: 46rem; margin: 0 auto; text-align: center; }
+#definition { font-size: 1.5rem; line-height: 1.4; color: #eee; margin: 3rem 0 2.5rem; min-height: 2.1em; }
+#word { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-bottom: 2rem; }
+.box { width: 2.75rem; height: 3.25rem; border: 1px solid #444; border-radius: 4px; background: #fafafa; color: #111; display: flex; align-items: center; justify-content: center; font: 600 1.6rem/1 system-ui, sans-serif; text-transform: uppercase; }
+.box.revealed { background: #cfe3ff; color: #1a4a8a; }
+.box.filled { background: #e6ffe6; color: #0a6f2c; }
+#hint-help { color: #777; font-size: 0.85rem; margin-top: 2rem; }
+#status { margin-top: 1rem; text-align: center; color: #aaa; font-size: 0.9rem; min-height: 1.2em; }
