@@ -30,7 +30,7 @@ const DIRS = [
 const DIR_GRID_LAYOUT = ['NW', 'N', 'NE', 'W', null, 'E', 'SW', 'S', 'SE'];
 
 const FLASH_MS = 3000;
-const PERIPHERAL_DISTRACTORS = 4;
+const PERIPHERAL_DISTRACTORS = 3;
 const CENTRAL_FLANKERS = 7;
 const CENTRAL_CANDIDATES = 8;
 
@@ -154,6 +154,7 @@ function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
 
 async function runTrial() {
   const centralChar = randOf(CHARS);
+
   const targetChar = randOf(CHARS);
   const dir = randOf(DIRS).key;
   const layout = buildLayout(centralChar, targetChar, dir);
