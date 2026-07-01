@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crossword</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <a href="../" class="back">&larr; Games</a>
+    <h1>Crossword</h1>
+    <div class="controls">
+      <button id="new-btn">New Puzzle</button>
+      <button id="check-btn">Check</button>
+      <button id="reveal-btn">Reveal</button>
+    </div>
+  </header>
+  <main>
+    <div id="grid-wrap"><table id="grid"></table></div>
+    <section id="clues">
+      <div class="clue-col">
+        <h2>Across</h2>
+        <ol id="across-clues"></ol>
+      </div>
+      <div class="clue-col">
+        <h2>Down</h2>
+        <ol id="down-clues"></ol>
+      </div>
+    </section>
+  </main>
+  <div id="status"></div>
+  <script src="game.js"></script>
+</body>
+</html>

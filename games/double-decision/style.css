@@ -1,0 +1,23 @@
+* { box-sizing: border-box; }
+body { font-family: system-ui, sans-serif; background: #111; color: #eee; margin: 0; padding: 1rem; }
+header { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
+header h1 { margin: 0; font-size: 1.25rem; }
+.back { color: #8ab4f8; text-decoration: none; }
+.stats { margin-left: auto; display: flex; gap: 1rem; color: #ccc; font-size: 0.9rem; }
+main { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+#stage { background: #000; border-radius: 4px; max-width: 100%; height: auto; }
+#prompt { min-height: 1.5em; color: #ccc; font-size: 1rem; }
+#controls { display: flex; flex-direction: column; align-items: center; gap: 1rem; width: 100%; max-width: 32rem; }
+.choice-row { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; align-items: center; }
+.choice-row .label { flex-basis: 100%; text-align: center; color: #aaa; font-size: 0.9rem; margin-bottom: 0.25rem; }
+button { background: #333; color: #eee; border: 1px solid #555; border-radius: 4px; cursor: pointer; font: inherit; padding: 0.5rem 0.75rem; }
+button:hover { background: #444; }
+#central-choice button { width: 4rem; height: 4rem; padding: 0.4rem; }
+#central-choice button svg { width: 100%; height: 100%; }
+#dir-grid { display: grid; grid-template-columns: repeat(3, 3rem); grid-template-rows: repeat(3, 3rem); gap: 0.35rem; }
+#dir-grid button { padding: 0; font-size: 1.25rem; }
+#dir-grid .spacer { visibility: hidden; }
+.hidden { display: none !important; }
+button.correct { background: #1f6f3a; border-color: #2f8f52; }
+button.wrong { background: #7f1f1f; border-color: #a53030; }
+#start-row { display: flex; gap: 0.5rem; }
