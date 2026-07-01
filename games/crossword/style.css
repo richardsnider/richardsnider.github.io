@@ -4,8 +4,10 @@ header { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem; margin-
 header h1 { margin: 0; font-size: 1.25rem; }
 .back { color: #8ab4f8; text-decoration: none; }
 .controls { margin-left: auto; display: flex; gap: 0.5rem; }
-button, #difficulty { background: #333; color: #eee; border: 1px solid #555; padding: 0.4rem 0.75rem; border-radius: 4px; cursor: pointer; font: inherit; }
-button:hover, #difficulty:hover { background: #444; }
+button, #difficulty, #hints { background: #333; color: #eee; border: 1px solid #555; padding: 0.4rem 0.75rem; border-radius: 4px; cursor: pointer; font: inherit; }
+button:hover, #difficulty:hover, #hints:hover { background: #444; }
+#hints-label { display: inline-flex; align-items: center; gap: 0.4rem; color: #ccc; font-size: 0.9rem; }
+#hints { padding: 0.25rem 0.4rem; }
 main { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start; }
 #grid-wrap { display: inline-block; }
 #grid { border-collapse: collapse; background: #000; }

@@ -13,6 +13,7 @@ const els = {
   checkBtn: document.getElementById('check-btn'),
   revealBtn: document.getElementById('reveal-btn'),
   difficulty: document.getElementById('difficulty'),
+  hints: document.getElementById('hints'),
 };
 
 const WORD_FILES = {
@@ -379,11 +380,14 @@ function newPuzzle() {
     placed = placements.map(p => ({ ...p, r: p.r - minR, c: p.c - minC }));
     assignNumbers(solution, placed);
     hints = new Set();
+    const hintCount = +els.hints.value;
     for (const p of placed) {
       const [dr, dc] = p.dir === 'A' ? [0, 1] : [1, 0];
       const idxs = [...Array(p.word.length).keys()];
       shuffle(idxs);
-      for (const i of idxs.slice(0, 2)) hints.add(`${p.r + dr * i},${p.c + dc * i}`);
+      // Never fill a whole word — always leave at least one blank cell.
+      const n = Math.min(hintCount, p.word.length - 1);
+      for (const i of idxs.slice(0, n)) hints.add(`${p.r + dr * i},${p.c + dc * i}`);
     }
     render();
     els.status.textContent = `${placed.length} words placed.`;
@@ -411,6 +415,7 @@ async function init() {
   els.difficulty.addEventListener('change', async () => {
     if (await loadPool()) newPuzzle();
   });
+  els.hints.addEventListener('change', newPuzzle);
   if (await loadPool()) newPuzzle();
 }
 
