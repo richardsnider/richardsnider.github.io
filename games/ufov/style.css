@@ -17,6 +17,7 @@ button:hover { background: #444; }
 #dir-grid button { padding: 0; font-size: 1.25rem; }
 #dir-grid .spacer { visibility: hidden; }
 .hidden { display: none !important; }
+button.selected { background: #2a4a7f; border-color: #4d96ff; }
 button.correct { background: #1f6f3a; border-color: #2f8f52; }
 button.wrong { background: #7f1f1f; border-color: #a53030; }
 #result { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; width: 100%; max-width: 22rem; }

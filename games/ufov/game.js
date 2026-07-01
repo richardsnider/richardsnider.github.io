@@ -1,6 +1,6 @@
 const CENTER = 250;
 const PERIPHERAL_RADIUS = 200;
-const FLANKER_RADIUS = 70;
+const CENTRAL_RADIUS = 80;
 const FONT_SIZE = 26;
 
 // A wide array of visually distinct glyphs: uppercase letters, digits, and
@@ -31,16 +31,18 @@ const DIR_GRID_LAYOUT = ['NW', 'N', 'NE', 'W', null, 'E', 'SW', 'S', 'SE'];
 
 const FLASH_MS = 3000;
 const PERIPHERAL_DISTRACTORS = 3;
-const CENTRAL_FLANKERS = 7;
-const CENTRAL_CANDIDATES = 8;
+const CENTRAL_TARGETS = 3;      // characters shown at random central positions
+const CENTRAL_CANDIDATES = 8;   // total buttons: the targets plus decoys
 
 const state = {
   trial: 0,
   correct: 0,
   running: false,
   current: null,
-  answers: { char: null, dir: null },
+  answers: { chars: null, dir: null },
 };
+
+let selected = [];   // central characters the player has toggled on this trial
 
 const stage = document.getElementById('stage');
 const promptEl = document.getElementById('prompt');
@@ -94,9 +96,24 @@ function drawFixation() {
   stage.appendChild(g);
 }
 
+// Scatter n non-overlapping points within a disc of CENTRAL_RADIUS around center.
+function randomCentralPositions(n) {
+  const pts = [];
+  const minDist = FONT_SIZE * 1.6;
+  let guard = 0;
+  while (pts.length < n && guard++ < 500) {
+    const a = Math.random() * 2 * Math.PI;
+    const r = Math.sqrt(Math.random()) * CENTRAL_RADIUS;
+    const x = CENTER + Math.cos(a) * r;
+    const y = CENTER + Math.sin(a) * r;
+    if (pts.every(p => Math.hypot(p.x - x, p.y - y) >= minDist)) pts.push({ x, y });
+  }
+  return pts;
+}
+
 // Build a full description of every glyph on screen so the exact same layout
 // can be redrawn after the player answers.
-function buildLayout(centralChar, targetChar, dir) {
+function buildLayout(centralChars, targetChar, dir) {
   const entities = [];
 
   // Peripheral distractors: any char EXCEPT the target char, so the target is
@@ -112,18 +129,11 @@ function buildLayout(centralChar, targetChar, dir) {
     });
   }
 
-  // Central flankers.
-  for (const f of shuffled(DIRS).slice(0, CENTRAL_FLANKERS)) {
-    entities.push({
-      role: 'flanker', char: randOf(CHARS),
-      x: CENTER + Math.cos(f.angle) * FLANKER_RADIUS,
-      y: CENTER + Math.sin(f.angle) * FLANKER_RADIUS,
-      color: randOf(PALETTE),
-    });
-  }
-
-  // Central target.
-  entities.push({ role: 'central', char: centralChar, x: CENTER, y: CENTER, color: randOf(PALETTE) });
+  // Central targets: the characters the player must recall, scattered near center.
+  const positions = randomCentralPositions(centralChars.length);
+  centralChars.forEach((char, i) => {
+    entities.push({ role: 'central', char, x: positions[i].x, y: positions[i].y, color: randOf(PALETTE) });
+  });
 
   // Peripheral target: unique glyph, ordinary color.
   const t = DIRS.find(x => x.key === dir);
@@ -142,28 +152,33 @@ function renderLayout(layout) {
   for (const e of layout) stage.appendChild(makeCharEl(e.char, e.x, e.y, e.color));
 }
 
+function ring(x, y, stroke) {
+  stage.appendChild(svgNS('circle', { cx: x, cy: y, r: FONT_SIZE * 0.9, fill: 'none', stroke, 'stroke-width': 2 }));
+}
+
 function showOriginal(layout) {
   renderLayout(layout);
-  const c = layout.find(e => e.role === 'central');
-  const t = layout.find(e => e.role === 'target');
-  stage.appendChild(svgNS('circle', { cx: c.x, cy: c.y, r: FONT_SIZE * 0.9, fill: 'none', stroke: '#4ec77b', 'stroke-width': 2 }));
-  stage.appendChild(svgNS('circle', { cx: t.x, cy: t.y, r: FONT_SIZE * 0.9, fill: 'none', stroke: '#4d96ff', 'stroke-width': 2 }));
+  for (const e of layout) {
+    if (e.role === 'central') ring(e.x, e.y, '#4ec77b');
+    else if (e.role === 'target') ring(e.x, e.y, '#4d96ff');
+  }
 }
 
 function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
 
 async function runTrial() {
-  const centralChar = randOf(CHARS);
-
+  const centralChars = shuffled(CHARS).slice(0, CENTRAL_TARGETS);
   const targetChar = randOf(CHARS);
   const dir = randOf(DIRS).key;
-  const layout = buildLayout(centralChar, targetChar, dir);
+  const layout = buildLayout(centralChars, targetChar, dir);
 
-  const others = shuffled(CHARS.filter(c => c !== centralChar)).slice(0, CENTRAL_CANDIDATES - 1);
-  const candidates = shuffled([centralChar, ...others]);
+  const decoys = shuffled(CHARS.filter(c => !centralChars.includes(c)))
+    .slice(0, CENTRAL_CANDIDATES - CENTRAL_TARGETS);
+  const candidates = shuffled([...centralChars, ...decoys]);
 
-  state.current = { centralChar, targetChar, dir, layout };
-  state.answers = { char: null, dir: null };
+  state.current = { centralChars, targetChar, dir, layout };
+  state.answers = { chars: null, dir: null };
+  selected = [];
 
   promptEl.textContent = 'Focus on the center.';
   drawFixation();
@@ -177,26 +192,46 @@ async function runTrial() {
 
 function askResponses(candidates) {
   buildCentralButtons(candidates);
-  promptEl.textContent = 'Which character was in the center?';
+  promptEl.textContent = `Select the ${CENTRAL_TARGETS} characters shown near the center.`;
   centralChoice.classList.remove('hidden');
   peripheralChoice.classList.add('hidden');
   clearButtonMarks();
 }
 
 function clearButtonMarks() {
-  document.querySelectorAll('button.correct, button.wrong').forEach(b => b.classList.remove('correct', 'wrong'));
+  document.querySelectorAll('button.correct, button.wrong, button.selected')
+    .forEach(b => b.classList.remove('correct', 'wrong', 'selected'));
 }
 
 function onCentralPick(char, btn) {
-  if (state.answers.char) return;
-  state.answers.char = char;
-  btn.classList.add(char === state.current.centralChar ? 'correct' : 'wrong');
+  if (state.answers.chars) return;   // locked once all picks are in
+  const i = selected.indexOf(char);
+  if (i >= 0) {
+    selected.splice(i, 1);
+    btn.classList.remove('selected');
+  } else {
+    if (selected.length >= CENTRAL_TARGETS) return;
+    selected.push(char);
+    btn.classList.add('selected');
+  }
+  if (selected.length === CENTRAL_TARGETS) lockCentral();
+}
+
+function lockCentral() {
+  state.answers.chars = selected.slice();
+  const targetSet = new Set(state.current.centralChars);
+  centralChoice.querySelectorAll('button').forEach(b => {
+    if (selected.includes(b.dataset.char)) {
+      b.classList.remove('selected');
+      b.classList.add(targetSet.has(b.dataset.char) ? 'correct' : 'wrong');
+    }
+  });
   setTimeout(() => {
     centralChoice.classList.add('hidden');
     peripheralChoice.classList.remove('hidden');
     peripheralLabel.textContent = `Where was the ${state.current.targetChar} ?`;
     promptEl.textContent = `Where was the ${state.current.targetChar} ?`;
-  }, 350);
+  }, 500);
 }
 
 function onPeripheralPick(dir, btn) {
@@ -215,7 +250,9 @@ function resultRow(label, ok, youVal, correctVal) {
 }
 
 function finishTrial() {
-  const charOk = state.answers.char === state.current.centralChar;
+  const chosen = state.answers.chars || [];
+  const targetSet = new Set(state.current.centralChars);
+  const charOk = chosen.length === state.current.centralChars.length && chosen.every(c => targetSet.has(c));
   const dirOk = state.answers.dir === state.current.dir;
   state.trial++;
   if (charOk && dirOk) state.correct++;
@@ -225,7 +262,7 @@ function finishTrial() {
 
   resultSummary.innerHTML =
     `<div class="result-head">${charOk && dirOk ? 'Both correct!' : charOk || dirOk ? 'One correct' : 'Both missed'}</div>` +
-    resultRow('Center character', charOk, state.answers.char, state.current.centralChar) +
+    resultRow('Center characters', charOk, chosen.join(' '), state.current.centralChars.join(' ')) +
     resultRow('Target location', dirOk, state.answers.dir, state.current.dir) +
     '<div class="result-legend"><span class="ring center">◯</span> center &nbsp; <span class="ring target">◯</span> target</div>';
 
@@ -294,7 +331,8 @@ function reset() {
   state.running = false;
   state.trial = 0;
   state.correct = 0;
-  state.answers = { char: null, dir: null };
+  state.answers = { chars: null, dir: null };
+  selected = [];
   updateStats();
   centralChoice.classList.add('hidden');
   peripheralChoice.classList.add('hidden');
