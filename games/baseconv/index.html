@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Base Convert</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <a href="../" class="back">&larr; Games</a>
+    <h1>Base Convert</h1>
+    <div class="controls">
+      <select id="difficulty" title="Difficulty">
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+      <select id="mode" title="Conversion directions">
+        <option value="all">All bases</option>
+        <option value="bin">Binary &harr; Decimal</option>
+        <option value="hex">Hex &harr; Decimal</option>
+        <option value="binhex">Binary &harr; Hex</option>
+      </select>
+      <button id="skip-btn" title="Skip (Esc)">Skip</button>
+    </div>
+  </header>
+  <main>
+    <p id="prompt">Convert <span id="from-base"></span> to <span id="to-base"></span></p>
+    <div id="value"></div>
+    <div id="answer-row">
+      <span id="prefix"></span>
+      <input id="answer" type="text" autocomplete="off" autocapitalize="off"
+             spellcheck="false" inputmode="text" placeholder="answer">
+    </div>
+    <p id="feedback">&nbsp;</p>
+    <p id="help">Type the answer and press Enter &middot; Esc to skip</p>
+  </main>
+  <div id="status"></div>
+  <script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sudoku</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <a href="../" class="back">&larr; Games</a>
+    <h1>Sudoku</h1>
+    <div class="controls">
+      <select id="difficulty" title="Difficulty">
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+        <option value="expert">Expert</option>
+      </select>
+      <button id="check-btn" title="Highlight mistakes">Check</button>
+      <button id="new-btn" title="New puzzle">New</button>
+    </div>
+  </header>
+  <main>
+    <div id="board"></div>
+    <div id="pad">
+      <button class="num" data-num="1">1</button>
+      <button class="num" data-num="2">2</button>
+      <button class="num" data-num="3">3</button>
+      <button class="num" data-num="4">4</button>
+      <button class="num" data-num="5">5</button>
+      <button class="num" data-num="6">6</button>
+      <button class="num" data-num="7">7</button>
+      <button class="num" data-num="8">8</button>
+      <button class="num" data-num="9">9</button>
+      <button class="num erase" data-num="0">Erase</button>
+    </div>
+    <p id="help">Click a cell, then type 1&ndash;9 or use the pad &middot; Backspace to erase &middot; arrows to move</p>
+  </main>
+  <div id="status"></div>
+  <script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matrix Drill</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <a href="../" class="back">&larr; Games</a>
+    <h1>Matrix Drill</h1>
+    <div class="controls">
+      <select id="difficulty" title="Value range">
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+      <select id="op" title="Operation">
+        <option value="all">All ops</option>
+        <option value="cross">Cross product</option>
+        <option value="matvec">Matrix &times; vector</option>
+        <option value="matmat">Matrix &times; matrix</option>
+        <option value="detT">Determinant / transpose</option>
+      </select>
+      <select id="style" title="Matrix style">
+        <option value="mix">Mixed matrices</option>
+        <option value="named">Named transforms</option>
+        <option value="random">Random matrices</option>
+      </select>
+      <button id="skip-btn" title="Reveal answer (Esc)">Reveal</button>
+    </div>
+  </header>
+  <main>
+    <p id="op-name"></p>
+    <div id="work"></div>
+    <p id="feedback">&nbsp;</p>
+    <div id="reveal"></div>
+    <p id="help">Fill every entry &middot; Enter to check &middot; Esc to reveal &middot; Tab moves between cells</p>
+  </main>
+  <div id="status"></div>
+  <script src="game.js"></script>
+</body>
+</html>

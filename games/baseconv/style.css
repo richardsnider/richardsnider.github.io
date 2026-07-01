@@ -1,0 +1,42 @@
+* { box-sizing: border-box; }
+body { font-family: system-ui, sans-serif; background: #111; color: #eee; margin: 0; padding: 1rem; }
+header { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
+header h1 { margin: 0; font-size: 1.25rem; }
+.back { color: #8ab4f8; text-decoration: none; }
+.controls { margin-left: auto; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+button, select { background: #333; color: #eee; border: 1px solid #555; padding: 0.4rem 0.75rem; border-radius: 4px; cursor: pointer; font: inherit; }
+button:hover, select:hover { background: #444; }
+main { max-width: 40rem; margin: 0 auto; text-align: center; }
+
+#prompt { font-size: 1.35rem; color: #eee; margin: 3rem 0 1.5rem; }
+#prompt span { font-weight: 600; color: #8ab4f8; }
+#value {
+  font: 700 clamp(2rem, 9vw, 3.5rem)/1.1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  letter-spacing: 0.05em;
+  color: #fafafa;
+  margin-bottom: 2rem;
+  word-break: break-all;
+}
+
+#answer-row { display: flex; align-items: center; justify-content: center; gap: 0.4rem; margin-bottom: 1rem; }
+#prefix { font: 700 1.4rem/1 ui-monospace, monospace; color: #888; }
+#answer {
+  font: 700 1.6rem/1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  text-align: center;
+  width: min(18rem, 80vw);
+  padding: 0.5rem 0.75rem;
+  background: #fafafa;
+  color: #111;
+  border: 2px solid #555;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+#answer:focus { outline: none; border-color: #8ab4f8; }
+#answer.correct { border-color: #5fd68a; background: #e6ffe6; }
+#answer.wrong { border-color: #e06c62; background: #ffe1de; }
+
+#feedback { min-height: 1.6em; font-size: 1.05rem; margin: 0.5rem 0; }
+#feedback.correct { color: #5fd68a; }
+#feedback.wrong { color: #e06c62; }
+#help { color: #777; font-size: 0.85rem; margin-top: 2rem; }
+#status { margin-top: 1rem; text-align: center; color: #aaa; font-size: 0.9rem; min-height: 1.2em; }

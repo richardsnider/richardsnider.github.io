@@ -1,0 +1,46 @@
+* { box-sizing: border-box; }
+body { font-family: system-ui, sans-serif; background: #111; color: #eee; margin: 0; padding: 1rem; }
+header { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
+header h1 { margin: 0; font-size: 1.25rem; }
+.back { color: #8ab4f8; text-decoration: none; }
+.controls { margin-left: auto; display: flex; gap: 0.5rem; }
+button, #difficulty { background: #333; color: #eee; border: 1px solid #555; padding: 0.4rem 0.75rem; border-radius: 4px; cursor: pointer; font: inherit; }
+button:hover, #difficulty:hover { background: #444; }
+main { max-width: 30rem; margin: 0 auto; text-align: center; }
+
+#board {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  aspect-ratio: 1;
+  margin: 0 auto 1.25rem;
+  border: 2px solid #888;
+  background: #888;
+  gap: 1px;
+  touch-action: manipulation;
+}
+.cell {
+  background: #fafafa;
+  color: #1a4a8a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 600 clamp(1.1rem, 6vw, 1.8rem)/1 system-ui, sans-serif;
+  cursor: pointer;
+  user-select: none;
+}
+.cell.given { color: #111; cursor: default; }
+.cell.selected { background: #cfe3ff; }
+.cell.peer { background: #eaf1fb; }
+.cell.same { background: #d7e8ff; }
+.cell.error { color: #c0281c; background: #ffe1de; }
+/* 3x3 block borders */
+.cell.bt { border-top: 2px solid #888; margin-top: -1px; }
+.cell.bl { border-left: 2px solid #888; margin-left: -1px; }
+
+#pad { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; max-width: 30rem; margin: 0 auto; }
+#pad .num { padding: 0.75rem 0; font-size: 1.2rem; }
+#pad .erase { grid-column: span 5; font-size: 1rem; }
+
+#help { color: #777; font-size: 0.85rem; margin-top: 1.5rem; }
+#status { margin-top: 1rem; text-align: center; color: #aaa; font-size: 0.9rem; min-height: 1.2em; }
+#status.win { color: #5fd68a; font-size: 1.1rem; }

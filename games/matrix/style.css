@@ -1,0 +1,70 @@
+* { box-sizing: border-box; }
+body { font-family: system-ui, sans-serif; background: #111; color: #eee; margin: 0; padding: 1rem; }
+header { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
+header h1 { margin: 0; font-size: 1.25rem; }
+.back { color: #8ab4f8; text-decoration: none; }
+.controls { margin-left: auto; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+button, select { background: #333; color: #eee; border: 1px solid #555; padding: 0.4rem 0.75rem; border-radius: 4px; cursor: pointer; font: inherit; }
+button:hover, select:hover { background: #444; }
+main { max-width: 52rem; margin: 0 auto; text-align: center; }
+
+#op-name { font-size: 1.15rem; color: #8ab4f8; font-weight: 600; margin: 2.5rem 0 1.5rem; }
+
+#work {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem 0.6rem;
+  font: 600 1.2rem ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+.op { color: #bbb; font-size: 1.4rem; padding: 0 0.15rem; }
+.label { color: #888; font-size: 1.1rem; }
+
+/* Bracketed matrix */
+.mtx {
+  position: relative;
+  display: inline-grid;
+  gap: 0.3rem 0.35rem;
+  padding: 0.35rem 0.7rem;
+}
+.mtx::before, .mtx::after {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 0.45rem;
+  border: 2px solid #999;
+}
+.mtx::before { left: 0; border-right: none; }
+.mtx::after { right: 0; border-left: none; }
+.mtx.scalar::before, .mtx.scalar::after { display: none; }
+.mtx .sup { position: absolute; top: -0.4rem; right: -0.7rem; font-size: 0.8rem; color: #bbb; }
+
+.cell {
+  width: 2.9rem;
+  height: 2.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 600 1.1rem ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+.cell.static { color: #fafafa; }
+input.cell {
+  background: #fafafa;
+  color: #111;
+  border: 2px solid #666;
+  border-radius: 5px;
+  text-align: center;
+  padding: 0;
+}
+input.cell:focus { outline: none; border-color: #8ab4f8; }
+input.cell.ok { border-color: #5fd68a; background: #e6ffe6; }
+input.cell.bad { border-color: #e06c62; background: #ffe1de; }
+
+#feedback { min-height: 1.6em; font-size: 1.05rem; margin: 1.75rem 0 0.5rem; }
+#feedback.correct { color: #5fd68a; }
+#feedback.wrong { color: #e06c62; }
+#reveal { display: flex; justify-content: center; gap: 0.5rem; min-height: 1px; color: #ccc; font: 600 1rem ui-monospace, monospace; }
+#reveal .label { align-self: center; }
+#help { color: #777; font-size: 0.85rem; margin-top: 2rem; }
+#status { margin-top: 1rem; text-align: center; color: #aaa; font-size: 0.9rem; min-height: 1.2em; }
