@@ -20,4 +20,13 @@ button:hover { background: #444; }
 .hidden { display: none !important; }
 button.correct { background: #1f6f3a; border-color: #2f8f52; }
 button.wrong { background: #7f1f1f; border-color: #a53030; }
+#result { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; width: 100%; max-width: 22rem; }
+#result-summary { width: 100%; background: #1a1a1a; border: 1px solid #444; border-radius: 6px; padding: 0.75rem 1rem; }
+.result-head { font-weight: 600; text-align: center; margin-bottom: 0.5rem; color: #eee; }
+.result-line { display: flex; align-items: baseline; gap: 0.5rem; padding: 0.15rem 0; color: #ccc; }
+.result-line .mark { font-weight: 700; width: 1.1em; text-align: center; }
+.result-line.ok .mark { color: #4ec77b; }
+.result-line.no .mark { color: #e06666; }
+.result-line b { color: #fff; text-transform: capitalize; }
+#continue-btn { padding: 0.5rem 1.5rem; font-size: 1rem; }
 #start-row { display: flex; gap: 0.5rem; }

@@ -35,6 +35,9 @@ const promptEl = document.getElementById('prompt');
 const centralChoice = document.getElementById('central-choice');
 const peripheralChoice = document.getElementById('peripheral-choice');
 const peripheralLabel = document.getElementById('peripheral-label');
+const resultPanel = document.getElementById('result');
+const resultSummary = document.getElementById('result-summary');
+const continueBtn = document.getElementById('continue-btn');
 const startBtn = document.getElementById('start-btn');
 const resetBtn = document.getElementById('reset-btn');
 const dirGrid = document.getElementById('dir-grid');
@@ -196,23 +199,38 @@ function onPeripheralPick(dir, btn) {
   setTimeout(finishTrial, 500);
 }
 
+function resultRow(label, ok, youVal, correctVal) {
+  const mark = ok ? '✓' : '✗';
+  const detail = ok
+    ? `<b>${youVal}</b>`
+    : `<b>${youVal || '—'}</b> &middot; answer: <b>${correctVal}</b>`;
+  return `<div class="result-line ${ok ? 'ok' : 'no'}"><span class="mark">${mark}</span>${label}: ${detail}</div>`;
+}
+
 function finishTrial() {
   const shapeOk = state.answers.shape === state.current.shape;
   const dirOk = state.answers.dir === state.current.dir;
   state.trial++;
-  if (shapeOk && dirOk) {
-    state.correct++;
-    promptEl.textContent = 'Correct! Both right.';
-  } else {
-    const parts = [];
-    if (!shapeOk) parts.push(`center was ${state.current.shape}`);
-    if (!dirOk) parts.push(`${state.current.targetShape} was ${state.current.dir}`);
-    promptEl.textContent = 'Missed: ' + parts.join(', ') + '.';
-  }
+  if (shapeOk && dirOk) state.correct++;
   updateStats();
+
+  resultSummary.innerHTML =
+    `<div class="result-head">${shapeOk && dirOk ? 'Both correct!' : shapeOk || dirOk ? 'One correct' : 'Both missed'}</div>` +
+    resultRow('Center shape', shapeOk, state.answers.shape, state.current.shape) +
+    resultRow('Target location', dirOk, state.answers.dir, state.current.dir);
+
+  promptEl.textContent = 'Trial complete.';
   peripheralChoice.classList.add('hidden');
   centralChoice.classList.add('hidden');
-  if (state.running) setTimeout(runTrial, 1200);
+  resultPanel.classList.remove('hidden');
+  continueBtn.focus();
+}
+
+function onContinue() {
+  resultPanel.classList.add('hidden');
+  state.running = true;
+  startBtn.textContent = 'Pause';
+  runTrial();
 }
 
 function updateStats() {
@@ -273,6 +291,7 @@ function reset() {
   updateStats();
   centralChoice.classList.add('hidden');
   peripheralChoice.classList.add('hidden');
+  resultPanel.classList.add('hidden');
   clearStage();
   drawFixation();
   promptEl.textContent = 'Press Start to begin.';
@@ -284,6 +303,7 @@ startBtn.addEventListener('click', () => {
   else start();
 });
 resetBtn.addEventListener('click', reset);
+continueBtn.addEventListener('click', onContinue);
 
 buildDirGrid();
 buildCentralButtons();
