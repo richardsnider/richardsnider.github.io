@@ -375,8 +375,9 @@ function newPuzzle() {
     hints = new Set();
     for (const p of placed) {
       const [dr, dc] = p.dir === 'A' ? [0, 1] : [1, 0];
-      const i = Math.floor(Math.random() * p.word.length);
-      hints.add(`${p.r + dr * i},${p.c + dc * i}`);
+      const idxs = [...Array(p.word.length).keys()];
+      shuffle(idxs);
+      for (const i of idxs.slice(0, 2)) hints.add(`${p.r + dr * i},${p.c + dc * i}`);
     }
     render();
     els.status.textContent = `${placed.length} words placed.`;
