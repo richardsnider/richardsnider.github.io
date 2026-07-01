@@ -18,6 +18,7 @@ let pool = [];           // [{word, def}]
 let placed = [];         // [{word, def, r, c, dir, number}]
 let solution = null;     // 2D array of letters (or null)
 let numbers = null;      // 2D array of numbers (or 0)
+let hints = null;        // Set of "r,c" strings for pre-filled helper cells
 let cursor = { r: 0, c: 0, dir: 'A' };
 
 async function loadWords() {
@@ -210,6 +211,11 @@ function render() {
         inp.maxLength = 1;
         inp.autocapitalize = 'characters';
         inp.spellcheck = false;
+        if (hints && hints.has(`${r},${c}`)) {
+          inp.value = solution[r][c];
+          inp.readOnly = true;
+          td.classList.add('hint');
+        }
         inp.addEventListener('keydown', handleKey);
         inp.addEventListener('input', handleInput);
         inp.addEventListener('focus', () => onFocusCell(r, c));
@@ -257,8 +263,10 @@ function handleKey(e) {
   else if (e.key === ' ' || e.key === 'Tab') { e.preventDefault(); cursor.dir = cursor.dir === 'A' ? 'D' : 'A'; highlightWord(); }
   else if (e.key === 'Backspace') {
     e.preventDefault();
-    e.target.value = '';
-    clearMark(e.target);
+    if (!e.target.readOnly) {
+      e.target.value = '';
+      clearMark(e.target);
+    }
     const [dr, dc] = cursor.dir === 'A' ? [0, -1] : [-1, 0];
     move(r, c, dr, dc);
   }
@@ -364,6 +372,12 @@ function newPuzzle() {
     }
     placed = placements.map(p => ({ ...p, r: p.r - minR, c: p.c - minC }));
     assignNumbers(solution, placed);
+    hints = new Set();
+    for (const p of placed) {
+      const [dr, dc] = p.dir === 'A' ? [0, 1] : [1, 0];
+      const i = Math.floor(Math.random() * p.word.length);
+      hints.add(`${p.r + dr * i},${p.c + dc * i}`);
+    }
     render();
     els.status.textContent = `${placed.length} words placed.`;
   }, 0);
