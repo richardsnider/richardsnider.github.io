@@ -18,7 +18,7 @@ const TARGET_CENTER_FILL = '#ffcc00';
 const TARGET_PERIPHERAL_FILL = '#66ccff';
 const DISTRACTOR_FILL = '#597690';
 
-const FLASH_MS = 700;
+const FLASH_MS = 2000;
 const PERIPHERAL_DISTRACTORS = 7;
 const CENTRAL_FLANKERS = 7;
 
