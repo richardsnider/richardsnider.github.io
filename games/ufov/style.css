@@ -12,8 +12,7 @@ main { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
 .choice-row .label { flex-basis: 100%; text-align: center; color: #aaa; font-size: 0.9rem; margin-bottom: 0.25rem; }
 button { background: #333; color: #eee; border: 1px solid #555; border-radius: 4px; cursor: pointer; font: inherit; padding: 0.5rem 0.75rem; }
 button:hover { background: #444; }
-#central-choice button { width: 4rem; height: 4rem; padding: 0.4rem; }
-#central-choice button svg { width: 100%; height: 100%; }
+#central-choice button { width: 3.5rem; height: 3.5rem; padding: 0; font-size: 1.6rem; line-height: 1; font-family: Georgia, 'Times New Roman', serif; font-weight: 700; }
 #dir-grid { display: grid; grid-template-columns: repeat(3, 3rem); grid-template-rows: repeat(3, 3rem); gap: 0.35rem; }
 #dir-grid button { padding: 0; font-size: 1.25rem; }
 #dir-grid .spacer { visibility: hidden; }
@@ -27,6 +26,10 @@ button.wrong { background: #7f1f1f; border-color: #a53030; }
 .result-line .mark { font-weight: 700; width: 1.1em; text-align: center; }
 .result-line.ok .mark { color: #4ec77b; }
 .result-line.no .mark { color: #e06666; }
-.result-line b { color: #fff; text-transform: capitalize; }
+.result-line b { color: #fff; }
+.result-legend { display: flex; align-items: center; justify-content: center; gap: 0.25rem; margin-top: 0.5rem; font-size: 0.85rem; color: #aaa; }
+.result-legend .ring { font-weight: 700; }
+.result-legend .ring.center { color: #4ec77b; }
+.result-legend .ring.target { color: #4d96ff; }
 #continue-btn { padding: 0.5rem 1.5rem; font-size: 1rem; }
 #start-row { display: flex; gap: 0.5rem; }

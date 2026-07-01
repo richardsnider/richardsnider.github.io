@@ -1,7 +1,18 @@
 const CENTER = 250;
 const PERIPHERAL_RADIUS = 200;
-const FLANKER_RADIUS = 44;
-const SHAPES = ['circle', 'triangle', 'square', 'diamond', 'pentagon', 'hexagon', 'star'];
+const FLANKER_RADIUS = 70;
+const FONT_SIZE = 26;
+
+// A wide array of visually distinct glyphs: uppercase letters, digits, and
+// common symbols. Rendered in Georgia (serif), whose serifed I and narrow 0
+// keep the otherwise-confusable characters (I/1, O/0) distinct.
+const CHARS = [
+  'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
+  'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+  '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+  '★', '♦', '♥', '♠', '♣', '●', '▲', '■', '◆', '✦', '✿', '❄',
+  '☀', '☂', '☎', '☯', '♫', '⚡', '✈', '☺', '⚑', '⌘',
+];
 const PALETTE = [
   '#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff',
   '#c77dff', '#ff9f43', '#4ecdc4', '#f78fb3',
@@ -21,13 +32,14 @@ const DIR_GRID_LAYOUT = ['NW', 'N', 'NE', 'W', null, 'E', 'SW', 'S', 'SE'];
 const FLASH_MS = 3000;
 const PERIPHERAL_DISTRACTORS = 4;
 const CENTRAL_FLANKERS = 7;
+const CENTRAL_CANDIDATES = 8;
 
 const state = {
   trial: 0,
   correct: 0,
   running: false,
   current: null,
-  answers: { shape: null, dir: null },
+  answers: { char: null, dir: null },
 };
 
 const stage = document.getElementById('stage');
@@ -44,9 +56,10 @@ const dirGrid = document.getElementById('dir-grid');
 const trialEl = document.getElementById('trial-num');
 const correctEl = document.getElementById('correct-num');
 
-function svgNS(tag, attrs = {}) {
+function svgNS(tag, attrs = {}, text) {
   const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
   for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+  if (text != null) el.textContent = text;
   return el;
 }
 
@@ -63,41 +76,14 @@ function shuffled(arr) {
   return a;
 }
 
-function polyPoints(cx, cy, size, sides) {
-  const pts = [];
-  for (let i = 0; i < sides; i++) {
-    const a = -Math.PI / 2 + (i * 2 * Math.PI) / sides;
-    pts.push(`${(cx + Math.cos(a) * size).toFixed(2)},${(cy + Math.sin(a) * size).toFixed(2)}`);
-  }
-  return pts.join(' ');
-}
-
-function starPoints(cx, cy, size) {
-  const pts = [];
-  const inner = size * 0.45;
-  for (let i = 0; i < 10; i++) {
-    const r = i % 2 === 0 ? size : inner;
-    const a = -Math.PI / 2 + (i * Math.PI) / 5;
-    pts.push(`${(cx + Math.cos(a) * r).toFixed(2)},${(cy + Math.sin(a) * r).toFixed(2)}`);
-  }
-  return pts.join(' ');
-}
-
-function makeShapeEl(shape, cx, cy, size, fill) {
-  switch (shape) {
-    case 'square':   return svgNS('rect', { x: cx - size, y: cy - size, width: size * 2, height: size * 2, rx: 2, fill });
-    case 'triangle': return svgNS('polygon', { points: polyPoints(cx, cy, size, 3), fill });
-    case 'diamond':  return svgNS('polygon', { points: polyPoints(cx, cy, size, 4), fill });
-    case 'pentagon': return svgNS('polygon', { points: polyPoints(cx, cy, size, 5), fill });
-    case 'hexagon':  return svgNS('polygon', { points: polyPoints(cx, cy, size, 6), fill });
-    case 'star':     return svgNS('polygon', { points: starPoints(cx, cy, size), fill });
-    case 'circle':
-    default:         return svgNS('circle', { cx, cy, r: size, fill });
-  }
-}
-
-function drawShape(shape, cx, cy, size, fill) {
-  stage.appendChild(makeShapeEl(shape, cx, cy, size, fill));
+function makeCharEl(char, x, y, color) {
+  return svgNS('text', {
+    x, y, fill: color,
+    'font-size': FONT_SIZE,
+    'font-family': "Georgia, 'Times New Roman', serif",
+    'text-anchor': 'middle',
+    'dominant-baseline': 'central',
+  }, char);
 }
 
 function drawFixation() {
@@ -108,69 +94,89 @@ function drawFixation() {
   stage.appendChild(g);
 }
 
-function drawStimulus(shape, dir, targetShape) {
-  clearStage();
+// Build a full description of every glyph on screen so the exact same layout
+// can be redrawn after the player answers.
+function buildLayout(centralChar, targetChar, dir) {
+  const entities = [];
 
-  // Peripheral distractors: any shape EXCEPT the target shape, so the target
-  // is the only instance of its shape and can be located without a color cue.
-  const distractorShapes = SHAPES.filter(s => s !== targetShape);
+  // Peripheral distractors: any char EXCEPT the target char, so the target is
+  // the only instance of its glyph and can be located without a color cue.
+  const distractorChars = CHARS.filter(c => c !== targetChar);
   const nonTargetDirs = DIRS.filter(d => d.key !== dir);
   for (const d of shuffled(nonTargetDirs).slice(0, PERIPHERAL_DISTRACTORS)) {
-    const px = CENTER + Math.cos(d.angle) * PERIPHERAL_RADIUS;
-    const py = CENTER + Math.sin(d.angle) * PERIPHERAL_RADIUS;
-    drawShape(randOf(distractorShapes), px, py, 15, randOf(PALETTE));
+    entities.push({
+      role: 'distractor', char: randOf(distractorChars),
+      x: CENTER + Math.cos(d.angle) * PERIPHERAL_RADIUS,
+      y: CENTER + Math.sin(d.angle) * PERIPHERAL_RADIUS,
+      color: randOf(PALETTE),
+    });
   }
 
   // Central flankers.
   for (const f of shuffled(DIRS).slice(0, CENTRAL_FLANKERS)) {
-    const fx = CENTER + Math.cos(f.angle) * FLANKER_RADIUS;
-    const fy = CENTER + Math.sin(f.angle) * FLANKER_RADIUS;
-    drawShape(randOf(SHAPES), fx, fy, 8, randOf(PALETTE));
+    entities.push({
+      role: 'flanker', char: randOf(CHARS),
+      x: CENTER + Math.cos(f.angle) * FLANKER_RADIUS,
+      y: CENTER + Math.sin(f.angle) * FLANKER_RADIUS,
+      color: randOf(PALETTE),
+    });
   }
 
   // Central target.
-  drawShape(shape, CENTER, CENTER, 22, randOf(PALETTE));
+  entities.push({ role: 'central', char: centralChar, x: CENTER, y: CENTER, color: randOf(PALETTE) });
 
-  // Peripheral target: unique shape, ordinary color.
+  // Peripheral target: unique glyph, ordinary color.
   const t = DIRS.find(x => x.key === dir);
-  const tx = CENTER + Math.cos(t.angle) * PERIPHERAL_RADIUS;
-  const ty = CENTER + Math.sin(t.angle) * PERIPHERAL_RADIUS;
-  drawShape(targetShape, tx, ty, 15, randOf(PALETTE));
+  entities.push({
+    role: 'target', char: targetChar,
+    x: CENTER + Math.cos(t.angle) * PERIPHERAL_RADIUS,
+    y: CENTER + Math.sin(t.angle) * PERIPHERAL_RADIUS,
+    color: randOf(PALETTE),
+  });
+
+  return entities;
 }
 
-function drawMask() {
+function renderLayout(layout) {
   clearStage();
-  for (let i = 0; i < 60; i++) {
-    const x = Math.random() * 500;
-    const y = Math.random() * 500;
-    const r = 3 + Math.random() * 6;
-    drawShape(randOf(SHAPES), x, y, r, randOf(PALETTE));
-  }
+  for (const e of layout) stage.appendChild(makeCharEl(e.char, e.x, e.y, e.color));
+}
+
+function showOriginal(layout) {
+  renderLayout(layout);
+  const c = layout.find(e => e.role === 'central');
+  const t = layout.find(e => e.role === 'target');
+  stage.appendChild(svgNS('circle', { cx: c.x, cy: c.y, r: FONT_SIZE * 0.9, fill: 'none', stroke: '#4ec77b', 'stroke-width': 2 }));
+  stage.appendChild(svgNS('circle', { cx: t.x, cy: t.y, r: FONT_SIZE * 0.9, fill: 'none', stroke: '#4d96ff', 'stroke-width': 2 }));
 }
 
 function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
 
 async function runTrial() {
-  const shape = randOf(SHAPES);
+  const centralChar = randOf(CHARS);
+  const targetChar = randOf(CHARS);
   const dir = randOf(DIRS).key;
-  const targetShape = randOf(SHAPES);
-  state.current = { shape, dir, targetShape };
-  state.answers = { shape: null, dir: null };
+  const layout = buildLayout(centralChar, targetChar, dir);
+
+  const others = shuffled(CHARS.filter(c => c !== centralChar)).slice(0, CENTRAL_CANDIDATES - 1);
+  const candidates = shuffled([centralChar, ...others]);
+
+  state.current = { centralChar, targetChar, dir, layout };
+  state.answers = { char: null, dir: null };
 
   promptEl.textContent = 'Focus on the center.';
   drawFixation();
   await delay(700);
-  drawStimulus(shape, dir, targetShape);
+  renderLayout(layout);
   await delay(FLASH_MS);
-  drawMask();
-  await delay(150);
   clearStage();
   drawFixation();
-  askResponses();
+  askResponses(candidates);
 }
 
-function askResponses() {
-  promptEl.textContent = 'Which shape was in the center?';
+function askResponses(candidates) {
+  buildCentralButtons(candidates);
+  promptEl.textContent = 'Which character was in the center?';
   centralChoice.classList.remove('hidden');
   peripheralChoice.classList.add('hidden');
   clearButtonMarks();
@@ -180,15 +186,15 @@ function clearButtonMarks() {
   document.querySelectorAll('button.correct, button.wrong').forEach(b => b.classList.remove('correct', 'wrong'));
 }
 
-function onCentralPick(shape, btn) {
-  if (state.answers.shape) return;
-  state.answers.shape = shape;
-  btn.classList.add(shape === state.current.shape ? 'correct' : 'wrong');
+function onCentralPick(char, btn) {
+  if (state.answers.char) return;
+  state.answers.char = char;
+  btn.classList.add(char === state.current.centralChar ? 'correct' : 'wrong');
   setTimeout(() => {
     centralChoice.classList.add('hidden');
     peripheralChoice.classList.remove('hidden');
-    peripheralLabel.textContent = `Where was the ${state.current.targetShape}?`;
-    promptEl.textContent = `Where was the ${state.current.targetShape}?`;
+    peripheralLabel.textContent = `Where was the ${state.current.targetChar} ?`;
+    promptEl.textContent = `Where was the ${state.current.targetChar} ?`;
   }, 350);
 }
 
@@ -208,18 +214,21 @@ function resultRow(label, ok, youVal, correctVal) {
 }
 
 function finishTrial() {
-  const shapeOk = state.answers.shape === state.current.shape;
+  const charOk = state.answers.char === state.current.centralChar;
   const dirOk = state.answers.dir === state.current.dir;
   state.trial++;
-  if (shapeOk && dirOk) state.correct++;
+  if (charOk && dirOk) state.correct++;
   updateStats();
 
-  resultSummary.innerHTML =
-    `<div class="result-head">${shapeOk && dirOk ? 'Both correct!' : shapeOk || dirOk ? 'One correct' : 'Both missed'}</div>` +
-    resultRow('Center shape', shapeOk, state.answers.shape, state.current.shape) +
-    resultRow('Target location', dirOk, state.answers.dir, state.current.dir);
+  showOriginal(state.current.layout);
 
-  promptEl.textContent = 'Trial complete.';
+  resultSummary.innerHTML =
+    `<div class="result-head">${charOk && dirOk ? 'Both correct!' : charOk || dirOk ? 'One correct' : 'Both missed'}</div>` +
+    resultRow('Center character', charOk, state.answers.char, state.current.centralChar) +
+    resultRow('Target location', dirOk, state.answers.dir, state.current.dir) +
+    '<div class="result-legend"><span class="ring center">◯</span> center &nbsp; <span class="ring target">◯</span> target</div>';
+
+  promptEl.textContent = 'Trial complete — original layout shown.';
   peripheralChoice.classList.add('hidden');
   centralChoice.classList.add('hidden');
   resultPanel.classList.remove('hidden');
@@ -256,16 +265,13 @@ function buildDirGrid() {
   }
 }
 
-function buildCentralButtons() {
+function buildCentralButtons(candidates) {
   centralChoice.querySelectorAll('button').forEach(b => b.remove());
-  for (const shape of SHAPES) {
+  for (const char of candidates) {
     const btn = document.createElement('button');
-    btn.dataset.shape = shape;
-    btn.title = shape;
-    const svg = svgNS('svg', { viewBox: '0 0 40 40' });
-    svg.appendChild(makeShapeEl(shape, 20, 20, 14, '#fff'));
-    btn.appendChild(svg);
-    btn.addEventListener('click', () => onCentralPick(shape, btn));
+    btn.dataset.char = char;
+    btn.textContent = char;
+    btn.addEventListener('click', () => onCentralPick(char, btn));
     centralChoice.appendChild(btn);
   }
 }
@@ -287,7 +293,7 @@ function reset() {
   state.running = false;
   state.trial = 0;
   state.correct = 0;
-  state.answers = { shape: null, dir: null };
+  state.answers = { char: null, dir: null };
   updateStats();
   centralChoice.classList.add('hidden');
   peripheralChoice.classList.add('hidden');
@@ -306,5 +312,4 @@ resetBtn.addEventListener('click', reset);
 continueBtn.addEventListener('click', onContinue);
 
 buildDirGrid();
-buildCentralButtons();
 reset();
