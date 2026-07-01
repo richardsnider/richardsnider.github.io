@@ -17,7 +17,8 @@ const WORD_FILES = {
 
 let pool = [];       // [{word, def}]
 let current = null;  // {word, def}
-let revealed = 0;    // number of letters shown, left-to-right
+let revealOrder = []; // letter indices, in the random order hints reveal them
+let revealed = 0;     // number of letters shown so far
 
 async function loadWords(file) {
   const res = await fetch(file);
@@ -36,13 +37,22 @@ async function loadWords(file) {
   return entries;
 }
 
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
 function render() {
   els.word.innerHTML = '';
   const done = revealed >= current.word.length;
+  const shown = new Set(revealOrder.slice(0, revealed));
   for (let i = 0; i < current.word.length; i++) {
     const box = document.createElement('div');
     box.className = 'box';
-    if (i < revealed) {
+    if (shown.has(i)) {
       box.textContent = current.word[i];
       box.classList.add(done ? 'filled' : 'revealed');
     }
@@ -53,6 +63,7 @@ function render() {
 function nextWord() {
   if (!pool.length) return;
   current = pool[Math.floor(Math.random() * pool.length)];
+  revealOrder = shuffle([...current.word.keys()]);
   revealed = 0;
   els.definition.textContent = current.def;
   render();
