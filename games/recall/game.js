@@ -63,7 +63,7 @@ function render() {
 function nextWord() {
   if (!pool.length) return;
   current = pool[Math.floor(Math.random() * pool.length)];
-  revealOrder = shuffle([...current.word.keys()]);
+  revealOrder = shuffle([...Array(current.word.length).keys()]);
   revealed = 0;
   els.definition.textContent = current.def;
   render();
