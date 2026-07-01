@@ -18,8 +18,8 @@ const DIRS = [
 ];
 const DIR_GRID_LAYOUT = ['NW', 'N', 'NE', 'W', null, 'E', 'SW', 'S', 'SE'];
 
-const FLASH_MS = 5000;
-const PERIPHERAL_DISTRACTORS = 7;
+const FLASH_MS = 3000;
+const PERIPHERAL_DISTRACTORS = 4;
 const CENTRAL_FLANKERS = 7;
 
 const state = {
