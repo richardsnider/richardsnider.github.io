@@ -16,19 +16,15 @@ const DIR_GRID_LAYOUT = ['NW', 'N', 'NE', 'W', null, 'E', 'SW', 'S', 'SE'];
 
 const TARGET_CENTER_FILL = '#ffcc00';
 const TARGET_PERIPHERAL_FILL = '#66ccff';
-const DISTRACTOR_BASE = [0x55, 0x55, 0x55];
-const DISTRACTOR_MAX  = [0x5a, 0xb8, 0xe0]; // approaches target but never matches
+const DISTRACTOR_FILL = '#597690';
 
-const MAX_LEVEL = 22; // 7 peripheral + 7 flanker + 8 color-similarity steps
+const FLASH_MS = 700;
+const PERIPHERAL_DISTRACTORS = 7;
+const CENTRAL_FLANKERS = 7;
 
 const state = {
   trial: 0,
   correct: 0,
-  duration: 500,
-  minDur: 50,
-  maxDur: 2000,
-  streak: 0,
-  level: 0,
   running: false,
   current: null,
   answers: { shape: null, dir: null },
@@ -43,8 +39,6 @@ const resetBtn = document.getElementById('reset-btn');
 const dirGrid = document.getElementById('dir-grid');
 const trialEl = document.getElementById('trial-num');
 const correctEl = document.getElementById('correct-num');
-const durEl = document.getElementById('dur-num');
-const levelEl = document.getElementById('level-num');
 
 function svgNS(tag, attrs = {}) {
   const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
@@ -53,20 +47,6 @@ function svgNS(tag, attrs = {}) {
 }
 
 function clearStage() { stage.innerHTML = ''; }
-
-function difficultyForLevel(level) {
-  const peripheralDistractors = Math.min(7, level);
-  const centralFlankers = Math.min(7, Math.max(0, level - 7));
-  const colorSim = Math.min(1, Math.max(0, (level - 14) / 8));
-  return { peripheralDistractors, centralFlankers, colorSim };
-}
-
-function distractorColor(sim) {
-  const r = Math.round(DISTRACTOR_BASE[0] + (DISTRACTOR_MAX[0] - DISTRACTOR_BASE[0]) * sim);
-  const g = Math.round(DISTRACTOR_BASE[1] + (DISTRACTOR_MAX[1] - DISTRACTOR_BASE[1]) * sim);
-  const b = Math.round(DISTRACTOR_BASE[2] + (DISTRACTOR_MAX[2] - DISTRACTOR_BASE[2]) * sim);
-  return `rgb(${r},${g},${b})`;
-}
 
 function shuffled(arr) {
   const a = arr.slice();
@@ -103,31 +83,23 @@ function drawFixation() {
 
 function drawStimulus(shape, dir) {
   clearStage();
-  const { peripheralDistractors, centralFlankers, colorSim } = difficultyForLevel(state.level);
-  const dColor = distractorColor(colorSim);
 
-  // Peripheral distractors (draw first so target sits on top if any overlap).
   const nonTargetDirs = DIRS.filter(d => d.key !== dir);
-  const chosenDistractors = shuffled(nonTargetDirs).slice(0, peripheralDistractors);
-  for (const d of chosenDistractors) {
+  for (const d of shuffled(nonTargetDirs).slice(0, PERIPHERAL_DISTRACTORS)) {
     const px = CENTER + Math.cos(d.angle) * PERIPHERAL_RADIUS;
     const py = CENTER + Math.sin(d.angle) * PERIPHERAL_RADIUS;
-    drawSquare(px, py, 30, dColor);
+    drawSquare(px, py, 30, DISTRACTOR_FILL);
   }
 
-  // Central flankers around the central shape (mixed shapes so they crowd the discrimination).
-  const flankerSlots = shuffled(DIRS).slice(0, centralFlankers);
-  for (const f of flankerSlots) {
+  for (const f of shuffled(DIRS).slice(0, CENTRAL_FLANKERS)) {
     const fx = CENTER + Math.cos(f.angle) * FLANKER_RADIUS;
     const fy = CENTER + Math.sin(f.angle) * FLANKER_RADIUS;
     const fShape = SHAPES[Math.floor(Math.random() * SHAPES.length)];
     drawCentralShape(fShape, fx, fy, 8, TARGET_CENTER_FILL);
   }
 
-  // Central target.
   drawCentralShape(shape, CENTER, CENTER, 22, TARGET_CENTER_FILL);
 
-  // Peripheral target.
   const t = DIRS.find(x => x.key === dir);
   const tx = CENTER + Math.cos(t.angle) * PERIPHERAL_RADIUS;
   const ty = CENTER + Math.sin(t.angle) * PERIPHERAL_RADIUS;
@@ -156,7 +128,7 @@ async function runTrial() {
   drawFixation();
   await delay(700);
   drawStimulus(shape, dir);
-  await delay(state.duration);
+  await delay(FLASH_MS);
   drawMask();
   await delay(150);
   clearStage();
@@ -199,23 +171,8 @@ function finishTrial() {
   state.trial++;
   if (shapeOk && dirOk) {
     state.correct++;
-    state.streak++;
-    if (state.streak >= 2) {
-      state.streak = 0;
-      if (state.duration > state.minDur) {
-        state.duration = Math.max(state.minDur, Math.round(state.duration * 0.8));
-      } else if (state.level < MAX_LEVEL) {
-        state.level++;
-      }
-    }
     promptEl.textContent = 'Correct! Both right.';
   } else {
-    state.streak = 0;
-    if (state.level > 0) {
-      state.level = Math.max(0, state.level - 1);
-    } else {
-      state.duration = Math.min(state.maxDur, Math.round(state.duration * 1.25));
-    }
     const parts = [];
     if (!shapeOk) parts.push(`center was ${state.current.shape}`);
     if (!dirOk) parts.push(`outer was ${state.current.dir}`);
@@ -230,8 +187,6 @@ function finishTrial() {
 function updateStats() {
   trialEl.textContent = state.trial;
   correctEl.textContent = state.correct;
-  durEl.textContent = state.duration;
-  if (levelEl) levelEl.textContent = state.level;
 }
 
 function buildDirGrid() {
@@ -275,9 +230,6 @@ function reset() {
   state.running = false;
   state.trial = 0;
   state.correct = 0;
-  state.duration = 500;
-  state.streak = 0;
-  state.level = 0;
   state.answers = { shape: null, dir: null };
   updateStats();
   centralChoice.classList.add('hidden');
