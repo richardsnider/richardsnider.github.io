@@ -1,7 +1,11 @@
 const CENTER = 250;
 const PERIPHERAL_RADIUS = 200;
 const FLANKER_RADIUS = 44;
-const SHAPES = ['circle', 'triangle'];
+const SHAPES = ['circle', 'triangle', 'square', 'diamond', 'pentagon', 'hexagon', 'star'];
+const PALETTE = [
+  '#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff',
+  '#c77dff', '#ff9f43', '#4ecdc4', '#f78fb3',
+];
 const DIRS = [
   { key: 'N',  angle: -Math.PI / 2,       arrow: '↑' },
   { key: 'NE', angle: -Math.PI / 4,       arrow: '↗' },
@@ -13,10 +17,6 @@ const DIRS = [
   { key: 'NW', angle: -3 * Math.PI / 4,   arrow: '↖' },
 ];
 const DIR_GRID_LAYOUT = ['NW', 'N', 'NE', 'W', null, 'E', 'SW', 'S', 'SE'];
-
-const TARGET_CENTER_FILL = '#ffcc00';
-const TARGET_PERIPHERAL_FILL = '#66ccff';
-const DISTRACTOR_FILL = '#597690';
 
 const FLASH_MS = 2000;
 const PERIPHERAL_DISTRACTORS = 7;
@@ -34,6 +34,7 @@ const stage = document.getElementById('stage');
 const promptEl = document.getElementById('prompt');
 const centralChoice = document.getElementById('central-choice');
 const peripheralChoice = document.getElementById('peripheral-choice');
+const peripheralLabel = document.getElementById('peripheral-label');
 const startBtn = document.getElementById('start-btn');
 const resetBtn = document.getElementById('reset-btn');
 const dirGrid = document.getElementById('dir-grid');
@@ -48,6 +49,8 @@ function svgNS(tag, attrs = {}) {
 
 function clearStage() { stage.innerHTML = ''; }
 
+function randOf(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
 function shuffled(arr) {
   const a = arr.slice();
   for (let i = a.length - 1; i > 0; i--) {
@@ -57,20 +60,41 @@ function shuffled(arr) {
   return a;
 }
 
-function drawCentralShape(shape, cx, cy, size, fill) {
-  if (shape === 'circle') {
-    stage.appendChild(svgNS('circle', { cx, cy, r: size, fill }));
-  } else {
-    const p = size;
-    const pts = `${cx},${cy - p} ${cx + p},${cy + p} ${cx - p},${cy + p}`;
-    stage.appendChild(svgNS('polygon', { points: pts, fill }));
+function polyPoints(cx, cy, size, sides) {
+  const pts = [];
+  for (let i = 0; i < sides; i++) {
+    const a = -Math.PI / 2 + (i * 2 * Math.PI) / sides;
+    pts.push(`${(cx + Math.cos(a) * size).toFixed(2)},${(cy + Math.sin(a) * size).toFixed(2)}`);
+  }
+  return pts.join(' ');
+}
+
+function starPoints(cx, cy, size) {
+  const pts = [];
+  const inner = size * 0.45;
+  for (let i = 0; i < 10; i++) {
+    const r = i % 2 === 0 ? size : inner;
+    const a = -Math.PI / 2 + (i * Math.PI) / 5;
+    pts.push(`${(cx + Math.cos(a) * r).toFixed(2)},${(cy + Math.sin(a) * r).toFixed(2)}`);
+  }
+  return pts.join(' ');
+}
+
+function makeShapeEl(shape, cx, cy, size, fill) {
+  switch (shape) {
+    case 'square':   return svgNS('rect', { x: cx - size, y: cy - size, width: size * 2, height: size * 2, rx: 2, fill });
+    case 'triangle': return svgNS('polygon', { points: polyPoints(cx, cy, size, 3), fill });
+    case 'diamond':  return svgNS('polygon', { points: polyPoints(cx, cy, size, 4), fill });
+    case 'pentagon': return svgNS('polygon', { points: polyPoints(cx, cy, size, 5), fill });
+    case 'hexagon':  return svgNS('polygon', { points: polyPoints(cx, cy, size, 6), fill });
+    case 'star':     return svgNS('polygon', { points: starPoints(cx, cy, size), fill });
+    case 'circle':
+    default:         return svgNS('circle', { cx, cy, r: size, fill });
   }
 }
 
-function drawSquare(cx, cy, size, fill) {
-  stage.appendChild(svgNS('rect', {
-    x: cx - size / 2, y: cy - size / 2, width: size, height: size, fill, rx: 3,
-  }));
+function drawShape(shape, cx, cy, size, fill) {
+  stage.appendChild(makeShapeEl(shape, cx, cy, size, fill));
 }
 
 function drawFixation() {
@@ -81,29 +105,34 @@ function drawFixation() {
   stage.appendChild(g);
 }
 
-function drawStimulus(shape, dir) {
+function drawStimulus(shape, dir, targetShape) {
   clearStage();
 
+  // Peripheral distractors: any shape EXCEPT the target shape, so the target
+  // is the only instance of its shape and can be located without a color cue.
+  const distractorShapes = SHAPES.filter(s => s !== targetShape);
   const nonTargetDirs = DIRS.filter(d => d.key !== dir);
   for (const d of shuffled(nonTargetDirs).slice(0, PERIPHERAL_DISTRACTORS)) {
     const px = CENTER + Math.cos(d.angle) * PERIPHERAL_RADIUS;
     const py = CENTER + Math.sin(d.angle) * PERIPHERAL_RADIUS;
-    drawSquare(px, py, 30, DISTRACTOR_FILL);
+    drawShape(randOf(distractorShapes), px, py, 15, randOf(PALETTE));
   }
 
+  // Central flankers.
   for (const f of shuffled(DIRS).slice(0, CENTRAL_FLANKERS)) {
     const fx = CENTER + Math.cos(f.angle) * FLANKER_RADIUS;
     const fy = CENTER + Math.sin(f.angle) * FLANKER_RADIUS;
-    const fShape = SHAPES[Math.floor(Math.random() * SHAPES.length)];
-    drawCentralShape(fShape, fx, fy, 8, TARGET_CENTER_FILL);
+    drawShape(randOf(SHAPES), fx, fy, 8, randOf(PALETTE));
   }
 
-  drawCentralShape(shape, CENTER, CENTER, 22, TARGET_CENTER_FILL);
+  // Central target.
+  drawShape(shape, CENTER, CENTER, 22, randOf(PALETTE));
 
+  // Peripheral target: unique shape, ordinary color.
   const t = DIRS.find(x => x.key === dir);
   const tx = CENTER + Math.cos(t.angle) * PERIPHERAL_RADIUS;
   const ty = CENTER + Math.sin(t.angle) * PERIPHERAL_RADIUS;
-  drawSquare(tx, ty, 30, TARGET_PERIPHERAL_FILL);
+  drawShape(targetShape, tx, ty, 15, randOf(PALETTE));
 }
 
 function drawMask() {
@@ -112,22 +141,23 @@ function drawMask() {
     const x = Math.random() * 500;
     const y = Math.random() * 500;
     const r = 3 + Math.random() * 6;
-    stage.appendChild(svgNS('circle', { cx: x, cy: y, r, fill: '#555' }));
+    drawShape(randOf(SHAPES), x, y, r, randOf(PALETTE));
   }
 }
 
 function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
 
 async function runTrial() {
-  const shape = SHAPES[Math.floor(Math.random() * SHAPES.length)];
-  const dir = DIRS[Math.floor(Math.random() * DIRS.length)].key;
-  state.current = { shape, dir };
+  const shape = randOf(SHAPES);
+  const dir = randOf(DIRS).key;
+  const targetShape = randOf(SHAPES);
+  state.current = { shape, dir, targetShape };
   state.answers = { shape: null, dir: null };
 
   promptEl.textContent = 'Focus on the center.';
   drawFixation();
   await delay(700);
-  drawStimulus(shape, dir);
+  drawStimulus(shape, dir, targetShape);
   await delay(FLASH_MS);
   drawMask();
   await delay(150);
@@ -137,7 +167,7 @@ async function runTrial() {
 }
 
 function askResponses() {
-  promptEl.textContent = 'Which central shape did you see?';
+  promptEl.textContent = 'Which shape was in the center?';
   centralChoice.classList.remove('hidden');
   peripheralChoice.classList.add('hidden');
   clearButtonMarks();
@@ -154,7 +184,8 @@ function onCentralPick(shape, btn) {
   setTimeout(() => {
     centralChoice.classList.add('hidden');
     peripheralChoice.classList.remove('hidden');
-    promptEl.textContent = 'Where was the blue square?';
+    peripheralLabel.textContent = `Where was the ${state.current.targetShape}?`;
+    promptEl.textContent = `Where was the ${state.current.targetShape}?`;
   }, 350);
 }
 
@@ -175,7 +206,7 @@ function finishTrial() {
   } else {
     const parts = [];
     if (!shapeOk) parts.push(`center was ${state.current.shape}`);
-    if (!dirOk) parts.push(`outer was ${state.current.dir}`);
+    if (!dirOk) parts.push(`${state.current.targetShape} was ${state.current.dir}`);
     promptEl.textContent = 'Missed: ' + parts.join(', ') + '.';
   }
   updateStats();
@@ -207,10 +238,18 @@ function buildDirGrid() {
   }
 }
 
-function wireCentralButtons() {
-  centralChoice.querySelectorAll('button[data-shape]').forEach(btn => {
-    btn.addEventListener('click', () => onCentralPick(btn.dataset.shape, btn));
-  });
+function buildCentralButtons() {
+  centralChoice.querySelectorAll('button').forEach(b => b.remove());
+  for (const shape of SHAPES) {
+    const btn = document.createElement('button');
+    btn.dataset.shape = shape;
+    btn.title = shape;
+    const svg = svgNS('svg', { viewBox: '0 0 40 40' });
+    svg.appendChild(makeShapeEl(shape, 20, 20, 14, '#fff'));
+    btn.appendChild(svg);
+    btn.addEventListener('click', () => onCentralPick(shape, btn));
+    centralChoice.appendChild(btn);
+  }
 }
 
 function start() {
@@ -247,5 +286,5 @@ startBtn.addEventListener('click', () => {
 resetBtn.addEventListener('click', reset);
 
 buildDirGrid();
-wireCentralButtons();
+buildCentralButtons();
 reset();
